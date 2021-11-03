@@ -7,11 +7,13 @@ namespace PipelineSimulation.Core.Buffers
     {
         public abstract int ID { get; }
         public ushort Contents { get; set; }
+
         /// <summary>
         /// Holds the decoded instruction stored in the buffer. This is only
         /// set after the decode phase.
         /// </summary>
         public Instruction DecodedInstruction { get; protected set; }
+
         /// <summary>
         /// Memory that is read after the read memory phase. This is not set
         /// until then.
@@ -22,6 +24,7 @@ namespace PipelineSimulation.Core.Buffers
 
         public void MoveForward(CPU cpu)
         {
+            //TODO: stalling logic
             // Move my contents to the next buffer
             var nextBuff = ID + 1;
             if (nextBuff < cpu.Buffers.Count)

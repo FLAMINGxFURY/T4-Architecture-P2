@@ -32,6 +32,7 @@ namespace PipelineSimulation.Core
 		// Buffers
         public CPU() {
 
+            //instantiate reader
 			Rd = new Reader(this);
 
 			endReached = false;
@@ -79,6 +80,7 @@ namespace PipelineSimulation.Core
 
         public void NextClockCycle()
         {
+            //TODO: Ensure that this is doing things in the order we want (re: forwarding and hazard handling)
             foreach (var buffer in Buffers.Values)
             {
                 buffer.PerformBehavior(this);
@@ -89,6 +91,7 @@ namespace PipelineSimulation.Core
 
         public void MoveBuffersForward()
         {
+            //TODO: stalling logic for each buffer
             foreach (var buffer in Buffers.Values.Reverse())
             {
                 buffer.MoveForward(this);

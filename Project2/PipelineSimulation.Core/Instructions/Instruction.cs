@@ -16,6 +16,7 @@ namespace PipelineSimulation.Core.Instructions
 
 		public abstract void Execute(ushort operand);
 
+		// Returns the assembly code translation as a string, except for the operation name (toString returns this)
 		public virtual string ToText(ushort operand) {
 			return "placeholder";
 		}

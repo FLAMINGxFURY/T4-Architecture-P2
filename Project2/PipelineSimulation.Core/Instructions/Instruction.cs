@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PipelineSimulation.Core.Instructions
 {
@@ -8,7 +9,18 @@ namespace PipelineSimulation.Core.Instructions
 		protected CPU cpu;
 
 		public abstract ushort OpCode { get; }
-		public abstract int Cycles { get; }
+
+		// not abstract so CPU can decrement
+		public int Cycles { get; set; }
+
+		// Used to forward data to the instruction in the execute phase (type? idk went ushort for now)
+		public ushort DataBuffer { get; set; }
+
+		// List of Instructions waiting on this one
+		public List<Instruction> WaitList { get; set; }
+
+		// Instruction that this one is waiting on to start execution phase
+		public Instruction WaitingFor { get; set; }
 
 		public Instruction (CPU cpuref) {
 			cpu = cpuref;

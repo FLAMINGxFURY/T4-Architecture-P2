@@ -16,9 +16,9 @@ namespace PipelineSimulation.Core.Instructions
 			var addr = GetMemoryAddress();
 
 			//get the 2 bytes from memory; force types to allow shift
-			ushort byte1 = (ushort)(cpu.Memory[addr]);
+			ushort byte1 = (ushort)(cpu.Memory.MemorySpace[addr]);
 			//next byte is 1 byte forward
-			ushort byte2 = (ushort)(cpu.Memory[addr + 1]);
+			ushort byte2 = (ushort)(cpu.Memory.MemorySpace[addr + 1]);
 
 			//stored little endian, shift byte 2 because it is the upper order bits
 			byte2 = (ushort)(byte2 << 2);

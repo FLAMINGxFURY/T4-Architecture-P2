@@ -22,8 +22,8 @@ namespace PipelineSimulation.Core.Instructions
 			var dataAsBytes = BitConverter.GetBytes(reg.Data);
 
 			// Put contents of regsiter into memory stored little endian
-			cpu.Memory[mem] = dataAsBytes[1];
-			cpu.Memory[mem + 1] = dataAsBytes[0];
+			cpu.Memory.MemorySpace[mem] = dataAsBytes[1];
+			cpu.Memory.MemorySpace[mem + 1] = dataAsBytes[0];
 		}
 
 		public override string ToText(ushort operand) {

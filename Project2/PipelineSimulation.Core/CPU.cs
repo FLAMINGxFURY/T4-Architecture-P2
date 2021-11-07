@@ -13,9 +13,10 @@ namespace PipelineSimulation.Core
         public int CurrentClockCycle = 0;
         private int _currentBuffer = 0;
 
-		public byte[] Memory { get; set; } = new byte[1048576]; //1 MiB = 1024 KiB = 1024 * 1024 B
+		//public byte[] Memory { get; set; } = new byte[1048576]; //1 MiB = 1024 KiB = 1024 * 1024 B
+        public Memory Memory = Memory.GetInstance();
 
-		public Reader Rd;
+        public Reader Rd;
 
         private Dictionary<ushort, Register> _registers = new Dictionary<ushort, Register>();
 

@@ -13,6 +13,8 @@ namespace PipelineSimulation.Core.Functional_Units {
 
 		// List of instructions belonging to the functional unit
 		public List<Instruction> Instructions;
+		//used a dictionary since thats what we used previously, but left the list here in case you all had different plans
+		public Dictionary<ushort, Instruction> _operations = new Dictionary<ushort, Instruction>();
 
 		// Currently running instruction
 		public Instruction CurrentlyRunning;

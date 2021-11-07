@@ -13,13 +13,12 @@ namespace PipelineSimulation.Core
         public int CurrentClockCycle = 0;
         private int _currentBuffer = 0;
 
-		public byte[] Memory { get; set; } = new byte[1048576]; //1 MiB = 1024 KiB = 1024 * 1024 B
+		//public byte[] Memory { get; set; } = new byte[1048576]; //1 MiB = 1024 KiB = 1024 * 1024 B
+        public Memory Memory = Memory.GetInstance();
 
-		public Reader Rd;
+        public Reader Rd;
 
         private Dictionary<ushort, Register> _registers = new Dictionary<ushort, Register>();
-
-		public Dictionary<ushort, Instruction> _operations = new Dictionary<ushort, Instruction>();
 
         public SortedDictionary<int, CPUBuffer> Buffers = new SortedDictionary<int, CPUBuffer>();
 
@@ -44,12 +43,6 @@ namespace PipelineSimulation.Core
                 {
 					var reg = (Register)Activator.CreateInstance(type);
 					_registers.Add(reg.ID, reg);
-                }
-
-				if (type.BaseType == typeof(Instruction))
-                {
-					var instruction = (Instruction)Activator.CreateInstance(type, this);
-					_operations.Add(instruction.OpCode, instruction);
                 }
 
                 if (type.BaseType == typeof(CPUBuffer))

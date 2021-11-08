@@ -8,6 +8,7 @@ using PipelineSimulation.Core.Instructions;
 
 namespace PipelineSimulation.Core {
 	public class Reader {
+		public bool EOF { get; set; }
 		public ushort PC { get; set; }           //Program Counter
 		public string fileStr { get; set; }
 		public List<ushort> proMem;
@@ -42,7 +43,7 @@ namespace PipelineSimulation.Core {
 				ret = proMem[PC];
 				PC++;
 			}
-			else //we are definitely at the end, so force the END instruction
+			else
 				ret = 0x1F;
 
 			return ret;

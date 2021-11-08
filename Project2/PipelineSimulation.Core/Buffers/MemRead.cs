@@ -9,7 +9,7 @@ namespace PipelineSimulation.Core.Buffers
         public override void PerformBehavior(CPU cpu)
         {
             // Mem read
-            ReadMemory = (ushort)(0b_0000_0111_1111_1111 & Contents);
+            ReadMemory = (ushort)(0b_0000_0111_1111_1111 & WorkingInstruction);
         }
     }
 }

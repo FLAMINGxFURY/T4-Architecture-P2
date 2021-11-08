@@ -11,7 +11,7 @@ namespace PipelineSimulation.Core.Buffers
         public override void PerformBehavior(CPU cpu)
         {
             var op = cpu.Rd.GetNextWord();
-            Contents = op;
+            WorkingInstruction = op;
         }
     }
 }

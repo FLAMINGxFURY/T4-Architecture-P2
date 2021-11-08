@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Reflection;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using PipelineSimulation.Core.Buffers;
 using PipelineSimulation.Core.Instructions;
 using PipelineSimulation.Core.Registers;
@@ -23,6 +25,12 @@ namespace PipelineSimulation.Core
         public SortedDictionary<int, CPUBuffer> Buffers = new SortedDictionary<int, CPUBuffer>();
 
         public Dictionary<ushort, Type> _opToType = new Dictionary<ushort, Type>();
+
+        /// <summary>
+        /// Figure we could use this on the UI to show what instructions are
+        /// completed.
+        /// </summary>
+        public List<Instruction> CompletedInstructions = new List<Instruction>();
 
 		public bool endReached;
 
@@ -68,6 +76,56 @@ namespace PipelineSimulation.Core
 
         public void NextClockCycle()
         {
+            // TODO: Behavior not implemented
+
+            // WRITE - moves from write to decoded instruction pool
+            if (Buffers[5].DecodedInstruction != null)
+            {
+                CompletedInstructions.Add(Buffers[5].DecodedInstruction);
+                Buffers[5].Empty();
+            }
+            else if (Buffers[4].DecodedInstruction != null) // These buffers can't be working at the same time, right?
+            {
+                CompletedInstructions.Add(Buffers[4].DecodedInstruction);
+                Buffers[4].Empty();
+            }
+
+            // EXEC - moves from exec to proper next buffer
+            if (Buffers[3].DecodedInstruction != null)
+            {
+                if (Buffers[3].DecodedInstruction.ToString().Contains("M")) // TODO: This is really hacky
+                {
+                    Buffers[3].MoveContents(Buffers[4]); // mem write instructions
+                }
+                else if (Buffers[3].DecodedInstruction.ToString().Contains("R"))
+                {
+                    Buffers[3].MoveContents(Buffers[5]); // reg write instructions
+                }
+                else
+                {
+                    CompletedInstructions.Add(Buffers[3].DecodedInstruction);
+                }
+
+                Buffers[3].Empty();
+            }
+
+            // TODO - these steps
+            // READ
+            Buffers[2].MoveContents(Buffers[3]);
+
+            // DECODE
+            Buffers[1].MoveContents(Buffers[2]);
+
+            // FETCH
+            Buffers[0].MoveContents(Buffers[1]);
+
+
+            //var next = Rd.GetNextWord();
+
+            //var op = (ushort)(next >> 11);
+
+            //Buffers[0].WorkingInstruction = op;
+
             //TODO: Ensure that this is doing things in the order we want (re: forwarding and hazard handling)
             foreach (var buffer in Buffers.Values)
             {
@@ -75,16 +133,6 @@ namespace PipelineSimulation.Core
             }
 
             CurrentClockCycle++;
-        }
-
-        public void MoveBuffersForward()
-        {
-            //TODO: stalling logic for each buffer. Also refactor so that CPU moves these values, not the Buffers.
-            //The point being that stages in the pipeline can be skipped
-            foreach (var buffer in Buffers.Values.Reverse())
-            {
-                buffer.MoveForward(this);
-            }
         }
 
         // fetches a new instance of an Instruction based on the provided opCode

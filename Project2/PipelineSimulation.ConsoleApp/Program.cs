@@ -24,11 +24,10 @@ namespace PipelineSimulation.ConsoleApp
                 for (var i = 0; i < cpu.Buffers.Count; i++)
                 {
                     var buffer = cpu.Buffers[i];
-                    Console.WriteLine($"{buffer.GetType().Name}: {buffer.Contents}");
+                    Console.WriteLine($"{buffer.GetType().Name}: {buffer.WorkingInstruction}");
                 }
 
                 Thread.Sleep(1000);
-                cpu.MoveBuffersForward();
             }
         }
     }

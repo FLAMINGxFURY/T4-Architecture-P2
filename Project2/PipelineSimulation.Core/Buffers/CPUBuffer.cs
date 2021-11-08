@@ -6,7 +6,7 @@ namespace PipelineSimulation.Core.Buffers
     public abstract class CPUBuffer
     {
         public abstract int ID { get; }
-        public ushort Contents { get; set; }
+        public ushort WorkingInstruction { get; set; }
 
         /// <summary>
         /// Holds the decoded instruction stored in the buffer. This is only
@@ -22,22 +22,21 @@ namespace PipelineSimulation.Core.Buffers
 
         public abstract void PerformBehavior(CPU cpu);
 
-        //TODO: I think we agreed that the CPU needs to do this movement, not the buffer. This method might be obsolete.
-        public void MoveForward(CPU cpu)
+        /// <summary>
+        /// Moves my contents into another buffer.
+        /// </summary>
+        public void MoveContents(CPUBuffer otherBuffer)
         {
-            //TODO: stalling logic
-            // Move my contents to the next buffer
-            var nextBuff = ID + 1;
-            if (nextBuff < cpu.Buffers.Count)
-            {
-                cpu.Buffers[nextBuff].Contents = Contents;
-                cpu.Buffers[nextBuff].DecodedInstruction = DecodedInstruction;
-                cpu.Buffers[nextBuff].ReadMemory = ReadMemory;
-            }
-            else
-            {
-                // TODO: Maybe have a "finished instruction" pool   
-            }
+            otherBuffer.WorkingInstruction = WorkingInstruction;
+            otherBuffer.DecodedInstruction = DecodedInstruction;
+            otherBuffer.ReadMemory = ReadMemory;
+        }
+
+        public void Empty()
+        {
+            WorkingInstruction = 0x0;
+            DecodedInstruction = null;
+            ReadMemory = 0x0;
         }
     }
 }

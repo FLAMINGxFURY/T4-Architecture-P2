@@ -13,7 +13,7 @@ namespace PipelineSimulation.Core.Buffers
         public override void PerformBehavior(CPU cpu)
         {
             // Decode it
-            ushort decoded = (ushort)(Contents >> 11);
+            ushort decoded = (ushort)(WorkingInstruction >> 11);
             //Instruction ins = cpu._operations[decoded];
 
             // Store decoded instruction here too

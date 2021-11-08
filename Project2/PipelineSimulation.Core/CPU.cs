@@ -58,19 +58,6 @@ namespace PipelineSimulation.Core
 			return _registers[id];
         }
 
-		[Obsolete]
-		public bool ParseNextOp() {
-			Rd.ParseNextOp();
-
-			return endReached;
-
-		}
-
-		[Obsolete]
-		public void End() {
-			endReached = true;
-		}
-
         public void NextClockCycle()
         {
             //TODO: Ensure that this is doing things in the order we want (re: forwarding and hazard handling)
@@ -84,11 +71,52 @@ namespace PipelineSimulation.Core
 
         public void MoveBuffersForward()
         {
-            //TODO: stalling logic for each buffer
+            //TODO: stalling logic for each buffer. Also refactor so that CPU moves these values, not the Buffers.
+            //The point being that stages in the pipeline can be skipped
             foreach (var buffer in Buffers.Values.Reverse())
             {
                 buffer.MoveForward(this);
             }
         }
+
+        // fetches a new instance of an Instruction based on the provided opCode
+        public Instruction CreateInstructionInstance(ushort opCode) {
+            
+            Instruction ret;
+
+            switch(opCode) {
+                case 0:
+                    ret = new NOP(this);
+                    break;
+
+                //TODO: every instruction case
+
+                default:
+                    //maybe we should throw an exception?
+                    ret = null;
+                    break;
+			}
+
+            return ret;
+
+		}
+
+		#region obsolete
+
+		[Obsolete]
+		public bool ParseNextOp() {
+			Rd.ParseNextOp();
+
+			return endReached;
+
+		}
+
+		[Obsolete]
+		public void End() {
+			endReached = true;
+		}
+
+        #endregion
+
     }
 }

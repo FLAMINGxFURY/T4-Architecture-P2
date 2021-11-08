@@ -8,13 +8,9 @@ using PipelineSimulation.Core.Instructions;
 namespace PipelineSimulation.Core.Functional_Units {
 	public abstract class FunctionalUnit {
 
-		// These need to be types not instances, maybe ENUM instead of Instruction I don't recall 
-		// Exactly what we said our implementation plan was
-
-		// List of instructions belonging to the functional unit
-		public List<Instruction> Instructions;
-		//used a dictionary since thats what we used previously, but left the list here in case you all had different plans
-		public Dictionary<ushort, Instruction> _operations = new Dictionary<ushort, Instruction>();
+		// List of opcodes belonging to the Logic Unit. This list should be instantiated by the inheriting class, 
+		// not this one.
+		public List<ushort> opcodes = new List<ushort>();
 
 		// Currently running instruction
 		public Instruction CurrentlyRunning;

@@ -22,6 +22,7 @@ namespace PipelineSimulation.Core.Buffers
 
         public abstract void PerformBehavior(CPU cpu);
 
+        //TODO: I think we agreed that the CPU needs to do this movement, not the buffer. This method might be obsolete.
         public void MoveForward(CPU cpu)
         {
             //TODO: stalling logic

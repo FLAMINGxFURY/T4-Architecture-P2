@@ -78,5 +78,13 @@ namespace PipelineSimulation.Core.Functional_Units
 				return null;
             }
         }
-	}
+
+        protected override void DefineOPCodes()
+        {
+            for (ushort op = 0x0F; op <= 0x1E; op++)
+            {
+				opcodes.Add(op);
+            }
+        }
+    }
 }

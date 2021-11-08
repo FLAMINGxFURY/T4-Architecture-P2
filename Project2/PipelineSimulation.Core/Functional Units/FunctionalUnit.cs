@@ -10,17 +10,22 @@ namespace PipelineSimulation.Core.Functional_Units {
 
 		// List of opcodes belonging to the Logic Unit. This list should be instantiated by the inheriting class, 
 		// not this one.
-		public List<ushort> opcodes = new List<ushort>();
+		public HashSet<ushort> opcodes = new HashSet<ushort>();
 
 		// Currently running instruction
 		public Instruction CurrentlyRunning;
 
 		// TODO: No arg constructor
-		public FunctionalUnit() {
-
+		public FunctionalUnit() 
+		{
+			DefineOPCodes();
 		}
 
-		// TODO: Do we need any abstract funtions?
-
+		/// <summary>
+		/// Gets called when instance is created. Should implement behavior 
+		/// that populates the opcode hashset with opcodes that apply to the
+		/// unit.
+		/// </summary>
+		protected abstract void DefineOPCodes();
 	}
 }

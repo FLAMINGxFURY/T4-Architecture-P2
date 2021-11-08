@@ -11,7 +11,7 @@ namespace PipelineSimulation.Core.Instructions
 		public abstract ushort OpCode { get; }
 
 		// not abstract so CPU can decrement
-		public int Cycles { get; set; }
+		public abstract int Cycles { get; set; }
 
 		// Used to forward data to the instruction in the execute phase (type? idk went ushort for now)
 		public ushort DataBuffer { get; set; }

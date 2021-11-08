@@ -3,7 +3,7 @@
     public class FADDR : Instruction
     {
         public override ushort OpCode => 0x14;
-        public override int Cycles => 4;
+        public override int Cycles { get; set; } = 4;
 
         public FADDR(CPU cpuref) : base(cpuref)
         {

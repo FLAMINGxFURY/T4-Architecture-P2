@@ -3,7 +3,7 @@
     public class FADD : Instruction
     {
         public override ushort OpCode => 0x13;
-        public override int Cycles => 4;
+        public override int Cycles { get; set; } = 4;
 
         public FADD(CPU cpuref) : base(cpuref)
         {

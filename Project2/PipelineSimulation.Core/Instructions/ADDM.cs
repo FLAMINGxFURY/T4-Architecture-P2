@@ -4,7 +4,7 @@ namespace PipelineSimulation.Core.Instructions
 	public class ADDM : Instruction
 	{
 		public override ushort OpCode => 0x06;
-        public override int Cycles => 1;
+		public override int Cycles { get; set; } = 1;
 
 		public ADDM(CPU cpuref) : base(cpuref) {
 

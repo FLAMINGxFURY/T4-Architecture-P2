@@ -61,7 +61,7 @@ namespace PipelineSimulation.Core {
             ushort remainder = (ushort) (0b_0000_0111_1111_1111 & next); //bit mask for removing opcode
 
             //pass off to instruction
-            cpu._operations[op].Execute(remainder);
+            //cpu._operations[op].Execute(remainder);
         }
     }
 }

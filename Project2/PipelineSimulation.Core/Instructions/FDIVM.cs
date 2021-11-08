@@ -3,7 +3,7 @@
     public class FDIVM : Instruction
     {
         public override ushort OpCode => 0x1E;
-        public override int Cycles => 11;
+        public override int Cycles { get; set; } = 11;
 
         public FDIVM(CPU cpuref) : base(cpuref)
         {

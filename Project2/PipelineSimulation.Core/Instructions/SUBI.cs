@@ -4,7 +4,7 @@ namespace PipelineSimulation.Core.Instructions
 	public class SUBI : Instruction
 	{
 		public override ushort OpCode => 0x08;
-        public override int Cycles => 1;
+		public override int Cycles { get; set; } = 1;
 
 		public SUBI(CPU cpuref) : base(cpuref) {
 

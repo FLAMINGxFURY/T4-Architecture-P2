@@ -4,7 +4,7 @@ namespace PipelineSimulation.Core.Instructions
 	public class MOV : Instruction
 	{
 		public override ushort OpCode => 0x04;
-        public override int Cycles => 1;
+		public override int Cycles { get; set; } = 1;
 
 		public MOV(CPU cpuref) : base(cpuref) {
 

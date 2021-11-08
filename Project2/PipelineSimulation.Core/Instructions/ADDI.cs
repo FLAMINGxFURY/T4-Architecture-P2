@@ -4,7 +4,7 @@ namespace PipelineSimulation.Core.Instructions
 	public class ADDI : Instruction
 	{
 		public override ushort OpCode => 0x05;
-        public override int Cycles => 1;
+		public override int Cycles { get; set; } = 1;
 
 		public ADDI(CPU cpuref) : base(cpuref) {
 

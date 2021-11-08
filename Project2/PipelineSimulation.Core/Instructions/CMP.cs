@@ -4,7 +4,7 @@ namespace PipelineSimulation.Core.Instructions
 	public class CMP : Instruction
 	{
 		public override ushort OpCode => 0x0B;
-        public override int Cycles => 1;
+		public override int Cycles { get; set; } = 1;
 
 		public CMP(CPU cpuref) : base(cpuref) {
 

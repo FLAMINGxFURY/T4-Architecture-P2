@@ -5,7 +5,7 @@ namespace PipelineSimulation.Core.Instructions
 	public class END : Instruction
 	{
 		public override ushort OpCode => 0x1F;
-        public override int Cycles => 1;
+		public override int Cycles { get; set; } = 1;
 
 		public END(CPU cpuref) : base(cpuref) {
 

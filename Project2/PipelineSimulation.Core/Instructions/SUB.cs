@@ -4,7 +4,7 @@ namespace PipelineSimulation.Core.Instructions
 	public class SUB : Instruction
 	{
 		public override ushort OpCode => 0x0A;
-        public override int Cycles => 1;
+		public override int Cycles { get; set; } = 1;
 
 		public SUB(CPU cpuref) : base(cpuref) {
 

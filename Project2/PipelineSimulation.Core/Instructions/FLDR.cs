@@ -3,7 +3,7 @@
     public class FLDR : Instruction
     {
         public override ushort OpCode => 0x10;
-        public override int Cycles => 2;
+        public override int Cycles { get; set; } = 2;
 
         public FLDR(CPU cpuref) : base(cpuref)
         {

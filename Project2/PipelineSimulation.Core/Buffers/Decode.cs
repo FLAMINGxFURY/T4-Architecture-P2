@@ -14,10 +14,10 @@ namespace PipelineSimulation.Core.Buffers
         {
             // Decode it
             ushort decoded = (ushort)(Contents >> 11);
-            Instruction ins = cpu._operations[decoded];
+            //Instruction ins = cpu._operations[decoded];
 
             // Store decoded instruction here too
-            DecodedInstruction = ins;
+            //DecodedInstruction = ins;
         }
     }
 }

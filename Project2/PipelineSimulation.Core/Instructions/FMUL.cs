@@ -3,7 +3,7 @@
     public class FMUL : Instruction
     {
         public override ushort OpCode => 0x19;
-        public override int Cycles => 4;
+        public override int Cycles { get; set; } = 4;
 
         public FMUL(CPU cpuref) : base(cpuref)
         {

@@ -3,7 +3,7 @@
     public class FSTR : Instruction
     {
         public override ushort OpCode => 0x12;
-        public override int Cycles => 2;
+        public override int Cycles { get; set; } = 2;
 
         public FSTR(CPU cpuref) : base(cpuref)
         {

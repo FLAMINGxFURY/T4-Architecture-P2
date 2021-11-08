@@ -4,7 +4,7 @@ namespace PipelineSimulation.Core.Instructions
 	public class JNE : Instruction
 	{
 		public override ushort OpCode => 0x0D;
-        public override int Cycles => 1;
+		public override int Cycles { get; set; } = 1;
 
 		public JNE(CPU cpuref) : base(cpuref) {
 

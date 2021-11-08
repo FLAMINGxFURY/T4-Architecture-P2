@@ -3,7 +3,7 @@
     public class FSTM : Instruction
     {
         public override ushort OpCode => 0x11;
-        public override int Cycles => 2;
+        public override int Cycles { get; set; } = 2;
 
         public FSTM(CPU cpuref) : base(cpuref)
         {

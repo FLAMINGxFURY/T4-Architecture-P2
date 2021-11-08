@@ -18,7 +18,7 @@ namespace PipelineSimulation.Core.Instructions
 			var address = GetMemoryAddress();
 
 			// Move short at address into register
-			reg.Data = BitConverter.ToUInt16(new[] { cpu.Memory[address + 1], cpu.Memory[address] });
+			reg.Data = BitConverter.ToUInt16(new[] { cpu.Memory.MemorySpace[address + 1], cpu.Memory.MemorySpace[address] });
 		}
 
 		public override string ToText(ushort operand) {

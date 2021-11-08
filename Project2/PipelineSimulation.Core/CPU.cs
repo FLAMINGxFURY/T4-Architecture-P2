@@ -22,6 +22,8 @@ namespace PipelineSimulation.Core
 
         public SortedDictionary<int, CPUBuffer> Buffers = new SortedDictionary<int, CPUBuffer>();
 
+        public Dictionary<ushort, Type> _opToType = new Dictionary<ushort, Type>();
+
 		public bool endReached;
 
 		public EFlags EFlags { get; } = new EFlags();
@@ -39,7 +41,13 @@ namespace PipelineSimulation.Core
 			//add all instructions and registers to dictionaries
 			foreach (var type in Assembly.GetExecutingAssembly().GetTypes())
             {
-				if (type.BaseType == typeof(Register))
+                if (type.BaseType == typeof(Instruction))
+                {
+                    var op = (Instruction)Activator.CreateInstance(type, this);
+                    _opToType.Add(op.OpCode, type);
+                }
+
+                if (type.BaseType == typeof(Register))
                 {
 					var reg = (Register)Activator.CreateInstance(type);
 					_registers.Add(reg.ID, reg);
@@ -80,26 +88,10 @@ namespace PipelineSimulation.Core
         }
 
         // fetches a new instance of an Instruction based on the provided opCode
-        public Instruction CreateInstructionInstance(ushort opCode) {
-            
-            Instruction ret;
-
-            switch(opCode) {
-                case 0:
-                    ret = new NOP(this);
-                    break;
-
-                //TODO: every instruction case
-
-                default:
-                    //maybe we should throw an exception?
-                    ret = null;
-                    break;
-			}
-
-            return ret;
-
-		}
+        public Instruction CreateInstructionInstance(ushort opCode)
+        {
+            return (Instruction)Activator.CreateInstance(_opToType[opCode], this);
+        }
 
 		#region obsolete
 

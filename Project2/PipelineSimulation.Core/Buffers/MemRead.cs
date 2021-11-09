@@ -10,8 +10,8 @@ namespace PipelineSimulation.Core.Buffers
             // Mem read
             if (DecodedInstruction != null && DecodedInstruction.GetType().Name.EndsWith("M"))
             {
-                var regCode = (ushort) (WorkingInstruction >> 8);
-                var register = cpu.GetRegister(regCode);
+                var remainder = (ushort)(0b_0000_0111_1111_1111 & WorkingInstruction);
+                var register = cpu.GetRegister(DecodedInstruction.GetRegister1Code(remainder));
 
                 var valueInMemory = cpu.Memory.MemorySpace[register.Data];
             }

@@ -4,6 +4,8 @@
     {
         public override ushort OpCode => 0x11;
         public override int Cycles { get; set; } = 2;
+        public override bool WritesToRegister => false;
+        public override bool UsesRegister => false;
 
         public FSTM(CPU cpuref) : base(cpuref)
         {

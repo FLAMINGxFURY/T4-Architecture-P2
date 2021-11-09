@@ -9,6 +9,8 @@ namespace PipelineSimulation.Core.Instructions
 	public class NOP : Instruction {
 		public override ushort OpCode => 0x00;
 		public override int Cycles { get; set; } = 1;
+        public override bool WritesToRegister => false;
+        public override bool UsesRegister => false;
 
 		public NOP(CPU cpuref) : base(cpuref) {
 

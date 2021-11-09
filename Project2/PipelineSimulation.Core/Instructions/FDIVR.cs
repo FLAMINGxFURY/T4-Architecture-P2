@@ -4,6 +4,8 @@
     {
         public override ushort OpCode => 0x1D;
         public override int Cycles { get; set; } = 11;
+        public override bool WritesToRegister => false;
+        public override bool UsesRegister => false;
 
         public FDIVR(CPU cpuref) : base(cpuref)
         {

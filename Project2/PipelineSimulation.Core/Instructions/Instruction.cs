@@ -10,8 +10,13 @@ namespace PipelineSimulation.Core.Instructions
 
 		public abstract ushort OpCode { get; }
 
-		// not abstract so CPU can decrement
 		public abstract int Cycles { get; set; }
+
+		// If true, this instruction will write during the RegWrite phase
+		public abstract bool WritesToRegister { get; }
+
+		// If true, this instruction will read from a register during execution
+		public abstract bool UsesRegister { get; }
 
 		// Used to forward data to the instruction in the execute phase (type? idk went ushort for now)
 		public ushort DataBuffer { get; set; }
@@ -33,12 +38,12 @@ namespace PipelineSimulation.Core.Instructions
 			return "placeholder";
 		}
 
-		protected ushort GetRegister1Code(ushort operand)
+		public ushort GetRegister1Code(ushort operand)
         {
 			return (ushort)(operand >> 8);
 		}
 
-		protected ushort GetRegister2Code(ushort operand)
+        public ushort GetRegister2Code(ushort operand)
 		{
 			return (ushort)((operand >> 5) & 0b_0000_0000_0111);
 		}

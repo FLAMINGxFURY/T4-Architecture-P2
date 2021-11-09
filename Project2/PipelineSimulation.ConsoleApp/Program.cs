@@ -24,7 +24,13 @@ namespace PipelineSimulation.ConsoleApp
                 for (var i = 0; i < cpu.Buffers.Count; i++)
                 {
                     var buffer = cpu.Buffers[i];
-                    Console.WriteLine($"{buffer.GetType().Name}: {buffer.WorkingInstruction}");
+                    Console.Write($"{buffer.GetType().Name}: {buffer.WorkingInstruction}");
+                    if (buffer.DecodedInstruction != null && buffer.DecodedInstruction.WaitingFor != null)
+                    {
+                        Console.Write($" | {buffer.DecodedInstruction} <- {buffer.DecodedInstruction.WaitingFor}");
+                    }
+
+                    Console.WriteLine();
                 }
 
                 Thread.Sleep(1000);

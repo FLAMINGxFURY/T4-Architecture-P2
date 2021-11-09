@@ -28,7 +28,10 @@ namespace PipelineSimulation.Core.Buffers
         public void MoveContents(CPUBuffer otherBuffer)
         {
             otherBuffer.WorkingInstruction = WorkingInstruction;
-            otherBuffer.DecodedInstruction = DecodedInstruction;
+
+            if (DecodedInstruction != null)
+                otherBuffer.DecodedInstruction = DecodedInstruction;
+
             otherBuffer.ReadMemory = ReadMemory;
         }
 

@@ -113,7 +113,6 @@ namespace PipelineSimulation.Core
                 Buffers[3].Empty();
             }
 
-            // TODO - these steps
             // READ
             Buffers[2].MoveContents(Buffers[3]);
             Buffers[2].PerformBehavior(this);       // Gets values in memory, sends them to functional units   

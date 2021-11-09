@@ -4,6 +4,8 @@
     {
         public override ushort OpCode => 0x15;
         public override int Cycles { get; set; } = 4;
+        public override bool WritesToRegister => false;
+        public override bool UsesRegister => false;
 
         public FADDM(CPU cpuref) : base(cpuref)
         {

@@ -5,6 +5,8 @@ namespace PipelineSimulation.Core.Instructions
 	{
 		public override ushort OpCode => 0x09;
 		public override int Cycles { get; set; } = 1;
+        public override bool WritesToRegister => true;
+        public override bool UsesRegister => false;
 
 		public SUBM(CPU cpuref) : base(cpuref) {
 

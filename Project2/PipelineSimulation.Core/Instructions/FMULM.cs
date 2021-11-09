@@ -4,6 +4,8 @@
     {
         public override ushort OpCode => 0x1B;
         public override int Cycles { get; set; } = 4;
+        public override bool WritesToRegister => false;
+        public override bool UsesRegister => false;
 
         public FMULM(CPU cpuref) : base(cpuref)
         {

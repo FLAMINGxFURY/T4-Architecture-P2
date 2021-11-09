@@ -5,6 +5,8 @@ namespace PipelineSimulation.Core.Instructions
 	{
 		public override ushort OpCode => 0x0E;
 		public override int Cycles { get; set; } = 1;
+        public override bool WritesToRegister => false;
+        public override bool UsesRegister => false;
 
 		public JEQ(CPU cpuref) : base(cpuref) {
 

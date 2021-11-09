@@ -7,10 +7,19 @@ namespace PipelineSimulation.Core.Buffers
 
         public override void PerformBehavior(CPU cpu)
         {
+            // Check for dependency
+            // TODO
+
+            // Check logical unit
+            // TODO
+
             if (DecodedInstruction != null)
             {
                 DecodedInstruction.Execute(ReadMemory);
             }
+
+            // Forwarding
+            // TODO
         }
     }
 }

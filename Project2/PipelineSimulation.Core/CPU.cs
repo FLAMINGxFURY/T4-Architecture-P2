@@ -82,22 +82,24 @@ namespace PipelineSimulation.Core
             if (Buffers[5].DecodedInstruction != null)
             {
                 CompletedInstructions.Add(Buffers[5].DecodedInstruction);
+                Buffers[5].PerformBehavior(this);   // Writes to registers
                 Buffers[5].Empty();
             }
             else if (Buffers[4].DecodedInstruction != null) // These buffers can't be working at the same time, right?
             {
                 CompletedInstructions.Add(Buffers[4].DecodedInstruction);
+                Buffers[4].PerformBehavior(this);   // Writes to memory
                 Buffers[4].Empty();
             }
 
             // EXEC - moves from exec to proper next buffer
             if (Buffers[3].DecodedInstruction != null)
             {
-                if (Buffers[3].DecodedInstruction.ToString().Contains("M")) // TODO: This is really hacky
+                if (Buffers[3].DecodedInstruction.GetType().Name.EndsWith("M")) // TODO: This is really hacky
                 {
                     Buffers[3].MoveContents(Buffers[4]); // mem write instructions
                 }
-                else if (Buffers[3].DecodedInstruction.ToString().Contains("R"))
+                else if (Buffers[3].DecodedInstruction.GetType().Name.EndsWith("R"))
                 {
                     Buffers[3].MoveContents(Buffers[5]); // reg write instructions
                 }
@@ -106,31 +108,25 @@ namespace PipelineSimulation.Core
                     CompletedInstructions.Add(Buffers[3].DecodedInstruction);
                 }
 
+                Buffers[3].PerformBehavior(this);   // Executes
+
                 Buffers[3].Empty();
             }
 
             // TODO - these steps
             // READ
             Buffers[2].MoveContents(Buffers[3]);
+            Buffers[2].PerformBehavior(this);       // Gets values in memory, sends them to functional units   
 
             // DECODE
             Buffers[1].MoveContents(Buffers[2]);
+            Buffers[1].PerformBehavior(this);       // Fetches instruction, stores decoded instruction
 
             // FETCH
             Buffers[0].MoveContents(Buffers[1]);
+            Buffers[0].PerformBehavior(this);       // Moves PC forward, fetches next instruction
 
-
-            //var next = Rd.GetNextWord();
-
-            //var op = (ushort)(next >> 11);
-
-            //Buffers[0].WorkingInstruction = op;
-
-            //TODO: Ensure that this is doing things in the order we want (re: forwarding and hazard handling)
-            foreach (var buffer in Buffers.Values)
-            {
-                buffer.PerformBehavior(this);
-            }
+            // TODO: forwarding and hazard handling
 
             CurrentClockCycle++;
         }

@@ -5,7 +5,16 @@ VisualStudioVersion = 16.0.31229.75
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PipelineSimulation.Core", "PipelineSimulation.Core\PipelineSimulation.Core.csproj", "{41DC0268-D6B2-44DF-B25E-4293C1D179C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PipelineSimulation.ConsoleApp", "PipelineSimulation.ConsoleApp\PipelineSimulation.ConsoleApp.csproj", "{E97B0113-96F2-41B3-804F-FED8AC24C756}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PipelineSimulation.ConsoleApp", "PipelineSimulation.ConsoleApp\PipelineSimulation.ConsoleApp.csproj", "{E97B0113-96F2-41B3-804F-FED8AC24C756}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{600A83BB-4AF3-4A9B-8949-3D82CD7A01E4}"
+	ProjectSection(SolutionItems) = preProject
+		ConditionalLogic.bin = ConditionalLogic.bin
+		FPAddSub.bin = FPAddSub.bin
+		FPMulDiv.bin = FPMulDiv.bin
+		InfLoop.bin = InfLoop.bin
+		MixedOps.bin = MixedOps.bin
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -16,6 +16,8 @@ namespace PipelineSimulation.Core.Buffers
                 var valueInMemory = cpu.Memory.MemorySpace[register.Data];
             }
 
+            // TODO: It is implied that the data being grabbed here is from the S0/S1 pair. 
+
             // Send value to functional unit
             // TODO
 

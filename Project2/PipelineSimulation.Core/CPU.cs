@@ -85,7 +85,9 @@ namespace PipelineSimulation.Core
                 Buffers[5].PerformBehavior(this);   // Writes to registers
                 Buffers[5].Empty();
             }
-            else if (Buffers[4].DecodedInstruction != null) // These buffers can't be working at the same time, right?
+            else if (Buffers[4].DecodedInstruction != null) // These buffers can't be working at the same time, right?  # All  buffers can be working "At the same 
+                                                            //                                                          # time" - hence parallelism. There is no data
+                                                            //                                                          # race though because one is a register and one is mem
             {
                 CompletedInstructions.Add(Buffers[4].DecodedInstruction);
                 Buffers[4].PerformBehavior(this);   // Writes to memory
@@ -93,9 +95,15 @@ namespace PipelineSimulation.Core
             }
 
             // EXEC - moves from exec to proper next buffer
+
+            // TODO: Jump needs to flush all of the instructions fetched/decoded before it executed.
+
             if (Buffers[3].DecodedInstruction != null)
             {
-                if (Buffers[3].DecodedInstruction.GetType().Name.EndsWith("M")) // TODO: This is really hacky
+                // TODO: Instruction decoding here needs to be more robust. MOVO is the only instruction writing out to memory, but a significant
+                // amount of our instructions write back to a register (I Type, R type, M type). Additionally, the R type instructions don't end in "R"
+
+                if (Buffers[3].DecodedInstruction.GetType().Name.EndsWith("O")) // TODO: This is really hacky 
                 {
                     Buffers[3].MoveContents(Buffers[4]); // mem write instructions
                 }
@@ -108,6 +116,8 @@ namespace PipelineSimulation.Core
                     CompletedInstructions.Add(Buffers[3].DecodedInstruction);
                 }
 
+                // TODO: should exececution happen first? Remember it can't move forward in the pipeline until clock cycles remaining == 0
+
                 Buffers[3].PerformBehavior(this);   // Executes
 
                 Buffers[3].Empty();
@@ -118,6 +128,8 @@ namespace PipelineSimulation.Core
             Buffers[2].PerformBehavior(this);       // Gets values in memory, sends them to functional units   
 
             // DECODE
+            // TODO: Read buffer can be skipped
+            // TODO: as soon as END is decoded, don't allow any more fetches. (Allow program to run until buffers are empty)
             Buffers[1].MoveContents(Buffers[2]);
             Buffers[1].PerformBehavior(this);       // Fetches instruction, stores decoded instruction
 

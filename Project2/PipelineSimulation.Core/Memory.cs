@@ -12,13 +12,19 @@ namespace PipelineSimulation.Core
         //TODO: We need an access table
 
         public static Memory Instance;
+        private static readonly object InstanceLock = new object();
         public byte[] MemorySpace { get; set; } = new byte[1048576]; //1 MiB = 1024 KiB = 1024 * 1024 B
 
         public static Memory GetInstance()
         {
-            // TODO: we need this to have a thread safe lock. 
             if (Instance == null)
-                Instance = new Memory();
+            {
+                lock (InstanceLock)
+                {
+                    if (Instance == null)
+                        Instance = new Memory();
+                }
+            }
             return Instance;
         }
 

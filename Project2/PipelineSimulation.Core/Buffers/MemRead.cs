@@ -22,6 +22,7 @@ namespace PipelineSimulation.Core.Buffers
             // TODO
 
             // TODO: Handle data races
+            // !Important - this must call Memory.Unlock(addr) when done
         }
     }
 }

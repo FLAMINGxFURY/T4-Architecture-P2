@@ -7,6 +7,7 @@
         public override void PerformBehavior(CPU cpu)
         {
             // TODO
+            // !Important - this must call Memory.Unlock(addr) when done
         }
     }
 }

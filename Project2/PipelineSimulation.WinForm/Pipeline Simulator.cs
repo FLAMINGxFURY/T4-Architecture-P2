@@ -7,14 +7,41 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using PipelineSimulation.Core;
 
 namespace PipelineSimulation.WinForm
 {
-    public partial class Form1 : Form
+    public partial class PipelineSimulator : Form
     {
-        public Form1()
+        CPU cpu;
+        
+        public PipelineSimulator()
         {
             InitializeComponent();
+            cpu = new CPU();
+            nextClockBtn.Enabled = false;   //cannot go to next clock without loading program
+            initialCoreSetup();
+        }
+
+
+        private void initialCoreSetup()
+        {
+            core1Box.Visible = true;
+            core1Label.Visible = true;
+            core1PipelineLabel.Visible = true;
+
+            core2Box.Visible = false;
+            core2Label.Visible = false;
+            core2PipelineLabel.Visible = false;
+
+            core3Box.Visible = false;
+            core3Label.Visible = false;
+            core3PipelineLabel.Visible = false;
+
+            core4Box.Visible = false;
+            core4Label.Visible = false;
+            core4PipelineLabel.Visible = false;
         }
 
         //Change cores to 1
@@ -100,18 +127,35 @@ namespace PipelineSimulation.WinForm
         //Open file
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            var filePath = string.Empty;
+           
+            using(OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                if(openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    cpu.Rd.fileStr = openFileDialog.FileName;
+                    cpu.Rd.OpenFile();
 
+                    //TODO: Display program code after being parsed/decoded in Reader class
+
+                }
+            }
         }
 
         //Closes program
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            while(MessageBox.Show("Exit simulator?", "", MessageBoxButtons.YesNo) == DialogResult.No)
+            while(MessageBox.Show("Exit simulator?", "Pipeline Simulator", MessageBoxButtons.YesNo) == DialogResult.No)
             {
                 return;
             }
 
             Application.Exit();
+        }
+
+        private void nxtClockBtn_Click(object sender, EventArgs e)
+        {
+            cpu.NextClockCycle();
         }
     }
 }

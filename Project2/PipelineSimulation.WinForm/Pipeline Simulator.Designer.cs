@@ -43,14 +43,18 @@ namespace PipelineSimulation.WinForm
             this.documentationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.richTextBox3 = new System.Windows.Forms.RichTextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.richTextBox4 = new System.Windows.Forms.RichTextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.richTextBox5 = new System.Windows.Forms.RichTextBox();
-            this.label5 = new System.Windows.Forms.Label();
+            this.core1Box = new System.Windows.Forms.RichTextBox();
+            this.core1Label = new System.Windows.Forms.Label();
+            this.core3Box = new System.Windows.Forms.RichTextBox();
+            this.core2Label = new System.Windows.Forms.Label();
+            this.core3Label = new System.Windows.Forms.Label();
+            this.core4Box = new System.Windows.Forms.RichTextBox();
+            this.core4Label = new System.Windows.Forms.Label();
+            this.core2Box = new System.Windows.Forms.RichTextBox();
+            this.core1PipelineLabel = new System.Windows.Forms.Label();
+            this.core2PipelineLabel = new System.Windows.Forms.Label();
+            this.core3PipelineLabel = new System.Windows.Forms.Label();
+            this.core4PipelineLabel = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -167,93 +171,133 @@ namespace PipelineSimulation.WinForm
             this.label1.TabIndex = 3;
             this.label1.Text = "Program";
             // 
-            // richTextBox2
+            // core1Box
             // 
-            this.richTextBox2.Location = new System.Drawing.Point(248, 86);
-            this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.Size = new System.Drawing.Size(371, 292);
-            this.richTextBox2.TabIndex = 4;
-            this.richTextBox2.Text = "";
+            this.core1Box.Location = new System.Drawing.Point(248, 86);
+            this.core1Box.Name = "core1Box";
+            this.core1Box.Size = new System.Drawing.Size(371, 292);
+            this.core1Box.TabIndex = 4;
+            this.core1Box.Text = "";
             // 
-            // label2
+            // core1Label
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(248, 47);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(41, 15);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "Core 1";
+            this.core1Label.AutoSize = true;
+            this.core1Label.Location = new System.Drawing.Point(248, 47);
+            this.core1Label.Name = "core1Label";
+            this.core1Label.Size = new System.Drawing.Size(41, 15);
+            this.core1Label.TabIndex = 5;
+            this.core1Label.Text = "Core 1";
             // 
-            // richTextBox3
+            // core3Box
             // 
-            this.richTextBox3.Location = new System.Drawing.Point(669, 86);
-            this.richTextBox3.Name = "richTextBox3";
-            this.richTextBox3.Size = new System.Drawing.Size(377, 292);
-            this.richTextBox3.TabIndex = 6;
-            this.richTextBox3.Text = "";
+            this.core3Box.Location = new System.Drawing.Point(248, 447);
+            this.core3Box.Name = "core3Box";
+            this.core3Box.Size = new System.Drawing.Size(371, 298);
+            this.core3Box.TabIndex = 8;
+            this.core3Box.Text = "";
             // 
-            // label3
+            // core2Label
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(625, 47);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(41, 15);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "Core 2";
+            this.core2Label.AutoSize = true;
+            this.core2Label.Location = new System.Drawing.Point(669, 47);
+            this.core2Label.Name = "core2Label";
+            this.core2Label.Size = new System.Drawing.Size(41, 15);
+            this.core2Label.TabIndex = 7;
+            this.core2Label.Text = "Core 2";
             // 
-            // richTextBox4
+            // core3Label
             // 
-            this.richTextBox4.Location = new System.Drawing.Point(248, 447);
-            this.richTextBox4.Name = "richTextBox4";
-            this.richTextBox4.Size = new System.Drawing.Size(371, 298);
-            this.richTextBox4.TabIndex = 8;
-            this.richTextBox4.Text = "";
+            this.core3Label.AutoSize = true;
+            this.core3Label.Location = new System.Drawing.Point(248, 404);
+            this.core3Label.Name = "core3Label";
+            this.core3Label.Size = new System.Drawing.Size(41, 15);
+            this.core3Label.TabIndex = 9;
+            this.core3Label.Text = "Core 3";
             // 
-            // label4
+            // core4Box
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(248, 404);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(41, 15);
-            this.label4.TabIndex = 9;
-            this.label4.Text = "Core 3";
+            this.core4Box.Location = new System.Drawing.Point(669, 447);
+            this.core4Box.Name = "core4Box";
+            this.core4Box.Size = new System.Drawing.Size(377, 298);
+            this.core4Box.TabIndex = 10;
+            this.core4Box.Text = "";
             // 
-            // richTextBox5
+            // core4Label
             // 
-            this.richTextBox5.Location = new System.Drawing.Point(669, 447);
-            this.richTextBox5.Name = "richTextBox5";
-            this.richTextBox5.Size = new System.Drawing.Size(377, 298);
-            this.richTextBox5.TabIndex = 10;
-            this.richTextBox5.Text = "";
+            this.core4Label.AutoSize = true;
+            this.core4Label.Location = new System.Drawing.Point(669, 404);
+            this.core4Label.Name = "core4Label";
+            this.core4Label.Size = new System.Drawing.Size(41, 15);
+            this.core4Label.TabIndex = 11;
+            this.core4Label.Text = "Core 4";
             // 
-            // label5
+            // core2Box
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(669, 404);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(41, 15);
-            this.label5.TabIndex = 11;
-            this.label5.Text = "Core 4";
+            this.core2Box.Location = new System.Drawing.Point(669, 86);
+            this.core2Box.Name = "core2Box";
+            this.core2Box.Size = new System.Drawing.Size(371, 292);
+            this.core2Box.TabIndex = 12;
+            this.core2Box.Text = "";
+            // 
+            // core1PipelineLabel
+            // 
+            this.core1PipelineLabel.AutoSize = true;
+            this.core1PipelineLabel.Location = new System.Drawing.Point(248, 68);
+            this.core1PipelineLabel.Name = "core1PipelineLabel";
+            this.core1PipelineLabel.Size = new System.Drawing.Size(347, 15);
+            this.core1PipelineLabel.TabIndex = 13;
+            this.core1PipelineLabel.Text = "Fetch     Decode    MemRead     Execute     MemWrite     RegWrite";
+            // 
+            // core2PipelineLabel
+            // 
+            this.core2PipelineLabel.AutoSize = true;
+            this.core2PipelineLabel.Location = new System.Drawing.Point(669, 68);
+            this.core2PipelineLabel.Name = "core2PipelineLabel";
+            this.core2PipelineLabel.Size = new System.Drawing.Size(347, 15);
+            this.core2PipelineLabel.TabIndex = 14;
+            this.core2PipelineLabel.Text = "Fetch     Decode    MemRead     Execute     MemWrite     RegWrite";
+            // 
+            // core3PipelineLabel
+            // 
+            this.core3PipelineLabel.AutoSize = true;
+            this.core3PipelineLabel.Location = new System.Drawing.Point(248, 429);
+            this.core3PipelineLabel.Name = "core3PipelineLabel";
+            this.core3PipelineLabel.Size = new System.Drawing.Size(347, 15);
+            this.core3PipelineLabel.TabIndex = 15;
+            this.core3PipelineLabel.Text = "Fetch     Decode    MemRead     Execute     MemWrite     RegWrite";
+            // 
+            // core4PipelineLabel
+            // 
+            this.core4PipelineLabel.AutoSize = true;
+            this.core4PipelineLabel.Location = new System.Drawing.Point(669, 429);
+            this.core4PipelineLabel.Name = "core4PipelineLabel";
+            this.core4PipelineLabel.Size = new System.Drawing.Size(347, 15);
+            this.core4PipelineLabel.TabIndex = 16;
+            this.core4PipelineLabel.Text = "Fetch     Decode    MemRead     Execute     MemWrite     RegWrite";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1117, 796);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.richTextBox5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.richTextBox4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.richTextBox3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.richTextBox2);
+            this.Controls.Add(this.core4PipelineLabel);
+            this.Controls.Add(this.core3PipelineLabel);
+            this.Controls.Add(this.core2PipelineLabel);
+            this.Controls.Add(this.core1PipelineLabel);
+            this.Controls.Add(this.core2Box);
+            this.Controls.Add(this.core4Label);
+            this.Controls.Add(this.core4Box);
+            this.Controls.Add(this.core3Label);
+            this.Controls.Add(this.core2Label);
+            this.Controls.Add(this.core3Box);
+            this.Controls.Add(this.core1Label);
+            this.Controls.Add(this.core1Box);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Pipeline Simulator";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -277,14 +321,18 @@ namespace PipelineSimulation.WinForm
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.RichTextBox richTextBox2;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.RichTextBox richTextBox3;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.RichTextBox richTextBox4;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.RichTextBox richTextBox5;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.RichTextBox core1Box;
+        private System.Windows.Forms.Label core1Label;
+        private System.Windows.Forms.RichTextBox core2Box;
+        private System.Windows.Forms.Label core2Label;
+        private System.Windows.Forms.RichTextBox core3Box;
+        private System.Windows.Forms.Label core3Label;
+        private System.Windows.Forms.RichTextBox core4Box;
+        private System.Windows.Forms.Label core4Label;
+        private System.Windows.Forms.Label core1PipelineLabel;
+        private System.Windows.Forms.Label core2PipelineLabel;
+        private System.Windows.Forms.Label core3PipelineLabel;
+        private System.Windows.Forms.Label core4PipelineLabel;
     }
 }
 

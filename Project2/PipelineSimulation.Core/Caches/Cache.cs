@@ -49,7 +49,7 @@ namespace PipelineSimulation.Core.Caches {
 		}
 
 		// Inserts data into the cache
-		void Insert(int Index, int Tag, int Data) {
+		void Insert(int Index, int Tag, ushort Data) {
 			//first, determine if there is already a set for that index.
 			if (Sets.ContainsKey(Index)) {
 				//if not create a set.

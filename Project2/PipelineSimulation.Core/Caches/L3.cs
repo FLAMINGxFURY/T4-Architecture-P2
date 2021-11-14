@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 namespace PipelineSimulation.Core.Caches {
 	class L3 : Cache {
 
-		//TODO
+		public L3(int assoc) : base(assoc) {
 
+		}
+
+		//TODO
 	}
 }

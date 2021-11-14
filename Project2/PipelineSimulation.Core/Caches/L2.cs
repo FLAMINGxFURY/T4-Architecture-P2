@@ -6,5 +6,12 @@ using System.Threading.Tasks;
 
 namespace PipelineSimulation.Core.Caches {
 	class L2 : Cache {
+
+		public L2(int assoc) : base(assoc) {
+
+		}
+
+		//TODO
+
 	}
 }

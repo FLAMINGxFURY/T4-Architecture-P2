@@ -18,19 +18,12 @@ namespace PipelineSimulation.Core.Instructions
 			// Get memory address from s0/s1
 			var mem = GetMemoryAddress();
 
+			//TODO: we need to get this address to the buffer as well somehow
+
 			// Get register
 			var reg = cpu.GetRegister(GetRegister1Code(operand));
-
-			//Store data in memory
-			try {
-				Memory.StoreMemoryAtAddr(reg.Data, mem);
-			}
-			catch (AccessViolationException e) {
-				//TODO: stall
-				return 0;
-			}
-
-			return 0;
+			
+			return reg.Data;
 		}
 
 		public override string ToText(ushort operand) {

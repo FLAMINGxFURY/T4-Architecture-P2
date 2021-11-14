@@ -31,7 +31,7 @@ namespace PipelineSimulation.Core.Instructions
 			cpu = cpuref;
 		}
 
-		public abstract void Execute(ushort operand);
+		public abstract ushort Execute(ushort operand);
 
 		// Returns the assembly code translation as a string, except for the operation name (toString returns this)
 		public virtual string ToText(ushort operand) {

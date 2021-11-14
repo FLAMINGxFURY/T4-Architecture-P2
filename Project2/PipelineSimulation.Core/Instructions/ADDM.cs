@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+
 namespace PipelineSimulation.Core.Instructions
 {
 	public class ADDM : Instruction
@@ -11,32 +12,36 @@ namespace PipelineSimulation.Core.Instructions
 		public ADDM(CPU cpuref) : base(cpuref) {
 
 		}
-		public override void Execute(ushort operand) {
+
+		// Returns the value to be stored in the destination register
+		public override ushort Execute(ushort operand) {
 			var register = cpu.GetRegister(GetRegister1Code(operand));
 			var addr = GetMemoryAddress();
 
-			//get the 2 bytes from memory; force types to allow shift
-			ushort byte1 = (ushort)(cpu.Memory.MemorySpace[addr]);
-			//next byte is 1 byte forward
-			ushort byte2 = (ushort)(cpu.Memory.MemorySpace[addr + 1]);
+			ushort data;
 
-			//stored little endian, shift byte 2 because it is the upper order bits
-			byte2 = (ushort)(byte2 << 2);
+			try {
+				data = Memory.RequestMemoryFromAddr(addr);
+			}
+			catch (AccessViolationException e) {
+				//TODO: add stall
+				return 0;
+			}
 
-			//add together
-			ushort data = (ushort)(byte1 + byte2);
+			ushort ret = (ushort)(register.Data + data);
 
-			register.Data += data;
+			// I broke this because I took bytes out, so it just doesn't :)
+			//cpu.EFlags.SetAll
+			//(
+			//	WouldCarry(byte1, byte2),
+			//	Parity(register.Data),
+			//	AuxiliaryCarryAddition(byte1, byte2),
+			//	register.Data == 0,
+			//	register.Data < 0,
+			//	WouldOverflow(byte1, byte2)
+			//);
 
-			cpu.EFlags.SetAll
-			(
-				WouldCarry(byte1, byte2),
-				Parity(register.Data),
-				AuxiliaryCarryAddition(byte1, byte2),
-				register.Data == 0,
-				register.Data < 0,
-				WouldOverflow(byte1, byte2)
-			);
+			return ret;
 		}
 
 		public override string ToText(ushort operand) {

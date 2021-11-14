@@ -12,13 +12,14 @@ namespace PipelineSimulation.Core.Instructions
 
 		}
 
-		public override void Execute(ushort operand) {
+		// Returns the value to be stored in the destination register
+		public override ushort Execute(ushort operand) {
 			var register = cpu.GetRegister(GetRegister1Code(operand));
 
 			var val1 = register.Data;
 			var val2 = GetImmediate(operand);
 
-			register.Data += val2;
+			ushort ret = (ushort)(val1 + val2);
 
 			cpu.EFlags.SetAll
 			(
@@ -29,6 +30,8 @@ namespace PipelineSimulation.Core.Instructions
 				register.Data < 0,
 				WouldOverflow(val1, val2)
 			);
+
+			return ret;
 		}
 
 		public override string ToText(ushort operand) {

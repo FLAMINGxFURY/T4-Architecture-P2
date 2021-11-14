@@ -13,14 +13,25 @@ namespace PipelineSimulation.Core.Instructions
 
 		}
 
-		public override void Execute(ushort operand) {
+		// Returns the value to be stored in the destination register
+		public override ushort Execute(ushort operand) {
 			var reg = cpu.GetRegister(GetRegister1Code(operand));
 
 			// get memory address
 			var address = GetMemoryAddress();
 
 			// Move short at address into register
-			reg.Data = BitConverter.ToUInt16(new[] { cpu.Memory.MemorySpace[address + 1], cpu.Memory.MemorySpace[address] });
+			ushort data;
+
+			try {
+				data = Memory.RequestMemoryFromAddr(address);
+			}
+			catch (AccessViolationException e) {
+				//TODO: add stall
+				return 0;
+			}
+
+			return data;
 		}
 
 		public override string ToText(ushort operand) {

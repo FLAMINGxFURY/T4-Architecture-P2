@@ -13,19 +13,24 @@ namespace PipelineSimulation.Core.Instructions
 
 		}
 
-		public override void Execute(ushort operand) {
+		// Returns 0 because void type
+		public override ushort Execute(ushort operand) {
 			// Get memory address from s0/s1
 			var mem = GetMemoryAddress();
 
 			// Get register
 			var reg = cpu.GetRegister(GetRegister1Code(operand));
 
-			// Convert contents of register to bytes
-			var dataAsBytes = BitConverter.GetBytes(reg.Data);
+			//Store data in memory
+			try {
+				Memory.StoreMemoryAtAddr(reg.Data, mem);
+			}
+			catch (AccessViolationException e) {
+				//TODO: stall
+				return 0;
+			}
 
-			// Put contents of regsiter into memory stored little endian
-			cpu.Memory.MemorySpace[mem] = dataAsBytes[1];
-			cpu.Memory.MemorySpace[mem + 1] = dataAsBytes[0];
+			return 0;
 		}
 
 		public override string ToText(ushort operand) {

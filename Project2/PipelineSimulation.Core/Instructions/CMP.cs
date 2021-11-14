@@ -12,7 +12,8 @@ namespace PipelineSimulation.Core.Instructions
 
 		}
 
-		public override void Execute(ushort operand) {
+		// Returns 0 because void type
+		public override ushort Execute(ushort operand) {
 			// TODO: This should set every flag, but ZF and CF are good for now
 
 			var reg1c = GetRegister1Code(operand);
@@ -32,6 +33,8 @@ namespace PipelineSimulation.Core.Instructions
 				result < 0,
 				WouldOverflow(reg1.Data, reg2.Data)
 			);
+
+			return (ushort)(0);
 		}
 
 		public override string ToText(ushort operand) {

@@ -12,9 +12,18 @@ namespace PipelineSimulation.Core.Instructions
 
 		}
 
-		public override void Execute(ushort operand) {
-			var addToPC = GetImmediate(operand);
-			cpu.Rd.PC += addToPC;
+		// Returns 0 because void type
+		public override ushort Execute(ushort operand) {
+			var addToPC = (short)GetImmediate(operand);
+			if (addToPC < 0) {
+				//convert to positive version
+				addToPC -= (short)(2 * addToPC);
+				//subtract
+				cpu.Rd.PC -= (ushort)(addToPC);
+			}
+			else cpu.Rd.PC += (ushort)(addToPC);
+
+			return (ushort)(0);
 		}
 
 		public override string ToText(ushort operand) {

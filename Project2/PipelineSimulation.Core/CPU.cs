@@ -34,9 +34,12 @@ namespace PipelineSimulation.Core
 
 		public bool endReached;
 
+		// This boolean is used to stop fetches while waiting for a jump, or after end
+		public bool stopFetch = false;
+
 		public EFlags EFlags { get; } = new EFlags();
 
-		public Register PC => _registers[0x06];
+		#region OpCode Defined Lists
 
 		// List of all R-Type instructions
 		public List<ushort> RTpyeOpCodes = new List<ushort> {
@@ -120,10 +123,7 @@ namespace PipelineSimulation.Core
 			0b11111
 		};
 
-		// This boolean is used to stop fetches while waiting for a jump, or after end
-		public bool stopFetch = false;
-
-		// Buffers
+		#endregion
 		public CPU() {
 
 			//instantiate reader

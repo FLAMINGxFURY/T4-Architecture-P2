@@ -1,11 +1,16 @@
 ﻿
+using System.Collections.Generic;
+
 namespace PipelineSimulation.Core.Buffers
 {
     public class Fetch : CPUBuffer
     {
         public override int ID => 0;
 
+        public Queue<ushort> FetchedInstructions;
+
         public Fetch(CPU cpuref) : base(cpuref) {
+            FetchedInstructions = new Queue<ushort>();
         }
 
         /// <summary>

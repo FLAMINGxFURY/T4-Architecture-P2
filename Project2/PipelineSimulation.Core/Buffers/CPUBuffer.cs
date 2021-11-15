@@ -1,5 +1,6 @@
 ﻿
 using PipelineSimulation.Core.Instructions;
+using System.Collections.Generic;
 
 namespace PipelineSimulation.Core.Buffers
 {
@@ -10,10 +11,10 @@ namespace PipelineSimulation.Core.Buffers
         public CPU cpu { get; set; }
 
         /// <summary>
-        /// Holds the decoded instruction stored in the buffer. This is only
+        /// Holds the decoded instructions stored in the buffer. This is only
         /// set after the decode phase.
         /// </summary>
-        public Instruction DecodedInstruction { get; protected set; }
+        public Queue<Instruction> DecodedInstructions { get; protected set; }
 
         /// <summary>
         /// Memory that is read after the read memory phase. This is not set
@@ -23,6 +24,7 @@ namespace PipelineSimulation.Core.Buffers
 
         public CPUBuffer(CPU cpuref) {
             this.cpu = cpuref;
+            DecodedInstructions = new Queue<Instruction>();
 		}
 
         public abstract void PerformBehavior(CPU cpu);
@@ -43,8 +45,10 @@ namespace PipelineSimulation.Core.Buffers
         {
             otherBuffer.WorkingInstruction = WorkingInstruction;
 
-            if (DecodedInstruction != null)
-                otherBuffer.DecodedInstruction = DecodedInstruction;
+            //if (DecodedInstruction != null)
+            //    otherBuffer.DecodedInstruction = DecodedInstruction;
+
+            //This should now be handled by peeking and dequeueing
 
             otherBuffer.ReadMemory = ReadMemory;
         }
@@ -52,7 +56,7 @@ namespace PipelineSimulation.Core.Buffers
         public void Empty()
         {
             WorkingInstruction = 0x0;
-            DecodedInstruction = null;
+            DecodedInstructions.Clear();
             ReadMemory = 0x0;
         }
     }

@@ -13,21 +13,21 @@ namespace PipelineSimulation.Core.Buffers
         public override void PerformBehavior(CPU cpu)
         {
             // Mem read
-            if (DecodedInstruction != null && DecodedInstruction.GetType().Name.EndsWith("M"))
-            {
-                var addr = GetMemoryAddress();
+            var addr = GetMemoryAddress();
 
-                try {
-                    //Store data in instruction
-                    DecodedInstruction.DataBuffer = Memory.RequestMemoryFromAddr(addr);
-                    //TODO: how are we going to simulate multiple cycle reads here
+            try {
+                //Store data in instruction
+                DecodedInstructions.Peek().DataBuffer = Memory.RequestMemoryFromAddr(addr);
+                //TODO: how are we going to simulate multiple cycle reads here
 
-                    //Free memory access
-                    Memory.Unlock(addr);
-                }
-                catch (AccessViolationException e) {
-                    //TODO: add stall
-                }
+                //Free memory access
+                Memory.Unlock(addr);
+
+                //TODO: If next buffer is not full, Dequeue and Enqueue. If it is, do nothing. This operation will
+                //repeat but that's fine, at least for now
+            }
+            catch (AccessViolationException e) {
+                //TODO: add stall
             }
         }
     }

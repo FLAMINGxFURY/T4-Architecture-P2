@@ -28,6 +28,9 @@ namespace PipelineSimulation.Core.Instructions
 		// The dest reg for the instruction
 		public Register DestinationRegister { get; set; }
 
+		// The source reg for the instruction
+		public Register SourceRegister { get; set; }
+
 		// The dest addr for the isntruction
 		public uint DestinationAddr { get; set; }
 

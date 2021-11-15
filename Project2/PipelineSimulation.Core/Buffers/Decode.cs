@@ -17,7 +17,6 @@ namespace PipelineSimulation.Core.Buffers
         /// </summary>
         public override void PerformBehavior(CPU cpu)
         {
-
             WorkingInstruction = FetchedInstructions.Peek();
 
             // Decode it
@@ -27,8 +26,16 @@ namespace PipelineSimulation.Core.Buffers
             // Add its op to the instruction
             ins.Operand = WorkingInstruction;
 
-            // Determine where it needs to go next
+            // TODO: Based on instruction type add Source Register, Destination Register, and Destination Address
+            // to the Instruction
 
+
+            
+            // Determine where it needs to go next
+            // TODO: Jumps need to execute here. They have a completion dependency on the last instruction
+            // Left here. Nothing else can be fetched while we are waiting for a jump to execute.
+
+            // TODO: If not a jump, determine whether it needs to go to MemRead or Execute based on opcode.
 
         }
     }

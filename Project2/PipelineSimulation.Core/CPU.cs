@@ -38,6 +38,81 @@ namespace PipelineSimulation.Core
 
 		public Register PC => _registers[0x06];
 
+        // List of all R-Type instructions
+        public List<ushort> RTpyeOpCodes = new List<ushort> {
+            0b00100,
+            0b00111,
+            0b01010,
+            0b01011,
+            //TOADD: Any of the floating point?
+        };
+
+        // List of all M-Type instructions
+        public List<ushort> MTypeOpCodes = new List<ushort> {
+            0b00010,
+            0b00110,
+            0b01001,
+            0b01111,
+            0b10101,
+            0b11000,
+            0b11011,
+            0b11110
+        };
+
+        // List of all I-Type instructions
+        public List<ushort> ITypeOpCodes = new List<ushort> {
+            0b00001,
+            0b00101,
+            0b01000,
+            //TOADD: Any of the floating point?
+        };
+
+        // List of all Jumps
+        public List<ushort> JumpOpCodes = new List<ushort> {
+            0b01100,
+            0b01101,
+            0b01110
+        };
+
+        // List of all ALU instructions
+        public List<ushort> ALUOpCodes = new List<ushort> {
+            0b00001,
+            0b00010,
+            0b00011,
+            0b00100,
+            0b00101,
+            0b00110,
+            0b00111,
+            0b01000,
+            0b01001,
+            0b01010
+        };
+
+        // List of all FPU instructions
+        public List<ushort> FPUOpCodes = new List<ushort> {
+            0b01111,
+            0b10000,
+            0b10001,
+            0b10010,
+            0b10011,
+            0b10100,
+            0b10101,
+            0b10110,
+            0b10111,
+            0b11000,
+            0b11001,
+            0b11010,
+            0b11011,
+            0b11100,
+            0b11101,
+            0b11110
+        };
+
+        // List of al ELU instructions
+        public List<ushort> ELUOpCodes = new List<ushort> {
+
+        };
+
 		// Buffers
         public CPU() {
 

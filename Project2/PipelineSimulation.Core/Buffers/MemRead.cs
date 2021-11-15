@@ -15,19 +15,22 @@ namespace PipelineSimulation.Core.Buffers
             // Mem read
             var addr = GetMemoryAddress();
 
-            try {
-                //Store data in instruction
-                DecodedInstructions.Peek().DataBuffer = Memory.RequestMemoryFromAddr(addr);
-                //TODO: how are we going to simulate multiple cycle reads here
+            if (cpu.Buffers[3].DecodedInstructions.Count < 6) { //simulate size constraint
+                try {
+                    //Store data in instruction
+                    DecodedInstructions.Peek().DataBuffer = Memory.RequestMemoryFromAddr(addr);
+                    //TODO: how are we going to simulate multiple cycle reads here
 
-                //Free memory access
-                Memory.Unlock(addr);
+                    //Free memory access
+                    Memory.Unlock(addr);
 
-                //TODO: If next buffer is not full, Dequeue and Enqueue. If it is, do nothing. This operation will
-                //repeat but that's fine, at least for now
-            }
-            catch (AccessViolationException e) {
-                //TODO: add stall
+                    //Pass to execute
+                    cpu.Buffers[3].DecodedInstructions.Enqueue(DecodedInstructions.Dequeue());
+
+                }
+                catch (AccessViolationException e) {
+                    //TODO: add stall
+                }
             }
         }
     }

@@ -124,6 +124,7 @@ namespace PipelineSimulation.Core
 		};
 
 		#endregion
+
 		public CPU() {
 
 			//instantiate reader

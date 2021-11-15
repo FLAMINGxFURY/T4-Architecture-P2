@@ -110,7 +110,12 @@ namespace PipelineSimulation.Core
 
         // List of al ELU instructions
         public List<ushort> ELUOpCodes = new List<ushort> {
-
+            0b00000,
+            0b01011,
+            0b01100,
+            0b01101,
+            0b01110,
+            0b11111
         };
 
 		// Buffers

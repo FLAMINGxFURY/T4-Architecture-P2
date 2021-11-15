@@ -43,8 +43,8 @@ namespace PipelineSimulation.Core.Buffers
 			}
             
             // Determine where it needs to go next
-            // TODO: Jumps need to execute here. They have a completion dependency on the last instruction
-            // Left here. Nothing else can be fetched while we are waiting for a jump to execute.
+            // Jumps: They have a completion dependency on the last instruction left here. 
+            // Nothing else can be fetched while we are waiting for a jump to execute.
             if(cpu.JumpOpCodes.Contains(decoded)) {
                 //Condition: If MemRead or Execute contain the last delivered instruction, stop here. 
                 if(cpu.Buffers[2].DecodedInstructions.Contains(LastDelivered) || cpu.Buffers[3].DecodedInstructions.Contains(LastDelivered)) { //Check memread and exec
@@ -61,7 +61,19 @@ namespace PipelineSimulation.Core.Buffers
 
 			}
 
-            // TODO: If not a jump, determine whether it needs to go to MemRead or Execute based on opcode.
+            // If not a jump, determine whether it needs to go to MemRead or Execute based on opcode.
+            if(cpu.MTypeOpCodes.Contains(decoded)) {
+                if(cpu.Buffers[2].DecodedInstructions.Count < 6) { //simulate size constraint
+                    cpu.Buffers[2].DecodedInstructions.Enqueue(ins);
+                    FetchedInstructions.Dequeue();
+                }
+			}
+            else {
+                if(cpu.Buffers[3].DecodedInstructions.Count < 6) {
+                    cpu.Buffers[3].DecodedInstructions.Enqueue(ins);
+                    FetchedInstructions.Dequeue();
+                }
+            }
 
         }
     }

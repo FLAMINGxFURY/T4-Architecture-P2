@@ -45,6 +45,21 @@ namespace PipelineSimulation.Core.Buffers
             // Determine where it needs to go next
             // TODO: Jumps need to execute here. They have a completion dependency on the last instruction
             // Left here. Nothing else can be fetched while we are waiting for a jump to execute.
+            if(cpu.JumpOpCodes.Contains(decoded)) {
+                //Condition: If MemRead or Execute contain the last delivered instruction, stop here. 
+                if(cpu.Buffers[2].DecodedInstructions.Contains(LastDelivered) || cpu.Buffers[3].DecodedInstructions.Contains(LastDelivered)) { //Check memread and exec
+                    cpu.stopFetch = true; //flag for no more fetches
+                    return;
+				}
+
+                //implied else: continue
+                cpu.stopFetch = false; //flag that fethces can continue
+                ins.Execute(ins.Operand);
+                //flag completion and dequeue
+                cpu.CompletedInstructions.Add(ins);
+                FetchedInstructions.Dequeue();
+
+			}
 
             // TODO: If not a jump, determine whether it needs to go to MemRead or Execute based on opcode.
 

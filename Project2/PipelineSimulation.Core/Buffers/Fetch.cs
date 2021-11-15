@@ -23,10 +23,12 @@ namespace PipelineSimulation.Core.Buffers
                     cpu.Buffers[1].FetchedInstructions.Enqueue(FetchedInstructions.Dequeue()); // Pass
                 }
 			}
-            
+
             //Next, grab next op
-            var op = cpu.Rd.GetNextWord();  // This also moves the PC forward
-            FetchedInstructions.Enqueue(op);
+            if (!cpu.stopFetch) {
+                var op = cpu.Rd.GetNextWord();  // This also moves the PC forward
+                FetchedInstructions.Enqueue(op);
+            }
         }
     }
 }

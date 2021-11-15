@@ -120,6 +120,9 @@ namespace PipelineSimulation.Core
             0b11111
         };
 
+        // This boolean is used to stop fetches while waiting for a jump, or after end
+        public bool stopFetch = false;
+
 		// Buffers
         public CPU() {
 

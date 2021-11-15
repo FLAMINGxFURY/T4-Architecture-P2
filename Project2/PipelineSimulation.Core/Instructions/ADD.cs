@@ -14,14 +14,10 @@ namespace PipelineSimulation.Core.Instructions
 
 		// Returns the value to be stored in the destination register
 		public override ushort Execute(ushort operand) {
-			// src1
-			DestinationRegister = cpu.GetRegister(GetRegister1Code(operand));
-			// src2
-			var srcReg2 = cpu.GetRegister(GetRegister2Code(operand));
 
 			var value1 = DestinationRegister.Data;
 
-			var value2 = srcReg2.Data;
+			var value2 = SourceRegister.Data;
 
 			ushort ret = (ushort)(value1 + value2);
 

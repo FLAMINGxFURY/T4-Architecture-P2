@@ -16,22 +16,16 @@ namespace PipelineSimulation.Core.Instructions
 		public override ushort Execute(ushort operand) {
 			// TODO: This should set every flag, but ZF and CF are good for now
 
-			var reg1c = GetRegister1Code(operand);
-			var reg2c = GetRegister2Code(operand);
-
-			var reg1 = cpu.GetRegister(reg1c);
-			var reg2 = cpu.GetRegister(reg2c);
-
-			var result = reg1.Data - reg2.Data;
+			var result = DestinationRegister.Data - SourceRegister.Data;
 
 			cpu.EFlags.SetAll
 			(
-				WouldBorrow(reg1.Data, reg2.Data),
+				WouldBorrow(DestinationRegister.Data, SourceRegister.Data),
 				Parity((ushort)result),
 				null,
 				result == 0,
 				result < 0,
-				WouldOverflow(reg1.Data, reg2.Data)
+				WouldOverflow(DestinationRegister.Data, SourceRegister.Data)
 			);
 
 			return (ushort)(0);

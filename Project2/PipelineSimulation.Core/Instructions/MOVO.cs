@@ -17,11 +17,8 @@ namespace PipelineSimulation.Core.Instructions
 		public override ushort Execute(ushort operand) {
 			// Get memory address from s0/s1
 			DestinationAddr = GetMemoryAddress();
-
-			// Get register
-			var reg = cpu.GetRegister(GetRegister1Code(operand));
 			
-			return reg.Data;
+			return DestinationRegister.Data;
 		}
 
 		public override string ToText(ushort operand) {

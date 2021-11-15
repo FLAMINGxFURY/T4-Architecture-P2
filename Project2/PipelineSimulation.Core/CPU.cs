@@ -59,6 +59,8 @@ namespace PipelineSimulation.Core
             0b11110
         };
 
+        public List<ushort> OTypeOpCodes = new List<ushort> { 0b00011 };
+
         // List of all I-Type instructions
         public List<ushort> ITypeOpCodes = new List<ushort> {
             0b00001,

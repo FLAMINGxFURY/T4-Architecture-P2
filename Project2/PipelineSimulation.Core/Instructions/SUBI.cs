@@ -14,7 +14,6 @@ namespace PipelineSimulation.Core.Instructions
 
 		// Returns the value to be stored in the destination register
 		public override ushort Execute(ushort operand) {
-			DestinationRegister = cpu.GetRegister(GetRegister1Code(operand));
 
 			var val1 = DestinationRegister.Data;
 			var val2 = GetImmediate(operand);

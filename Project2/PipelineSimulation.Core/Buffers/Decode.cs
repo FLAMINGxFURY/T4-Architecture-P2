@@ -9,6 +9,7 @@ namespace PipelineSimulation.Core.Buffers
 		public override int ID => 1;
 
         // This is stored so that jumps know what instruction they are waiting on
+        // Same for M-Type and O-Type: they need to wait on MOVI s1, xxx 
         public Instruction LastDelivered;
 
         public Decode(CPU cpuref) : base(cpuref) {
@@ -37,7 +38,7 @@ namespace PipelineSimulation.Core.Buffers
 			}
 
             // Destination Reg: R-Type, I-Type, M-Type
-            if(cpu.RTpyeOpCodes.Contains(decoded) || cpu.ITypeOpCodes.Contains(decoded) || cpu.MTypeOpCodes.Contains(decoded)) {
+            if(cpu.RTpyeOpCodes.Contains(decoded) || cpu.ITypeOpCodes.Contains(decoded) || cpu.MTypeOpCodes.Contains(decoded) || cpu.OTypeOpCodes.Contains(decoded)) {
                 ins.DestinationRegister = cpu.GetRegister(ins.GetRegister1Code(WorkingInstruction));
 			}
             

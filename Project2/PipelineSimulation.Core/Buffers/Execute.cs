@@ -1,4 +1,5 @@
 ﻿
+using PipelineSimulation.Core.Functional_Units;
 using PipelineSimulation.Core.Instructions;
 
 namespace PipelineSimulation.Core.Buffers
@@ -21,11 +22,28 @@ namespace PipelineSimulation.Core.Buffers
             }
 
             // Check logical unit
-            // TODO
+			// TODO
+            bool LogicUnitAvailable = false;
+            FunctionalUnit unitUtilized = null;
+            foreach (FunctionalUnit unit)
+            {
+                if (unit.opcodes.Contains(DecodedInstruction.OpCode))
+                {
+                    if (unit.CurrentlyRunning != null)
+                        LogicUnitAvailable = false;
+                    else
+                        LogicUnitAvailable = true;
 
-            if (DecodedInstruction != null)
+                    unitUtilized = unit;
+
+                    break;
+                }
+            }
+
+            if (DecodedInstruction != null && LogicUnitAvailable)
             {
                 DecodedInstruction.Execute(ReadMemory);
+                unitUtilized.instructions.Dequeue();
             }
 
             // Forwarding

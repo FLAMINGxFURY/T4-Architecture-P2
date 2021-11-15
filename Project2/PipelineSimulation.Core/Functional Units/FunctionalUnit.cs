@@ -12,6 +12,8 @@ namespace PipelineSimulation.Core.Functional_Units {
 		// not this one.
 		public HashSet<ushort> opcodes = new HashSet<ushort>();
 
+		public Queue<Instruction> instructions = new Queue<Instruction>();
+
 		// Currently running instruction
 		public Instruction CurrentlyRunning;
 

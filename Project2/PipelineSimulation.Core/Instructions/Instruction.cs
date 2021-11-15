@@ -19,8 +19,11 @@ namespace PipelineSimulation.Core.Instructions
 		// If true, this instruction will read from a register during execution
 		public abstract bool UsesRegister { get; }
 
-		// Used to forward data to the instruction in the execute phase (type? idk went ushort for now)
+		// Used to hold data that is read in from Memory
 		public ushort DataBuffer { get; set; }
+
+		// Used to hold data that is forwarded from a previous instruction
+		public ushort ForwardBuffer { get; set; }
 
 		// The dest reg for the instruction
 		public Register DestinationRegister { get; set; }

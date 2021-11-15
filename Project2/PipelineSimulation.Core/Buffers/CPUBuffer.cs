@@ -15,6 +15,12 @@ namespace PipelineSimulation.Core.Buffers
         /// </summary>
         public Instruction DecodedInstruction { get; protected set; }
 
+        /// <summary>
+        /// Memory that is read after the read memory phase. This is not set
+        /// until then.
+        /// </summary>
+        public ushort ReadMemory { get; protected set; }
+
         public CPUBuffer(CPU cpuref) {
             this.cpu = cpuref;
 		}
@@ -39,12 +45,15 @@ namespace PipelineSimulation.Core.Buffers
 
             if (DecodedInstruction != null)
                 otherBuffer.DecodedInstruction = DecodedInstruction;
+
+            otherBuffer.ReadMemory = ReadMemory;
         }
 
         public void Empty()
         {
             WorkingInstruction = 0x0;
             DecodedInstruction = null;
+            ReadMemory = 0x0;
         }
     }
 }

@@ -20,19 +20,15 @@ namespace PipelineSimulation.Core.Buffers
                 try {
                     //Store data in instruction
                     DecodedInstruction.DataBuffer = Memory.RequestMemoryFromAddr(addr);
+                    //TODO: how are we going to simulate multiple cycle reads here
+
+                    //Free memory access
+                    Memory.Unlock(addr);
                 }
                 catch (AccessViolationException e) {
                     //TODO: add stall
                 }
             }
-
-            // TODO: It is implied that the data being grabbed here is from the S0/S1 pair. 
-
-            // Send value to functional unit
-            // TODO
-
-            // TODO: Handle data races
-            // !Important - this must call Memory.Unlock(addr) when done
         }
     }
 }

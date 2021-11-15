@@ -79,65 +79,20 @@ namespace PipelineSimulation.Core
             // TODO: Behavior not implemented
 
             // WRITE - moves from write to decoded instruction pool
-            if (Buffers[5].DecodedInstruction != null)
-            {
-                CompletedInstructions.Add(Buffers[5].DecodedInstruction);
-                Buffers[5].PerformBehavior(this);   // Writes to registers
-                Buffers[5].Empty();
-            }
-            else if (Buffers[4].DecodedInstruction != null) // These buffers can't be working at the same time, right?  # All  buffers can be working "At the same 
-                                                            //                                                          # time" - hence parallelism. There is no data
-                                                            //                                                          # race though because one is a register and one is mem
-            {
-                CompletedInstructions.Add(Buffers[4].DecodedInstruction);
-                Buffers[4].PerformBehavior(this);   // Writes to memory
-                Buffers[4].Empty();
-            }
+            rwr();
+            mwr();
 
             // EXEC - moves from exec to proper next buffer
-
-            // TODO: Jump needs to flush all of the instructions fetched/decoded before it executed.
-
-            if (Buffers[3].DecodedInstruction != null)
-            {
-                // TODO: Instruction decoding here needs to be more robust. MOVO is the only instruction writing out to memory, but a significant
-                // amount of our instructions write back to a register (I Type, R type, M type). Additionally, the R type instructions don't end in "R"
-
-                if (Buffers[3].DecodedInstruction.GetType().Name.EndsWith("O")) // TODO: This is really hacky 
-                {
-                    Buffers[3].MoveContents(Buffers[4]); // mem write instructions
-                }
-                else if (Buffers[3].DecodedInstruction.GetType().Name.EndsWith("R"))
-                {
-                    Buffers[3].MoveContents(Buffers[5]); // reg write instructions
-                }
-                else
-                {
-                    CompletedInstructions.Add(Buffers[3].DecodedInstruction);
-                }
-
-                // TODO: should exececution happen first? Remember it can't move forward in the pipeline until clock cycles remaining == 0
-
-                Buffers[3].PerformBehavior(this);   // Executes
-
-                Buffers[3].Empty();
-            }
+            ex();            
 
             // READ
-            Buffers[2].MoveContents(Buffers[3]);
-            Buffers[2].PerformBehavior(this);       // Gets values in memory, sends them to functional units   
+            mrd();
 
             // DECODE
-            // TODO: Read buffer can be skipped
-            // TODO: as soon as END is decoded, don't allow any more fetches. (Allow program to run until buffers are empty)
-            Buffers[1].MoveContents(Buffers[2]);
-            Buffers[1].PerformBehavior(this);       // Fetches instruction, stores decoded instruction
+            dec();
 
             // FETCH
-            Buffers[0].MoveContents(Buffers[1]);
-            Buffers[0].PerformBehavior(this);       // Moves PC forward, fetches next instruction
-
-            // TODO: forwarding and hazard handling
+            fet();
 
             CurrentClockCycle++;
         }
@@ -147,6 +102,67 @@ namespace PipelineSimulation.Core
         {
             return (Instruction)Activator.CreateInstance(_opToType[opCode], this);
         }
+
+		#region Pipeline Stages
+
+		void fet() {
+            Buffers[0].MoveContents(Buffers[1]);
+            Buffers[0].PerformBehavior(this);       // Moves PC forward, fetches next instruction
+        }
+
+        void dec() {
+            // TODO: Read buffer can be skipped
+            // TODO: as soon as END is decoded, don't allow any more fetches. (Allow program to run until buffers are empty)
+            Buffers[1].MoveContents(Buffers[2]);
+            Buffers[1].PerformBehavior(this);       // Fetches instruction, stores decoded instruction
+        }
+
+        void mrd() {
+            Buffers[2].MoveContents(Buffers[3]);
+            Buffers[2].PerformBehavior(this);       // Gets values in memory, sends them to functional units  
+        }
+
+        void ex() {
+            if (Buffers[3].DecodedInstruction != null) {
+                // TODO: Instruction decoding here needs to be more robust. MOVO is the only instruction writing out to memory, but a significant
+                // amount of our instructions write back to a register (I Type, R type, M type). Additionally, the R type instructions don't end in "R"
+
+                if (Buffers[3].DecodedInstruction.GetType().Name.EndsWith("O")) // TODO: This is really hacky 
+                {
+                    Buffers[3].MoveContents(Buffers[4]); // mem write instructions
+                }
+                else if (Buffers[3].DecodedInstruction.GetType().Name.EndsWith("R")) {
+                    Buffers[3].MoveContents(Buffers[5]); // reg write instructions
+                }
+                else {
+                    CompletedInstructions.Add(Buffers[3].DecodedInstruction);
+                }
+
+                // TODO: should exececution happen first? Remember it can't move forward in the pipeline until clock cycles remaining == 0
+
+                Buffers[3].PerformBehavior(this);   // Executes
+
+                Buffers[3].Empty();
+            }
+        }
+
+        void mwr() {
+            if (Buffers[4].DecodedInstruction != null) {
+                CompletedInstructions.Add(Buffers[4].DecodedInstruction);
+                Buffers[4].PerformBehavior(this);   // Writes to memory
+                Buffers[4].Empty();
+            }
+        }
+
+        void rwr() {
+            if (Buffers[5].DecodedInstruction != null) {
+                CompletedInstructions.Add(Buffers[5].DecodedInstruction);
+                Buffers[5].PerformBehavior(this);   // Writes to registers
+                Buffers[5].Empty();
+            }
+        }
+
+		#endregion
 
 		#region obsolete
 

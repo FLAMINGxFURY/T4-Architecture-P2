@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PipelineSimulation.Core.Functional_Units {
-	class ALU : FunctionalUnit 
+	public class ALU : FunctionalUnit 
 	{
 
     }				

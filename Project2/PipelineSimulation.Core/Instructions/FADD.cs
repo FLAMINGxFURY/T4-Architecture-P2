@@ -12,9 +12,11 @@
 
         }
 
-        public override void Execute(ushort operand)
+        public override ushort Execute(ushort operand)
         {
-            // TODO
+            cpu.FPU.Add();
+
+            return 0;
         }
 
         public override string ToText(ushort operand)

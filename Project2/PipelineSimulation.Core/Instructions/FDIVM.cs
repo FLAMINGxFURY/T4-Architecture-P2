@@ -1,4 +1,6 @@
-﻿namespace PipelineSimulation.Core.Instructions
+﻿using System;
+
+namespace PipelineSimulation.Core.Instructions
 {
     public class FDIVM : Instruction
     {
@@ -12,9 +14,11 @@
 
         }
 
-        public override void Execute(ushort operand)
+        public override ushort Execute(ushort operand)
         {
-            // TODO
+            cpu.FPU.Div((Half)DataBuffer);
+
+            return 0;
         }
 
         public override string ToText(ushort operand)

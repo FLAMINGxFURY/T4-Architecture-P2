@@ -78,5 +78,140 @@ namespace PipelineSimulation.Core.Functional_Units
 				return null;
             }
         }
-    }
+
+		/// <summary>
+		/// Adds the two values at the specified indeces together. The value
+		/// is temporarily stored in ST(Y), the stack is then popped, so it
+		/// may be found in ST(X).
+		/// </summary>
+		/// <param name="index1">X or the first index.</param>
+		/// <param name="index2">Y or the second index.</param>
+        public void Add(int index1 = 0, int index2 = 1)
+        {
+            var num1 = Read(index1);
+            var num2 = Read(index2);
+
+            var result = (Half)((float)num1.Value + (float)num2.Value);
+
+			Write(index2, result);
+
+            Pop();
+        }
+
+		/// <summary>
+		/// Adds the specified value to ST(0).
+		/// </summary>
+        public void Add(Half value)
+        {
+            var num1 = Read(0);
+
+            var result = (Half)((float)num1.Value + (float)value);
+
+            Write(0, result);
+        }
+
+        /// <summary>
+        /// Subtracts the two values at the specified indeces together. The value
+        /// is temporarily stored in ST(Y), the stack is then popped, so it
+        /// may be found in ST(X).
+        /// </summary>
+        /// <param name="index1">X or the first index.</param>
+        /// <param name="index2">Y or the second index.</param>
+        public void Sub(int index1 = 0, int index2 = 1)
+        {
+            var num1 = Read(index1);
+            var num2 = Read(index2);
+
+            var result = (Half)((float)num1.Value - (float)num2.Value);
+
+            Write(index2, result);
+
+            Pop();
+        }
+
+        /// <summary>
+        /// Subtracts the specified value to ST(0).
+        /// </summary>
+        public void Sub(Half value)
+        {
+            var num1 = Read(0);
+
+            var result = (Half)((float)num1.Value - (float)value);
+
+            Write(0, result);
+        }
+
+        /// <summary>
+        /// Multiplies the two values at the specified indeces together. The value
+        /// is temporarily stored in ST(Y), the stack is then popped, so it
+        /// may be found in ST(X).
+        /// </summary>
+        /// <param name="index1">X or the first index.</param>
+        /// <param name="index2">Y or the second index.</param>
+        public void Mul(int index1 = 0, int index2 = 1)
+        {
+            var num1 = Read(index1);
+            var num2 = Read(index2);
+
+            var result = (Half)((float)num1.Value * (float)num2.Value);
+
+            Write(index2, result);
+
+            Pop();
+        }
+
+        /// <summary>
+        /// Multiplies the specified value to ST(0).
+        /// </summary>
+        public void Mul(Half value)
+        {
+            var num1 = Read(0);
+
+            var result = (Half)((float)num1.Value * (float)value);
+
+            Write(0, result);
+        }
+
+        /// <summary>
+        /// Divides the two values at the specified indeces together. The value
+        /// is temporarily stored in ST(Y), the stack is then popped, so it
+        /// may be found in ST(X).
+        /// </summary>
+        /// <param name="index1">X or the first index.</param>
+        /// <param name="index2">Y or the second index.</param>
+        public void Div(int index1 = 0, int index2 = 1)
+        {
+            var num1 = Read(index1);
+            var num2 = Read(index2);
+
+            var result = (Half)((float)num1.Value / (float)num2.Value);
+
+            Write(index2, result);
+
+            Pop();
+        }
+
+        /// <summary>
+        /// Divides the specified value to ST(0).
+        /// </summary>
+        public void Div(Half value)
+        {
+            var num1 = Read(0);
+
+            var result = (Half)((float)num1.Value / (float)value);
+
+            Write(0, result);
+        }
+
+        private void Write(int index, Half value)
+        {
+            index = TOP + index;
+            if (index > MAX_REG - 1)
+            {
+                index -= MAX_REG;
+            }
+
+            _FPUStack[index] = value;
+        }
+	}
 }

@@ -1,4 +1,6 @@
-﻿namespace PipelineSimulation.Core.Instructions
+﻿using System;
+
+namespace PipelineSimulation.Core.Instructions
 {
     public class FLDR : Instruction
     {
@@ -12,9 +14,13 @@
 
         }
 
-        public override void Execute(ushort operand)
+        public override ushort Execute(ushort operand)
         {
-            // TODO
+            var reg = SourceRegister;
+
+            cpu.FPU.Push((Half)reg.Data);
+
+            return 0;
         }
 
         public override string ToText(ushort operand)

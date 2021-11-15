@@ -12,9 +12,14 @@
 
         }
 
-        public override void Execute(ushort operand)
+        public override ushort Execute(ushort operand)
         {
-            // TODO
+            var i1 = GetRegister1Code(operand);
+            var i2 = GetRegister2Code(operand);
+
+            cpu.FPU.Add(i1, i2);
+
+            return 0;
         }
 
         public override string ToText(ushort operand)

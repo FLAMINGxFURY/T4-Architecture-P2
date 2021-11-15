@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using PipelineSimulation.Core.Buffers;
+using PipelineSimulation.Core.Functional_Units;
 using PipelineSimulation.Core.Instructions;
 using PipelineSimulation.Core.Registers;
 
@@ -38,6 +39,10 @@ namespace PipelineSimulation.Core
 		public bool stopFetch = false;
 
 		public EFlags EFlags { get; } = new EFlags();
+
+        public ALU ALU { get; } = new ALU();
+        public ELU ELU { get; } = new ELU();
+        public FPU FPU { get; } = new FPU();
 
 		#region OpCode Defined Lists
 
@@ -192,60 +197,29 @@ namespace PipelineSimulation.Core
 		#region Pipeline Stages
 
 		void fet() {
-			Buffers[0].MoveContents(Buffers[1]);
 			Buffers[0].PerformBehavior(this);       // Moves PC forward, fetches next instruction
 		}
 
 		void dec() {
 			// TODO: Read buffer can be skipped
 			// TODO: as soon as END is decoded, don't allow any more fetches. (Allow program to run until buffers are empty)
-			Buffers[1].MoveContents(Buffers[2]);
 			Buffers[1].PerformBehavior(this);       // Fetches instruction, stores decoded instruction
 		}
 
 		void mrd() {
-			Buffers[2].MoveContents(Buffers[3]);
 			Buffers[2].PerformBehavior(this);       // Gets values in memory, sends them to functional units  
 		}
 
 		void ex() {
-			if (Buffers[3].DecodedInstruction != null) {
-				// TODO: Instruction decoding here needs to be more robust. MOVO is the only instruction writing out to memory, but a significant
-				// amount of our instructions write back to a register (I Type, R type, M type). Additionally, the R type instructions don't end in "R"
-
-				if (Buffers[3].DecodedInstruction.GetType().Name.EndsWith("O")) // TODO: This is really hacky 
-				{
-					Buffers[3].MoveContents(Buffers[4]); // mem write instructions
-				}
-				else if (Buffers[3].DecodedInstruction.GetType().Name.EndsWith("R")) {
-					Buffers[3].MoveContents(Buffers[5]); // reg write instructions
-				}
-				else {
-					CompletedInstructions.Add(Buffers[3].DecodedInstruction);
-				}
-
-				// TODO: should exececution happen first? Remember it can't move forward in the pipeline until clock cycles remaining == 0
-
-				Buffers[3].PerformBehavior(this);   // Executes
-
-				Buffers[3].Empty();
-			}
+            Buffers[3].PerformBehavior(this);		// Executes
 		}
 
 		void mwr() {
-			if (Buffers[4].DecodedInstruction != null) {
-				CompletedInstructions.Add(Buffers[4].DecodedInstruction);
-				Buffers[4].PerformBehavior(this);   // Writes to memory
-				Buffers[4].Empty();
-			}
+            Buffers[4].PerformBehavior(this);   // Writes to memory
 		}
 
 		void rwr() {
-			if (Buffers[5].DecodedInstruction != null) {
-				CompletedInstructions.Add(Buffers[5].DecodedInstruction);
-				Buffers[5].PerformBehavior(this);   // Writes to registers
-				Buffers[5].Empty();
-			}
+            Buffers[5].PerformBehavior(this);   // Writes to registers
 		}
 
 		#endregion

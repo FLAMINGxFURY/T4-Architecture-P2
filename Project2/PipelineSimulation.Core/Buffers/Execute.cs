@@ -1,6 +1,5 @@
-﻿
+﻿using System.Collections.Generic;
 using PipelineSimulation.Core.Instructions;
-using System.Collections.Generic;
 
 namespace PipelineSimulation.Core.Buffers
 {
@@ -16,40 +15,52 @@ namespace PipelineSimulation.Core.Buffers
 
         public override void PerformBehavior(CPU cpu)
         {
+            var ins = DecodedInstructions.Peek();
+
             // Check for dependency
-            if (DecodedInstruction.WritesToRegister)
+            if (ins.WritesToRegister)
             {
                 // If an instruction will write to a register
                 // and another instruction will try to read from that same register
                 // there's a dependency
 
-                CheckReadWriteDependency(cpu.Buffers[2].DecodedInstruction);
-                CheckReadWriteDependency(cpu.Buffers[1].DecodedInstruction);
+                CheckReadWriteDependency(ins, cpu.Buffers[2].DecodedInstructions.Peek());
+                CheckReadWriteDependency(ins, cpu.Buffers[1].DecodedInstructions.Peek());
             }
 
             // Check logical unit
-            // TODO
+            // TODO: Will this happen in each instructions execute?
 
-            if (DecodedInstruction != null)
-            {
-                DecodedInstruction.Execute(ReadMemory);
-            }
+            ins.Execute(ReadMemory);
 
             // Forwarding
             // TODO
+
+            if (cpu.OTypeOpCodes.Contains(ins.OpCode))
+            {
+                cpu.Buffers[4].DecodedInstructions.Enqueue(DecodedInstructions.Dequeue()); // Goto memwrite
+            }
+            else if (cpu.RTpyeOpCodes.Contains(ins.OpCode))
+            {
+                cpu.Buffers[5].DecodedInstructions.Enqueue(DecodedInstructions.Dequeue()); // Goto regwrite
+            }
+            else
+            {
+                cpu.CompletedInstructions.Add(DecodedInstructions.Dequeue());
+            }
         }
 
-        private void CheckReadWriteDependency(Instruction otherInstruction)
+        private void CheckReadWriteDependency(Instruction currentInstruction, Instruction otherInstruction)
         {
             if (otherInstruction != null && otherInstruction.UsesRegister)
             {
-                var writeReg = DecodedInstruction.GetRegister1Code(WorkingInstruction);
+                var writeReg = currentInstruction.GetRegister1Code(WorkingInstruction);
                 var readReg = otherInstruction.GetRegister2Code(WorkingInstruction);
 
                 if (writeReg == readReg)
                 {
-                    DecodedInstruction.WaitList.Add(otherInstruction);
-                    otherInstruction.WaitingFor = DecodedInstruction;
+                    currentInstruction.WaitList.Add(otherInstruction);
+                    otherInstruction.WaitingFor = currentInstruction;
                 }
             }
         }

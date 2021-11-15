@@ -4,6 +4,9 @@
     {
         public override int ID => 4;
 
+        public MemWrite(CPU cpuref) : base(cpuref) {
+        }
+
         public override void PerformBehavior(CPU cpu)
         {
             // TODO

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PipelineSimulation.Core.Registers;
+using System;
 using System.Collections.Generic;
 
 namespace PipelineSimulation.Core.Instructions
@@ -20,6 +21,12 @@ namespace PipelineSimulation.Core.Instructions
 
 		// Used to forward data to the instruction in the execute phase (type? idk went ushort for now)
 		public ushort DataBuffer { get; set; }
+
+		// The dest reg for the instruction
+		public Register DestinationRegister { get; set; }
+
+		// The dest addr for the isntruction
+		public uint DestinationAddr { get; set; }
 
 		// List of Instructions waiting on this one
 		public List<Instruction> WaitList { get; set; }

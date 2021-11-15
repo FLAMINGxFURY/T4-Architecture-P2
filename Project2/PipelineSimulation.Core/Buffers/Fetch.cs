@@ -5,6 +5,9 @@ namespace PipelineSimulation.Core.Buffers
     {
         public override int ID => 0;
 
+        public Fetch(CPU cpuref) : base(cpuref) {
+        }
+
         /// <summary>
         /// Gets the next instruction in memory, stores it in this buffer.
         /// Moves the PC forward.

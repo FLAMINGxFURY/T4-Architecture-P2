@@ -16,7 +16,6 @@ namespace PipelineSimulation.Core.Instructions
 		// Returns 0 because void type
 		public override ushort Execute(ushort operand) {
 			Console.WriteLine("End Reached");
-			cpu.End(); //TODO: The buffer needs to be handling this.
 			return (ushort)(0);
 		}
 

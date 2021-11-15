@@ -14,9 +14,9 @@ namespace PipelineSimulation.Core.Instructions
 
 		// Returns the value to be stored in the destination register
 		public override ushort Execute(ushort operand) {
-			var register = cpu.GetRegister(GetRegister1Code(operand));
+			DestinationRegister = cpu.GetRegister(GetRegister1Code(operand));
 
-			var val1 = register.Data;
+			var val1 = DestinationRegister.Data;
 			var val2 = GetImmediate(operand);
 
 			ushort ret = (ushort)(val1 - val2);
@@ -24,10 +24,10 @@ namespace PipelineSimulation.Core.Instructions
 			cpu.EFlags.SetAll
 			(
 				WouldBorrow(val1, val2),
-				Parity(register.Data),
+				Parity(DestinationRegister.Data),
 				AuxiliaryCarrySubtraction(val1, val2),
-				register.Data == 0,
-				register.Data < 0,
+				DestinationRegister.Data == 0,
+				DestinationRegister.Data < 0,
 				WouldOverflow(val1, val2)
 			);
 

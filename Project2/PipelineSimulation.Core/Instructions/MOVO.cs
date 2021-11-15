@@ -16,9 +16,7 @@ namespace PipelineSimulation.Core.Instructions
 		// Returns 0 because void type
 		public override ushort Execute(ushort operand) {
 			// Get memory address from s0/s1
-			var mem = GetMemoryAddress();
-
-			//TODO: we need to get this address to the buffer as well somehow
+			DestinationAddr = GetMemoryAddress();
 
 			// Get register
 			var reg = cpu.GetRegister(GetRegister1Code(operand));

@@ -15,11 +15,11 @@ namespace PipelineSimulation.Core.Instructions
 		// Returns the value to be stored in the destination register
 		public override ushort Execute(ushort operand) {
 			// src1
-			var srcReg1 = cpu.GetRegister(GetRegister1Code(operand));
+			DestinationRegister = cpu.GetRegister(GetRegister1Code(operand));
 			// src2
 			var srcReg2 = cpu.GetRegister(GetRegister2Code(operand));
 
-			var value1 = srcReg1.Data;
+			var value1 = DestinationRegister.Data;
 
 			var value2 = srcReg2.Data;
 
@@ -28,10 +28,10 @@ namespace PipelineSimulation.Core.Instructions
 			cpu.EFlags.SetAll
 			(
 				WouldCarry(value1, value2),
-				Parity(srcReg1.Data),
+				Parity(DestinationRegister.Data),
 				AuxiliaryCarryAddition(value1, value2),
-				srcReg1.Data == 0,
-				srcReg1.Data < 0,
+				DestinationRegister.Data == 0,
+				DestinationRegister.Data < 0,
 				WouldOverflow(value1, value2)
 			);
 

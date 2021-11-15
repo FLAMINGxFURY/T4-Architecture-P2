@@ -4,7 +4,11 @@ namespace PipelineSimulation.Core.Buffers
 {
     public class Decode : CPUBuffer
     {
-        public override int ID => 1;
+		
+		public override int ID => 1;
+
+        public Decode(CPU cpuref) : base(cpuref) {
+        }
 
         /// <summary>
         /// Gets the instruction from the fetch buffer. Decodes it.

@@ -7,6 +7,9 @@ namespace PipelineSimulation.Core.Buffers
     {
         public override int ID => 3;
 
+        public Execute(CPU cpuref) : base(cpuref) {
+        }
+
         public override void PerformBehavior(CPU cpu)
         {
             // Check for dependency

@@ -8,8 +8,6 @@ namespace PipelineSimulation.Core.Buffers
 		
 		public override int ID => 1;
 
-        public Queue<ushort> FetchedInstructions;
-
         public Decode(CPU cpuref) : base(cpuref) {
             FetchedInstructions = new Queue<ushort>();
         }
@@ -19,10 +17,19 @@ namespace PipelineSimulation.Core.Buffers
         /// </summary>
         public override void PerformBehavior(CPU cpu)
         {
+
+            WorkingInstruction = FetchedInstructions.Peek();
+
             // Decode it
             var decoded = (ushort)(WorkingInstruction >> 11);
             var ins = cpu.CreateInstructionInstance(decoded);
-            DecodedInstructions.Enqueue(ins);
+
+            // Add its op to the instruction
+            ins.Operand = WorkingInstruction;
+
+            // Determine where it needs to go next
+
+
         }
     }
 }

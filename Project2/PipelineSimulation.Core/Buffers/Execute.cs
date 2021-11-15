@@ -15,6 +15,9 @@ namespace PipelineSimulation.Core.Buffers
 
         public override void PerformBehavior(CPU cpu)
         {
+            if (DecodedInstructions.Count == 0)
+                return;
+
             var ins = DecodedInstructions.Peek();
 
             // Check for dependency
@@ -31,7 +34,7 @@ namespace PipelineSimulation.Core.Buffers
             // Check logical unit
             // TODO: Will this happen in each instructions execute?
 
-            ins.Execute(ReadMemory);
+            ins.Result = ins.Execute(ReadMemory);
 
             // Forwarding
             // TODO

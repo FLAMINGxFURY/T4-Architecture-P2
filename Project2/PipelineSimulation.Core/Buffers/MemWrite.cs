@@ -1,4 +1,6 @@
-﻿namespace PipelineSimulation.Core.Buffers
+﻿using System;
+
+namespace PipelineSimulation.Core.Buffers
 {
     public class MemWrite : CPUBuffer
     {
@@ -9,8 +11,23 @@
 
         public override void PerformBehavior(CPU cpu)
         {
-            // TODO
-            // !Important - this must call Memory.Unlock(addr) when done
+            if (DecodedInstructions.Count == 0)
+                return;
+
+            var ins = DecodedInstructions.Peek();
+            var addr = ins.DestinationAddr;
+
+            try
+            {
+                Memory.Unlock(addr);
+                Memory.StoreMemoryAtAddr(ins.Result, addr);
+
+                cpu.CompletedInstructions.Add(DecodedInstructions.Dequeue());
+            }
+            catch (AccessViolationException)
+            {
+                // TODO: stalling
+            }
         }
     }
 }

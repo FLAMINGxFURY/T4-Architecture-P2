@@ -154,7 +154,7 @@ namespace PipelineSimulation.Core
 
 				if (type.BaseType == typeof(CPUBuffer))
 				{
-					var buffer = (CPUBuffer)Activator.CreateInstance(type);
+					var buffer = (CPUBuffer)Activator.CreateInstance(type, this);
 					Buffers.Add(buffer.ID, buffer);
 				}
 			}

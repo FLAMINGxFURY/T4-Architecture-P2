@@ -37,6 +37,9 @@ namespace PipelineSimulation.Core.Instructions
 		// The operand that is passed to the instruction. This is hacked together.
 		public ushort Operand { get; set; }
 
+		// The result of the instruction's execution
+		public ushort Result { get; set; }
+
 		// List of Instructions waiting on this one
 		public List<Instruction> WaitList { get; set; }
 

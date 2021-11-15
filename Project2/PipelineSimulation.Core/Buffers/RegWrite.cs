@@ -9,7 +9,12 @@
 
         public override void PerformBehavior(CPU cpu)
         {
-            // TODO
+            if (DecodedInstructions.Count == 0)
+                return;
+
+            var ins = DecodedInstructions.Peek();
+            var value = ins.Result;
+            ins.DestinationRegister.Data = value;
         }
     }
 }

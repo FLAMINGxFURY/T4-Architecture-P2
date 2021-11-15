@@ -12,6 +12,9 @@ namespace PipelineSimulation.Core.Buffers
 
         public override void PerformBehavior(CPU cpu)
         {
+            if (DecodedInstructions.Count == 0)
+                return;
+
             // Mem read
             var addr = GetMemoryAddress();
 

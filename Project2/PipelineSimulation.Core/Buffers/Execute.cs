@@ -1,5 +1,6 @@
 ﻿
 using PipelineSimulation.Core.Instructions;
+using System.Collections.Generic;
 
 namespace PipelineSimulation.Core.Buffers
 {
@@ -7,7 +8,10 @@ namespace PipelineSimulation.Core.Buffers
     {
         public override int ID => 3;
 
+        public Dictionary<ushort, Instruction> usedRegisters;
+
         public Execute(CPU cpuref) : base(cpuref) {
+            usedRegisters = new Dictionary<ushort, Instruction>();
         }
 
         public override void PerformBehavior(CPU cpu)

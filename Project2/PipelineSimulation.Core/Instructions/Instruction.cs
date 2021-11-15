@@ -31,6 +31,9 @@ namespace PipelineSimulation.Core.Instructions
 		// The dest addr for the isntruction
 		public uint DestinationAddr { get; set; }
 
+		// The operand that is passed to the instruction. This is hacked together.
+		public ushort Operand { get; set; }
+
 		// List of Instructions waiting on this one
 		public List<Instruction> WaitList { get; set; }
 

@@ -16,6 +16,9 @@ namespace PipelineSimulation.Core.Buffers
         /// </summary>
         public Queue<Instruction> DecodedInstructions { get; protected set; }
 
+        // Only used by Fetch and Decode
+        public Queue<ushort> FetchedInstructions;
+
         /// <summary>
         /// Memory that is read after the read memory phase. This is not set
         /// until then.

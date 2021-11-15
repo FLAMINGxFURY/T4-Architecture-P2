@@ -7,8 +7,6 @@ namespace PipelineSimulation.Core.Buffers
     {
         public override int ID => 0;
 
-        public Queue<ushort> FetchedInstructions;
-
         public Fetch(CPU cpuref) : base(cpuref) {
             FetchedInstructions = new Queue<ushort>();
         }
@@ -19,8 +17,16 @@ namespace PipelineSimulation.Core.Buffers
         /// </summary>
         public override void PerformBehavior(CPU cpu)
         {
+            //First, pass to decode
+            if(FetchedInstructions.Count != 0) {
+                if(cpu.Buffers[1].FetchedInstructions.Count < 6) { //simulating size constraint
+                    cpu.Buffers[1].FetchedInstructions.Enqueue(FetchedInstructions.Dequeue()); // Pass
+                }
+			}
+            
+            //Next, grab next op
             var op = cpu.Rd.GetNextWord();  // This also moves the PC forward
-            WorkingInstruction = op;
+            FetchedInstructions.Enqueue(op);
         }
     }
 }

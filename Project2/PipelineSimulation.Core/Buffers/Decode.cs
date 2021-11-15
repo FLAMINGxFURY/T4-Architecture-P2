@@ -1,4 +1,5 @@
 ﻿using PipelineSimulation.Core.Instructions;
+using System.Collections.Generic;
 
 namespace PipelineSimulation.Core.Buffers
 {
@@ -7,7 +8,10 @@ namespace PipelineSimulation.Core.Buffers
 		
 		public override int ID => 1;
 
+        public Queue<ushort> FetchedInstructions;
+
         public Decode(CPU cpuref) : base(cpuref) {
+            FetchedInstructions = new Queue<ushort>();
         }
 
         /// <summary>
@@ -19,15 +23,6 @@ namespace PipelineSimulation.Core.Buffers
             var decoded = (ushort)(WorkingInstruction >> 11);
             var ins = cpu.CreateInstructionInstance(decoded);
             DecodedInstructions.Enqueue(ins);
-
-            // Immediate read
-            if (DecodedInstruction.GetType().Name.EndsWith("I"))
-            {
-                var imm = (ushort)(0b_0000_0000_1111_1111 & WorkingInstruction);
-            }
-
-            // Send imm to functional unit
-            // TODO
         }
     }
 }

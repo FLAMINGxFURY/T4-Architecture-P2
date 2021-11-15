@@ -8,6 +8,9 @@ namespace PipelineSimulation.Core.Buffers
 		
 		public override int ID => 1;
 
+        // This is stored so that jumps know what instruction they are waiting on
+        public Instruction LastDelivered;
+
         public Decode(CPU cpuref) : base(cpuref) {
             FetchedInstructions = new Queue<ushort>();
         }
@@ -26,10 +29,17 @@ namespace PipelineSimulation.Core.Buffers
             // Add its op to the instruction
             ins.Operand = WorkingInstruction;
 
-            // TODO: Based on instruction type add Source Register, Destination Register, and Destination Address
-            // to the Instruction
+            // Based on instruction type add Source Register and Destination Register to the ins
 
+            // Source Reg: R-Type instructions
+            if(cpu.RTpyeOpCodes.Contains(decoded)) {
+                ins.SourceRegister = cpu.GetRegister(ins.GetRegister2Code(WorkingInstruction));
+			}
 
+            // Destination Reg: R-Type, I-Type, M-Type
+            if(cpu.RTpyeOpCodes.Contains(decoded) || cpu.ITypeOpCodes.Contains(decoded) || cpu.MTypeOpCodes.Contains(decoded)) {
+                ins.DestinationRegister = cpu.GetRegister(ins.GetRegister1Code(WorkingInstruction));
+			}
             
             // Determine where it needs to go next
             // TODO: Jumps need to execute here. They have a completion dependency on the last instruction

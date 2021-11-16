@@ -14,6 +14,7 @@
 
             var ins = DecodedInstructions.Peek();
             var value = ins.Result;
+            //TODO: check for data hazard
             ins.DestinationRegister.Data = value;
         }
     }

@@ -157,5 +157,6 @@ namespace PipelineSimulation.WinForm
         {
             cpu.NextClockCycle();
         }
+
     }
 }

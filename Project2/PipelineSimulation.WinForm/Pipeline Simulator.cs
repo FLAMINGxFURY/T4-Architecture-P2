@@ -22,7 +22,7 @@ namespace PipelineSimulation.WinForm
         string core2FilePath;
         string core3FilePath;
         string core4FilePath;
-        int coreNumber;
+        int coreNumber = 1;
 
         public PipelineSimulator()
         {
@@ -127,7 +127,7 @@ namespace PipelineSimulation.WinForm
         //Change cores to 2
         private void changeCores_2(object sender, EventArgs e)
         {
-            this.coreNumber = 3;
+            this.coreNumber = 2;
             Core1ItemsVisible();
             Core2ItemsVisible();
             Core3ItemsHide();
@@ -152,13 +152,6 @@ namespace PipelineSimulation.WinForm
             Core2ItemsVisible();
             Core3ItemsVisible();
             Core4ItemsVisible();
-        }
-
-
-        //Open file
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            
         }
 
         //Closes program

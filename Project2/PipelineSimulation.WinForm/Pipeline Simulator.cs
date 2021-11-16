@@ -18,10 +18,10 @@ namespace PipelineSimulation.WinForm
 
         //these attributes could be used in a method/class to create all needed
         //objects & threads to start the simulation
-        string core1FilePath;
-        string core2FilePath;
-        string core3FilePath;
-        string core4FilePath;
+        string core1FilePath = null;
+        string core2FilePath = null;
+        string core3FilePath = null;
+        string core4FilePath = null;
         int coreNumber = 1;
 
         public PipelineSimulator()
@@ -205,6 +205,49 @@ namespace PipelineSimulation.WinForm
         private void core4ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.core4FilePath = openFile();
+        }
+
+        private void Begin_Click(object sender, EventArgs e)
+        {
+            if(ConfigIsValid() == true)
+            {
+                //begin simulation
+            }
+
+            MessageBox.Show("Please open files for all cores", "Pipeline Simulator");
+        }
+
+        private bool ConfigIsValid()
+        {
+            switch (this.coreNumber)
+            {
+                case 1:
+                    if(core1FilePath != null)
+                    {
+                        return true;
+                    }
+                    return false;
+                case 2:
+                    if(core2FilePath != null && core1FilePath != null)
+                    {
+                        return true;
+                    }
+                    return false;
+                case 3:
+                    if(core3FilePath != null && core2FilePath != null && core3FilePath != null)
+                    {
+                        return true;
+                    }
+                    return false;
+                case 4:
+                    if(core4FilePath != null && core3FilePath != null && core2FilePath != null && core1FilePath != null)
+                    {
+                        return true;
+                    }
+                    return false;
+            }
+
+            return false;
         }
     }
 }

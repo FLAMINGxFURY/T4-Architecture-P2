@@ -47,8 +47,8 @@ namespace PipelineSimulation.WinForm
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.documentationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.core1ProgBox = new System.Windows.Forms.RichTextBox();
+            this.core1ProgLabel = new System.Windows.Forms.Label();
             this.core1Box = new System.Windows.Forms.RichTextBox();
             this.core1Label = new System.Windows.Forms.Label();
             this.core3Box = new System.Windows.Forms.RichTextBox();
@@ -62,17 +62,14 @@ namespace PipelineSimulation.WinForm
             this.core3PipelineLabel = new System.Windows.Forms.Label();
             this.core4PipelineLabel = new System.Windows.Forms.Label();
             this.nextClockBtn = new System.Windows.Forms.Button();
-            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.core3ProgBox = new System.Windows.Forms.RichTextBox();
+            this.core3ProgLabel = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.richTextBox3 = new System.Windows.Forms.RichTextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.richTextBox4 = new System.Windows.Forms.RichTextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
+            this.core4ProgBox = new System.Windows.Forms.RichTextBox();
+            this.core4ProgLabel = new System.Windows.Forms.Label();
+            this.core2ProgBox = new System.Windows.Forms.RichTextBox();
+            this.core2ProgLabel = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -114,24 +111,28 @@ namespace PipelineSimulation.WinForm
             this.core1ToolStripMenuItem.Name = "core1ToolStripMenuItem";
             this.core1ToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
             this.core1ToolStripMenuItem.Text = "Core 1";
+            this.core1ToolStripMenuItem.Click += new System.EventHandler(this.core1ToolStripMenuItem_Click);
             // 
             // core2ToolStripMenuItem
             // 
             this.core2ToolStripMenuItem.Name = "core2ToolStripMenuItem";
             this.core2ToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
             this.core2ToolStripMenuItem.Text = "Core 2";
+            this.core2ToolStripMenuItem.Click += new System.EventHandler(this.core2ToolStripMenuItem_Click);
             // 
             // core3ToolStripMenuItem
             // 
             this.core3ToolStripMenuItem.Name = "core3ToolStripMenuItem";
             this.core3ToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
             this.core3ToolStripMenuItem.Text = "Core 3";
+            this.core3ToolStripMenuItem.Click += new System.EventHandler(this.core3ToolStripMenuItem_Click);
             // 
             // core4ToolStripMenuItem
             // 
             this.core4ToolStripMenuItem.Name = "core4ToolStripMenuItem";
             this.core4ToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
             this.core4ToolStripMenuItem.Text = "Core 4";
+            this.core4ToolStripMenuItem.Click += new System.EventHandler(this.core4ToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
@@ -156,7 +157,7 @@ namespace PipelineSimulation.WinForm
             this.toolStripMenuItem4,
             this.toolStripMenuItem5});
             this.changeCoresToolStripMenuItem.Name = "changeCoresToolStripMenuItem";
-            this.changeCoresToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.changeCoresToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.changeCoresToolStripMenuItem.Text = "Change Cores";
             // 
             // toolStripMenuItem2
@@ -208,22 +209,22 @@ namespace PipelineSimulation.WinForm
             this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(157, 22);
             this.aboutToolStripMenuItem1.Text = "About";
             // 
-            // richTextBox1
+            // core1ProgBox
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(23, 178);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(181, 292);
-            this.richTextBox1.TabIndex = 2;
-            this.richTextBox1.Text = "";
+            this.core1ProgBox.Location = new System.Drawing.Point(23, 178);
+            this.core1ProgBox.Name = "core1ProgBox";
+            this.core1ProgBox.Size = new System.Drawing.Size(181, 292);
+            this.core1ProgBox.TabIndex = 2;
+            this.core1ProgBox.Text = "";
             // 
-            // label1
+            // core1ProgLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(23, 160);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 15);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Program";
+            this.core1ProgLabel.AutoSize = true;
+            this.core1ProgLabel.Location = new System.Drawing.Point(23, 160);
+            this.core1ProgLabel.Name = "core1ProgLabel";
+            this.core1ProgLabel.Size = new System.Drawing.Size(53, 15);
+            this.core1ProgLabel.TabIndex = 3;
+            this.core1ProgLabel.Text = "Program";
             // 
             // core1Box
             // 
@@ -347,22 +348,22 @@ namespace PipelineSimulation.WinForm
             this.nextClockBtn.UseVisualStyleBackColor = true;
             this.nextClockBtn.Click += new System.EventHandler(this.nxtClockBtn_Click);
             // 
-            // richTextBox2
+            // core3ProgBox
             // 
-            this.richTextBox2.Location = new System.Drawing.Point(23, 562);
-            this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.Size = new System.Drawing.Size(181, 298);
-            this.richTextBox2.TabIndex = 18;
-            this.richTextBox2.Text = "";
+            this.core3ProgBox.Location = new System.Drawing.Point(23, 562);
+            this.core3ProgBox.Name = "core3ProgBox";
+            this.core3ProgBox.Size = new System.Drawing.Size(181, 298);
+            this.core3ProgBox.TabIndex = 18;
+            this.core3ProgBox.Text = "";
             // 
-            // label2
+            // core3ProgLabel
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(23, 544);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 15);
-            this.label2.TabIndex = 19;
-            this.label2.Text = "Program";
+            this.core3ProgLabel.AutoSize = true;
+            this.core3ProgLabel.Location = new System.Drawing.Point(23, 544);
+            this.core3ProgLabel.Name = "core3ProgLabel";
+            this.core3ProgLabel.Size = new System.Drawing.Size(53, 15);
+            this.core3ProgLabel.TabIndex = 19;
+            this.core3ProgLabel.Text = "Program";
             // 
             // button1
             // 
@@ -382,86 +383,53 @@ namespace PipelineSimulation.WinForm
             this.button2.Text = "Run to End";
             this.button2.UseVisualStyleBackColor = true;
             // 
-            // richTextBox3
+            // core4ProgBox
             // 
-            this.richTextBox3.Location = new System.Drawing.Point(657, 562);
-            this.richTextBox3.Name = "richTextBox3";
-            this.richTextBox3.Size = new System.Drawing.Size(181, 298);
-            this.richTextBox3.TabIndex = 22;
-            this.richTextBox3.Text = "";
+            this.core4ProgBox.Location = new System.Drawing.Point(657, 562);
+            this.core4ProgBox.Name = "core4ProgBox";
+            this.core4ProgBox.Size = new System.Drawing.Size(181, 298);
+            this.core4ProgBox.TabIndex = 22;
+            this.core4ProgBox.Text = "";
             // 
-            // label3
+            // core4ProgLabel
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(657, 544);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(53, 15);
-            this.label3.TabIndex = 23;
-            this.label3.Text = "Program";
+            this.core4ProgLabel.AutoSize = true;
+            this.core4ProgLabel.Location = new System.Drawing.Point(657, 544);
+            this.core4ProgLabel.Name = "core4ProgLabel";
+            this.core4ProgLabel.Size = new System.Drawing.Size(53, 15);
+            this.core4ProgLabel.TabIndex = 23;
+            this.core4ProgLabel.Text = "Program";
             // 
-            // richTextBox4
+            // core2ProgBox
             // 
-            this.richTextBox4.Location = new System.Drawing.Point(657, 172);
-            this.richTextBox4.Name = "richTextBox4";
-            this.richTextBox4.Size = new System.Drawing.Size(181, 298);
-            this.richTextBox4.TabIndex = 24;
-            this.richTextBox4.Text = "";
+            this.core2ProgBox.Location = new System.Drawing.Point(657, 172);
+            this.core2ProgBox.Name = "core2ProgBox";
+            this.core2ProgBox.Size = new System.Drawing.Size(181, 298);
+            this.core2ProgBox.TabIndex = 24;
+            this.core2ProgBox.Text = "";
             // 
-            // label4
+            // core2ProgLabel
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(657, 154);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(53, 15);
-            this.label4.TabIndex = 25;
-            this.label4.Text = "Program";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label5.Location = new System.Drawing.Point(657, 69);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(30, 21);
-            this.label5.TabIndex = 26;
-            this.label5.Text = "L1:";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label6.Location = new System.Drawing.Point(808, 69);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(30, 21);
-            this.label6.TabIndex = 27;
-            this.label6.Text = "L2:";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label7.Location = new System.Drawing.Point(962, 69);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(30, 21);
-            this.label7.TabIndex = 28;
-            this.label7.Text = "L3:";
+            this.core2ProgLabel.AutoSize = true;
+            this.core2ProgLabel.Location = new System.Drawing.Point(657, 154);
+            this.core2ProgLabel.Name = "core2ProgLabel";
+            this.core2ProgLabel.Size = new System.Drawing.Size(53, 15);
+            this.core2ProgLabel.TabIndex = 25;
+            this.core2ProgLabel.Text = "Program";
             // 
             // PipelineSimulator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1264, 893);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.richTextBox4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.richTextBox3);
+            this.Controls.Add(this.core2ProgLabel);
+            this.Controls.Add(this.core2ProgBox);
+            this.Controls.Add(this.core4ProgLabel);
+            this.Controls.Add(this.core4ProgBox);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.richTextBox2);
+            this.Controls.Add(this.core3ProgLabel);
+            this.Controls.Add(this.core3ProgBox);
             this.Controls.Add(this.nextClockBtn);
             this.Controls.Add(this.core4PipelineLabel);
             this.Controls.Add(this.core3PipelineLabel);
@@ -475,8 +443,8 @@ namespace PipelineSimulation.WinForm
             this.Controls.Add(this.core3Box);
             this.Controls.Add(this.core1Label);
             this.Controls.Add(this.core1Box);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.richTextBox1);
+            this.Controls.Add(this.core1ProgLabel);
+            this.Controls.Add(this.core1ProgBox);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
@@ -503,8 +471,8 @@ namespace PipelineSimulation.WinForm
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
-        private System.Windows.Forms.RichTextBox richTextBox1;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.RichTextBox core1ProgBox;
+        private System.Windows.Forms.Label core1ProgLabel;
         private System.Windows.Forms.RichTextBox core1Box;
         private System.Windows.Forms.Label core1Label;
         private System.Windows.Forms.RichTextBox core2Box;
@@ -519,21 +487,18 @@ namespace PipelineSimulation.WinForm
         private System.Windows.Forms.Label core4PipelineLabel;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem1;
         private System.Windows.Forms.Button nextClockBtn;
-        private System.Windows.Forms.RichTextBox richTextBox2;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.RichTextBox core3ProgBox;
+        private System.Windows.Forms.Label core3ProgLabel;
         private System.Windows.Forms.ToolStripMenuItem core1ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem core2ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem core3ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem core4ToolStripMenuItem;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.RichTextBox richTextBox3;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.RichTextBox richTextBox4;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.RichTextBox core4ProgBox;
+        private System.Windows.Forms.Label core4ProgLabel;
+        private System.Windows.Forms.RichTextBox core2ProgBox;
+        private System.Windows.Forms.Label core2ProgLabel;
     }
 }
 

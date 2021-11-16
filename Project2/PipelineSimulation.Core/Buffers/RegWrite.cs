@@ -1,4 +1,6 @@
-﻿namespace PipelineSimulation.Core.Buffers
+﻿using PipelineSimulation.Core.Instructions;
+
+namespace PipelineSimulation.Core.Buffers
 {
     public class RegWrite : CPUBuffer
     {
@@ -9,13 +11,24 @@
 
         public override void PerformBehavior(CPU cpu)
         {
-            if (DecodedInstructions.Count == 0)
-                return;
+            if (ReadyInstructions.Count > 0)
+            {
+                cpu.CompletedInstructions.Add(ReadyInstructions.Dequeue());
+            }
 
-            var ins = DecodedInstructions.Peek();
-            var value = ins.Result;
-            //TODO: check for data hazard
-            ins.DestinationRegister.Data = value;
+            if (DecodedInstructions.Count > 0)
+            {
+                var ins = DecodedInstructions.Peek();
+
+                if (ins is NOP) // This can occur when there is a bubble (stalling)
+                    return;
+
+                var value = ins.Result;
+                //TODO: check for data hazard
+                ins.DestinationRegister.Data = value;
+
+                ReadyInstructions.Enqueue(DecodedInstructions.Dequeue());
+            }
         }
     }
 }

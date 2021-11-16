@@ -11,7 +11,7 @@ namespace PipelineSimulation.ConsoleApp
         {
             var cpu = new CPU();
 
-            cpu.Rd.fileStr = "../../../../../Example 1.bin";
+            cpu.Rd.fileStr = @"..\..\..\..\ConditionalLogic.bin";
             cpu.Rd.OpenFile();
 
             while (!cpu.endReached)
@@ -24,10 +24,21 @@ namespace PipelineSimulation.ConsoleApp
                 for (var i = 0; i < cpu.Buffers.Count; i++)
                 {
                     var buffer = cpu.Buffers[i];
-                    Console.Write($"{buffer.GetType().Name}: {buffer.WorkingInstruction}");
-                    if (buffer.DecodedInstruction != null && buffer.DecodedInstruction.WaitingFor != null)
+                    if (buffer.ReadyInstructions.Count > 0)
                     {
-                        Console.Write($" | {buffer.DecodedInstruction} <- {buffer.DecodedInstruction.WaitingFor}");
+                        Console.Write($"{buffer.GetType().Name}: {buffer.ReadyInstructions.Peek()}");
+                    }
+                    else if (buffer.DecodedInstructions.Count > 0)
+                    {
+                        Console.Write($"{buffer.GetType().Name}: {buffer.DecodedInstructions.Peek()}");
+                    }
+                    else if (buffer.FetchedInstructions != null && buffer.FetchedInstructions.Count > 0)
+                    {
+                        Console.Write($"{buffer.GetType().Name}: {buffer.FetchedInstructions.Peek()}");
+                    }
+                    else 
+                    {
+                        Console.Write($"{buffer.GetType().Name}: [ ]");
                     }
 
                     Console.WriteLine();

@@ -15,69 +15,56 @@ namespace PipelineSimulation.Core.Buffers
 
         public override void PerformBehavior(CPU cpu)
         {
-            if (DecodedInstructions.Count == 0)
-                return;
-
-            var ins = DecodedInstructions.Peek();
-
-            // Check for dependency
-            if (ins.WritesToRegister)
+            if (ReadyInstructions.Count > 0)
             {
-                // If an instruction will write to a register
-                // and another instruction will try to read from that same register
-                // there's a dependency
+                var ins = ReadyInstructions.Dequeue();
 
-                CheckReadWriteDependency(ins, cpu.Buffers[2].DecodedInstructions.Peek());
-                CheckReadWriteDependency(ins, cpu.Buffers[1].DecodedInstructions.Peek());
-            }
-
-            // Check logical unit
-            // TODO: Will this happen in each instructions execute?
-            bool logicUnitAvailable;
-            if      (cpu.ALU.CurrentlyRunning != null && cpu.ALUOpCodes.Contains(ins.OpCode))
-                logicUnitAvailable = true;
-            else if (cpu.ELU.CurrentlyRunning != null && cpu.ELUOpCodes.Contains(ins.OpCode))
-                logicUnitAvailable = true;
-            else if (cpu.FPU.CurrentlyRunning != null && cpu.FPUOpCodes.Contains(ins.OpCode))
-                logicUnitAvailable = true;
-            else
-                logicUnitAvailable = false;
-
-
-            if (ins != null && logicUnitAvailable)
-            {
-                ins.Result = ins.Execute(ReadMemory);
-            }
-
-            // Forwarding
-            // TODO
-
-            if (cpu.OTypeOpCodes.Contains(ins.OpCode))
-            {
-                cpu.Buffers[4].DecodedInstructions.Enqueue(DecodedInstructions.Dequeue()); // Goto memwrite
-            }
-            else if (cpu.RTpyeOpCodes.Contains(ins.OpCode))
-            {
-                cpu.Buffers[5].DecodedInstructions.Enqueue(DecodedInstructions.Dequeue()); // Goto regwrite
-            }
-            else
-            {
-                cpu.CompletedInstructions.Add(DecodedInstructions.Dequeue());
-            }
-        }
-
-        private void CheckReadWriteDependency(Instruction currentInstruction, Instruction otherInstruction)
-        {
-            if (otherInstruction != null && otherInstruction.UsesRegister)
-            {
-                var writeReg = currentInstruction.GetRegister1Code(WorkingInstruction);
-                var readReg = otherInstruction.GetRegister2Code(WorkingInstruction);
-
-                if (writeReg == readReg)
+                if (cpu.OTypeOpCodes.Contains(ins.OpCode))
                 {
-                    currentInstruction.WaitList.Add(otherInstruction);
-                    otherInstruction.WaitingFor = currentInstruction;
+                    cpu.Buffers[4].DecodedInstructions.Enqueue(ins); // Goto memwrite
                 }
+                else if (cpu.RTpyeOpCodes.Contains(ins.OpCode))
+                {
+                    cpu.Buffers[5].DecodedInstructions.Enqueue(ins); // Goto regwrite
+                }
+                else
+                {
+                    cpu.CompletedInstructions.Add(ins);
+                }
+            }
+
+            if (DecodedInstructions.Count > 0)
+            {
+                var ins = DecodedInstructions.Peek();
+
+                // Check logical unit
+                // TODO: Will this happen in each instructions execute?
+                bool logicUnitAvailable;
+                if (cpu.ALU.CurrentlyRunning == null && cpu.ALUOpCodes.Contains(ins.OpCode))
+                    logicUnitAvailable = true;
+                else if (cpu.ELU.CurrentlyRunning == null && cpu.ELUOpCodes.Contains(ins.OpCode))
+                    logicUnitAvailable = true;
+                else if (cpu.FPU.CurrentlyRunning == null && cpu.FPUOpCodes.Contains(ins.OpCode))
+                    logicUnitAvailable = true;
+                else
+                    logicUnitAvailable = false;
+
+                if (logicUnitAvailable)
+                {
+                    ins.Result = ins.Execute(ReadMemory);
+                }
+                else
+                {
+                    // Unit not available, stall until it is
+                    cpu.Buffers[3].DecodedInstructions.Enqueue(new NOP(cpu));   // EXECUTE
+                    cpu.Buffers[4].DecodedInstructions.Enqueue(new NOP(cpu));   // MEM WRITE
+                    cpu.Buffers[5].DecodedInstructions.Enqueue(new NOP(cpu));   // REG WRITE
+                }
+
+                // Forwarding
+                // TODO
+
+                ReadyInstructions.Enqueue(DecodedInstructions.Dequeue());
             }
         }
     }

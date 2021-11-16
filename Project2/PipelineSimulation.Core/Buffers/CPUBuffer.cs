@@ -16,6 +16,12 @@ namespace PipelineSimulation.Core.Buffers
         /// </summary>
         public Queue<Instruction> DecodedInstructions { get; protected set; }
 
+        /// <summary>
+        /// Also only set after the decode phase. This holds instructions that
+        /// can be moved onto the next phase during the next clock cycle.
+        /// </summary>
+        public Queue<Instruction> ReadyInstructions { get; protected set; } = new Queue<Instruction>();
+
         // Only used by Fetch and Decode
         public Queue<ushort> FetchedInstructions;
 

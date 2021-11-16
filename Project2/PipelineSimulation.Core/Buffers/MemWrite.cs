@@ -1,4 +1,5 @@
 ﻿using System;
+using PipelineSimulation.Core.Instructions;
 
 namespace PipelineSimulation.Core.Buffers
 {
@@ -11,22 +12,30 @@ namespace PipelineSimulation.Core.Buffers
 
         public override void PerformBehavior(CPU cpu)
         {
-            if (DecodedInstructions.Count == 0)
-                return;
-
-            var ins = DecodedInstructions.Peek();
-            var addr = ins.DestinationAddr;
-
-            try
+            if (ReadyInstructions.Count > 0)
             {
-                Memory.Unlock(addr);
-                Memory.StoreMemoryAtAddr(ins.Result, addr);
-
-                cpu.CompletedInstructions.Add(DecodedInstructions.Dequeue());
+                cpu.CompletedInstructions.Add(ReadyInstructions.Dequeue());
             }
-            catch (AccessViolationException)
+
+            if (DecodedInstructions.Count > 0)
             {
-                // TODO: stalling
+                var ins = DecodedInstructions.Peek();
+                var addr = ins.DestinationAddr;
+
+                if (ins is NOP) // This can occur when there is a bubble (stalling)
+                    return;
+
+                try
+                {
+                    Memory.Unlock(addr);
+                    Memory.StoreMemoryAtAddr(ins.Result, addr);
+
+                    ReadyInstructions.Enqueue(DecodedInstructions.Dequeue());
+                }
+                catch (AccessViolationException)
+                {
+                    cpu.Buffers[4].DecodedInstructions.Enqueue(new NOP(cpu));
+                }
             }
         }
     }

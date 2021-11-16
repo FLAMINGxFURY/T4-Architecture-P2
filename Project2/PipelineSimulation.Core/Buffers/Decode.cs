@@ -21,6 +21,30 @@ namespace PipelineSimulation.Core.Buffers
         /// </summary>
         public override void PerformBehavior(CPU cpu)
         {
+            // Move any decoded instruction to next phase
+            if (DecodedInstructions.Count > 0)
+            {
+                var ins = DecodedInstructions.Dequeue();
+
+                if (cpu.MTypeOpCodes.Contains(ins.OpCode))
+                {
+                    if (cpu.Buffers[2].DecodedInstructions.Count < 6)
+                    {
+                        //simulate size constraint
+                        cpu.Buffers[2].DecodedInstructions.Enqueue(ins);
+                        FetchedInstructions.Dequeue();
+                    }
+                }
+                else
+                {
+                    if (cpu.Buffers[3].DecodedInstructions.Count < 6)
+                    {
+                        cpu.Buffers[3].DecodedInstructions.Enqueue(ins);
+                        FetchedInstructions.Dequeue();
+                    }
+                }
+            }
+
             if (FetchedInstructions.Count > 0)
             {
                 WorkingInstruction = FetchedInstructions.Peek();
@@ -28,6 +52,8 @@ namespace PipelineSimulation.Core.Buffers
                 // Decode it
                 var decoded = (ushort) (WorkingInstruction >> 11);
                 var ins = cpu.CreateInstructionInstance(decoded);
+
+                var operands = (ushort)(0b_0000_0111_1111_1111 & WorkingInstruction);
 
                 // Add its op to the instruction
                 ins.Operand = WorkingInstruction;
@@ -37,14 +63,14 @@ namespace PipelineSimulation.Core.Buffers
                 // Source Reg: R-Type instructions
                 if (cpu.RTpyeOpCodes.Contains(decoded))
                 {
-                    ins.SourceRegister = cpu.GetRegister(ins.GetRegister2Code(WorkingInstruction));
+                    ins.SourceRegister = cpu.GetRegister(ins.GetRegister2Code(operands));
                 }
 
                 // Destination Reg: R-Type, I-Type, M-Type
                 if (cpu.RTpyeOpCodes.Contains(decoded) || cpu.ITypeOpCodes.Contains(decoded) ||
                     cpu.MTypeOpCodes.Contains(decoded) || cpu.OTypeOpCodes.Contains(decoded))
                 {
-                    ins.DestinationRegister = cpu.GetRegister(ins.GetRegister1Code(WorkingInstruction));
+                    ins.DestinationRegister = cpu.GetRegister(ins.GetRegister1Code(operands));
                 }
 
                 // Determine where it needs to go next
@@ -70,23 +96,18 @@ namespace PipelineSimulation.Core.Buffers
 
                 }
 
-                // If not a jump, determine whether it needs to go to MemRead or Execute based on opcode.
-                if (cpu.MTypeOpCodes.Contains(decoded))
+                DecodedInstructions.Enqueue(ins);
+
+                // In the decode phase is where a decoded instruction checks to see specifically if the instruction in execute phase
+                // writes to a register
+                if (cpu.Buffers[3].DecodedInstructions.Count > 0 && ins.DestinationRegister == cpu.Buffers[3].DecodedInstructions.Peek().SourceRegister && ins.DestinationRegister != null)
                 {
-                    if (cpu.Buffers[2].DecodedInstructions.Count < 6)
-                    {
-                        //simulate size constraint
-                        cpu.Buffers[2].DecodedInstructions.Enqueue(ins);
-                        FetchedInstructions.Dequeue();
-                    }
-                }
-                else
-                {
-                    if (cpu.Buffers[3].DecodedInstructions.Count < 6)
-                    {
-                        cpu.Buffers[3].DecodedInstructions.Enqueue(ins);
-                        FetchedInstructions.Dequeue();
-                    }
+                    // If it does, stall in every part of the pipeline
+                    cpu.Buffers[1].DecodedInstructions.Enqueue(new NOP(cpu));   // DECODE
+                    cpu.Buffers[2].DecodedInstructions.Enqueue(new NOP(cpu));   // MEM READ
+                    cpu.Buffers[3].DecodedInstructions.Enqueue(new NOP(cpu));   // EXECUTE
+                    cpu.Buffers[4].DecodedInstructions.Enqueue(new NOP(cpu));   // MEM WRITE
+                    cpu.Buffers[5].DecodedInstructions.Enqueue(new NOP(cpu));   // REG WRITE
                 }
             }
         }

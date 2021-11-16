@@ -33,8 +33,21 @@ namespace PipelineSimulation.Core.Buffers
 
             // Check logical unit
             // TODO: Will this happen in each instructions execute?
+            bool logicUnitAvailable;
+            if      (cpu.ALU.CurrentlyRunning != null && cpu.ALUOpCodes.Contains(ins.OpCode))
+                logicUnitAvailable = true;
+            else if (cpu.ELU.CurrentlyRunning != null && cpu.ELUOpCodes.Contains(ins.OpCode))
+                logicUnitAvailable = true;
+            else if (cpu.FPU.CurrentlyRunning != null && cpu.FPUOpCodes.Contains(ins.OpCode))
+                logicUnitAvailable = true;
+            else
+                logicUnitAvailable = false;
 
-            ins.Result = ins.Execute(ReadMemory);
+
+            if (ins != null && logicUnitAvailable)
+            {
+                ins.Result = ins.Execute(ReadMemory);
+            }
 
             // Forwarding
             // TODO

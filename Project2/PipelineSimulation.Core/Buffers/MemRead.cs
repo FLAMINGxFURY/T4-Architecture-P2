@@ -32,7 +32,7 @@ namespace PipelineSimulation.Core.Buffers
 
                 }
                 catch (AccessViolationException e) {
-                    //TODO: add stall
+                    //Doing nothing here is inherently a stall because no data is being moved between buffers
                 }
             }
         }

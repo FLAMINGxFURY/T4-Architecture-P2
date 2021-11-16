@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using PipelineSimulation.Core.Instructions;
 
 namespace PipelineSimulation.Core.Buffers
@@ -63,8 +64,16 @@ namespace PipelineSimulation.Core.Buffers
 
                 // Forwarding
                 // TODO
-
+                
                 ReadyInstructions.Enqueue(DecodedInstructions.Dequeue());
+
+                if (ins.Cycles > 1)
+                {
+                    for (var i = 0; i < ins.Cycles; i++)
+                    {
+                        cpu.Buffers[3].DecodedInstructions.Enqueue(new NOP(cpu));
+                    }
+                }
             }
         }
     }

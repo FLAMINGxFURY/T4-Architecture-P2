@@ -11,7 +11,7 @@ namespace PipelineSimulation.ConsoleApp
         {
             var cpu = new CPU();
 
-            cpu.Rd.fileStr = @"..\..\..\..\ConditionalLogic.bin";
+            cpu.Rd.fileStr = @"..\..\..\..\FPAddSub.bin";
             cpu.Rd.OpenFile();
 
             while (!cpu.endReached)
@@ -26,15 +26,27 @@ namespace PipelineSimulation.ConsoleApp
                     var buffer = cpu.Buffers[i];
                     if (buffer.ReadyInstructions.Count > 0)
                     {
-                        Console.Write($"{buffer.GetType().Name}: {buffer.ReadyInstructions.Peek()}");
+                        Console.Write($"{buffer.GetType().Name}: ");
+                        foreach (var ins in buffer.ReadyInstructions)
+                        {
+                            Console.Write($"{ins} ");
+                        }
                     }
                     else if (buffer.DecodedInstructions.Count > 0)
                     {
-                        Console.Write($"{buffer.GetType().Name}: {buffer.DecodedInstructions.Peek()}");
+                        Console.Write($"{buffer.GetType().Name}: ");
+                        foreach (var ins in buffer.DecodedInstructions)
+                        {
+                            Console.Write($"{ins} ");
+                        }
                     }
                     else if (buffer.FetchedInstructions != null && buffer.FetchedInstructions.Count > 0)
                     {
-                        Console.Write($"{buffer.GetType().Name}: {buffer.FetchedInstructions.Peek()}");
+                        Console.Write($"{buffer.GetType().Name}: ");
+                        foreach (var ins in buffer.FetchedInstructions)
+                        {
+                            Console.Write($"{ins} ");
+                        }
                     }
                     else 
                     {

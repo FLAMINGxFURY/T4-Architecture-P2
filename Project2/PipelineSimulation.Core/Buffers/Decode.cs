@@ -111,18 +111,17 @@ namespace PipelineSimulation.Core.Buffers
 
                 DecodedInstructions.Enqueue(ins);
 
-                // In the decode phase is where a decoded instruction checks to see specifically if the instruction in execute phase
-                // writes to a register
-                if (cpu.Buffers[3].DecodedInstructions.Count > 0 && ins.DestinationRegister == cpu.Buffers[3].DecodedInstructions.Peek().SourceRegister && ins.DestinationRegister != null)
-                {
-                    // If it does, stall in every part of the pipeline
-                    cpu.Buffers[1].DecodedInstructions.Enqueue(new NOP(cpu));   // DECODE
-                    cpu.Buffers[2].DecodedInstructions.Enqueue(new NOP(cpu));   // MEM READ
-                    cpu.Buffers[3].DecodedInstructions.Enqueue(new NOP(cpu));   // EXECUTE
-                    cpu.Buffers[4].DecodedInstructions.Enqueue(new NOP(cpu));   // MEM WRITE
-                    cpu.Buffers[5].DecodedInstructions.Enqueue(new NOP(cpu));   // REG WRITE
-                }
-            }
+				// In the decode phase is where a decoded instruction checks to see specifically if the instruction in execute phase
+				// writes to a register
+				if (cpu.Buffers[3].DecodedInstructions.Count > 0 && ins.DestinationRegister == cpu.Buffers[3].DecodedInstructions.Peek().SourceRegister && ins.DestinationRegister != null) {
+					// If it does, stall in every part of the pipeline
+					cpu.Buffers[1].DecodedInstructions.Enqueue(new NOP(cpu));   // DECODE
+					cpu.Buffers[2].DecodedInstructions.Enqueue(new NOP(cpu));   // MEM READ
+					cpu.Buffers[3].DecodedInstructions.Enqueue(new NOP(cpu));   // EXECUTE
+					cpu.Buffers[4].DecodedInstructions.Enqueue(new NOP(cpu));   // MEM WRITE
+					cpu.Buffers[5].DecodedInstructions.Enqueue(new NOP(cpu));   // REG WRITE
+				}
+			}
         }
     }
 }

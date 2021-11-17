@@ -35,7 +35,7 @@ namespace PipelineSimulation.Core.Buffers
                 }
                 catch (AccessViolationException)
                 {
-                    cpu.Buffers[4].DecodedInstructions.Enqueue(new NOP(cpu));
+                    // DOing nothing here is inherently stalling
                 }
             }
         }

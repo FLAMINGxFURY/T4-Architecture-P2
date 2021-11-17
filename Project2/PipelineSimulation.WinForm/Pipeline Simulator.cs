@@ -13,6 +13,7 @@ using System.Diagnostics;
 using PipelineSimulation.Core.Instructions;
 using System.Threading;
 using PipelineSimulation.Core.Caches;
+using System.Collections.Concurrent;
 
 namespace PipelineSimulation.WinForm
 {
@@ -29,6 +30,10 @@ namespace PipelineSimulation.WinForm
         Thread Thread2;
         Thread Thread3;
         Thread Thread4;
+
+        // https://www.codeproject.com/Articles/5273783/Implementing-a-Thread-Safe-Message-Queue-in-Csharp
+        ConcurrentQueue<Message> _messagesC1 = new ConcurrentQueue<Message>();
+        SemaphoreSlim _messagesAvailableC1 = new SemaphoreSlim(0);
 
         Memory MainMem;
 
@@ -51,18 +56,25 @@ namespace PipelineSimulation.WinForm
         }
 
         // This is the work that each thread will accomplish
-        public static void DoWork(Object obj) {
+        public void DoWork(Object obj) {
             //Waiting for next clock?
             CPU cpu = (CPU)obj;
 
             //handle all the things
             while (!cpu.endReached) {
 
-                cpu.NextClockCycle();
-                
-
+                //Wait for button click
+                // wait until a message becomes available
+                _messagesAvailableC1.Wait();
+                Message msg;
+                // process messages
+                // we use Try here because we're multithreaded
+                // so it's possible that between the Wait() call
+                // and the dequeue call the queue may be cleared
+                if (_messagesC1.TryDequeue(out msg)) {
+                    cpu.NextClockCycle();
+                }
             }
-
         }
 
         private void Begin_Click(object sender, EventArgs e)
@@ -126,6 +138,7 @@ namespace PipelineSimulation.WinForm
 
                 }
 
+                nextClockBtn.Enabled = true;
             }
             else
                 MessageBox.Show("Please open files for all enabled cores", "Pipeline Simulator");
@@ -272,6 +285,19 @@ namespace PipelineSimulation.WinForm
         private void nxtClockBtn_Click(object sender, EventArgs e)
         {
             // Signal threads to do next work
+
+            // https://www.codeproject.com/Articles/5273783/Implementing-a-Thread-Safe-Message-Queue-in-Csharp
+
+            // Core 1
+
+            // Print to screen
+            MessageBox.Show($"{CPU1.Buffers[0].FetchedInstructions.Count}");
+
+            // pass the increment message
+            _messagesC1.Enqueue(new Message());
+            // signal messages available
+            _messagesAvailableC1.Release(1);
+
         }
 
         private string openFile() {

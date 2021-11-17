@@ -32,7 +32,7 @@ namespace PipelineSimulation.ConsoleApp
                             Console.Write($"{ins} ");
                         }
                     }
-                    else if (buffer.DecodedInstructions.Count > 0)
+                    else if (buffer.DecodedInstructions.Count > 0 && buffer.FetchedInstructions != null)
                     {
                         Console.Write($"{buffer.GetType().Name}: ");
                         foreach (var ins in buffer.DecodedInstructions)

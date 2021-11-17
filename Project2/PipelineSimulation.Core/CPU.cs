@@ -8,6 +8,7 @@ using PipelineSimulation.Core.Buffers;
 using PipelineSimulation.Core.Functional_Units;
 using PipelineSimulation.Core.Instructions;
 using PipelineSimulation.Core.Registers;
+using PipelineSimulation.Core.Caches;
 
 namespace PipelineSimulation.Core
 {
@@ -17,7 +18,11 @@ namespace PipelineSimulation.Core
 		private int _currentBuffer = 0;
 
 		//public byte[] Memory { get; set; } = new byte[1048576]; //1 MiB = 1024 KiB = 1024 * 1024 B
-		public Memory Memory = Memory.GetInstance();
+		public Memory Memory;
+
+		public L1 L1;
+		public L2 L2;
+		public L3 L3;
 
 		public Reader Rd;
 
@@ -135,6 +140,13 @@ namespace PipelineSimulation.Core
 			//instantiate reader
 			Rd = new Reader(this);
 
+			//Get an instance of main memory
+			Memory = Memory.GetInstance();
+
+			//Add caches
+			L1 = new L1(2); //2-way set assoc
+			L2 = new L2(4); //4-way set assoc
+
 			endReached = false;
 
 			//add all instructions and registers to dictionaries
@@ -158,6 +170,11 @@ namespace PipelineSimulation.Core
 					Buffers.Add(buffer.ID, buffer);
 				}
 			}
+		}
+
+		//Constructor that passes L3. Performs same behavior as CPU()
+		public CPU(L3 l3ref) : this() {
+			L3 = l3ref;
 		}
 
 		public Register GetRegister(ushort id)

@@ -63,10 +63,40 @@ namespace PipelineSimulation.Core.Buffers
                 }
 
                 // Forwarding
-                // TODO
-                
+                var destReg = ins.DestinationRegister;
+                if (destReg != null)
+                {
+                    var dis = GetDependentInstructions(this, cpu.Buffers[2], cpu.Buffers[1]);
+
+                    foreach (var d in dis)
+                    {
+                        d.ForwardBuffer = ins.Result;
+                    }
+
+                    List<Instruction> GetDependentInstructions(params CPUBuffer[] buffers)
+                    {
+                        var results = new List<Instruction>();
+
+                        foreach (var buffer in buffers)
+                        {
+                            foreach (var i in buffer.DecodedInstructions)
+                            {
+                                // If the instruction uses a register this instruction writes to
+                                if (i != ins && i.SourceRegister == destReg && i.SourceRegister != null) 
+                                {
+                                    results.Add(i);
+                                }
+                            }
+                        }
+
+                        return results;
+                    }
+                }
+
+                // Finished with this instruction
                 ReadyInstructions.Enqueue(DecodedInstructions.Dequeue());
 
+                // Stall if this instruction takes more than one cycle
                 if (ins.Cycles > 1)
                 {
                     for (var i = 0; i < ins.Cycles; i++)

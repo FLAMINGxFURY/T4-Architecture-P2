@@ -14,7 +14,7 @@ namespace PipelineSimulation.Core.Instructions
 
 		// Returns the value to be stored in the destination register
 		public override ushort Execute(ushort operand) {
-			return SourceRegister.Data;
+			return ForwardBuffer ?? SourceRegister.Data;
 		}
 
 		public override string ToText(ushort operand) {

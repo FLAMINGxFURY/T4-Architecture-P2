@@ -23,7 +23,8 @@ namespace PipelineSimulation.Core.Instructions
 		public ushort DataBuffer { get; set; }
 
 		// Used to hold data that is forwarded from a previous instruction
-		public ushort ForwardBuffer { get; set; }
+		// If not null, it holds data from a forward
+		public ushort? ForwardBuffer { get; set; }
 
 		// The dest reg for the instruction
 		public Register DestinationRegister { get; set; }

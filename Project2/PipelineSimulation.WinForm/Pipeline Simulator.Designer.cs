@@ -66,7 +66,6 @@ namespace PipelineSimulation.WinForm
             this.core4ProgLabel = new System.Windows.Forms.Label();
             this.core2ProgBox = new System.Windows.Forms.RichTextBox();
             this.core2ProgLabel = new System.Windows.Forms.Label();
-            this.button3 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -387,23 +386,12 @@ namespace PipelineSimulation.WinForm
             this.core2ProgLabel.TabIndex = 25;
             this.core2ProgLabel.Text = "Program";
             // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(521, 65);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 26;
-            this.button3.Text = "button3";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
             // PipelineSimulator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(968, 505);
-            this.Controls.Add(this.button3);
+            this.ClientSize = new System.Drawing.Size(985, 522);
             this.Controls.Add(this.core2ProgLabel);
             this.Controls.Add(this.core2ProgBox);
             this.Controls.Add(this.core4ProgLabel);
@@ -473,7 +461,6 @@ namespace PipelineSimulation.WinForm
         private System.Windows.Forms.Label core4ProgLabel;
         private System.Windows.Forms.RichTextBox core2ProgBox;
         private System.Windows.Forms.Label core2ProgLabel;
-        private System.Windows.Forms.Button button3;
     }
 }
 

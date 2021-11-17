@@ -25,6 +25,7 @@ namespace PipelineSimulation.WinForm
         CPU CPU3;
         CPU CPU4;
 
+        Thread Thread1;
         Thread Thread2;
         Thread Thread3;
         Thread Thread4;
@@ -56,7 +57,10 @@ namespace PipelineSimulation.WinForm
 
             //handle all the things
             while (!cpu.endReached) {
-                cpu.NextClockCycle();                
+
+                cpu.NextClockCycle();
+                
+
             }
 
         }
@@ -83,7 +87,8 @@ namespace PipelineSimulation.WinForm
 					CPU1.Rd.OpenFile();
 
                     //Do work
-                    DoWork(CPU1);
+                    Thread1 = new Thread(DoWork);
+                    Thread1.Start(CPU1);
 
 				}
                 if (coreNumber >= 2) { //Set up core 2

@@ -371,7 +371,7 @@ namespace PipelineSimulation.WinForm
 			}
 
             string decodeOutput = "";
-            foreach(var ins in CPU1.Buffers[1].DecodedInstructions) {
+            foreach(var ins in CPU1.Buffers[1].FetchedInstructions) {
                 decodeOutput += $"{ins}";
 			}
 
@@ -408,7 +408,7 @@ namespace PipelineSimulation.WinForm
                 }
 
                 decodeOutput = "";
-                foreach (var ins in CPU2.Buffers[1].DecodedInstructions) {
+                foreach (var ins in CPU2.Buffers[1].FetchedInstructions) {
                     decodeOutput += $"{ins}";
                 }
 
@@ -446,7 +446,7 @@ namespace PipelineSimulation.WinForm
                 }
 
                 decodeOutput = "";
-                foreach (var ins in CPU3.Buffers[1].DecodedInstructions) {
+                foreach (var ins in CPU3.Buffers[1].FetchedInstructions) {
                     decodeOutput += $"{ins}";
                 }
 
@@ -484,7 +484,7 @@ namespace PipelineSimulation.WinForm
                 }
 
                 decodeOutput = "";
-                foreach (var ins in CPU4.Buffers[1].DecodedInstructions) {
+                foreach (var ins in CPU4.Buffers[1].FetchedInstructions) {
                     decodeOutput += $"{ins}";
                 }
 

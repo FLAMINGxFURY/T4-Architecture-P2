@@ -187,13 +187,13 @@ namespace PipelineSimulation.Core
 		public void NextClockCycle()
 		{
 
-			////TODO: check if program done by seeing if all buffers empty
-			//if (Buffers[0].FetchedInstructions.Count == 0 && Buffers[1].FetchedInstructions.Count == 0 &&
-			//	Buffers[2].DecodedInstructions.Count == 0 && Buffers[3].DecodedInstructions.Count == 0 &&
-			//	Buffers[4].DecodedInstructions.Count == 0 && Buffers[5].DecodedInstructions.Count == 0) {
-			//	endReached = true;
-			//	return;
-			//}
+			//TODO: check if program done by seeing if all buffers empty
+			if (CurrentClockCycle != 0 && (Buffers[0].FetchedInstructions.Count == 0 && Buffers[1].FetchedInstructions.Count == 0 &&
+				Buffers[2].DecodedInstructions.Count == 0 && Buffers[3].DecodedInstructions.Count == 0 &&
+				Buffers[4].DecodedInstructions.Count == 0 && Buffers[5].DecodedInstructions.Count == 0)) {
+				endReached = true;
+				return;
+			}
 
 			// FETCH
 			fet();

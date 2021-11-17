@@ -94,9 +94,27 @@ namespace PipelineSimulation.WinForm
 
                 if (coreNumber >= 1) { //Set up core 1
                     CPU1 = new CPU(L31);
-
-					CPU1.Rd.fileStr = core1FilePath;
+                    String s = String.Format("{0,-15} {1,-15} {2,-15} {3,-15} {4,-15} {5,-15}\n\n", "Fetch", "Decode", "MemRead", "Execute", "MemWrite", "RegWrite");
+                    core1Box.Text = s;
+                    CPU1.Rd.fileStr = core1FilePath;
 					CPU1.Rd.OpenFile();
+                    List<string> dispProgCode = new List<string>();
+                    foreach (ushort x in CPU1.Rd.proMem)
+                    {
+                        string output = "";
+
+                        //get opcode
+                        ushort op = (ushort)(x >> 11);
+                        Instruction tempInst = CPU1.CreateInstructionInstance(op);
+                        output += tempInst.ToString() + " ";
+
+                        //get rest
+                        ushort remainder = (ushort)(0b_0000_0111_1111_1111 & x); //bit mask for removing opcode
+                        output += tempInst.ToText(remainder);
+
+                        core1ProgBox.Text += output + "\n";
+                        //dispProgCode.Add(output);
+                    }
 
                     //Do work
                     Thread1 = new Thread(DoWork);
@@ -284,6 +302,7 @@ namespace PipelineSimulation.WinForm
         //maybe using a sleep function would be more useful in a multithreaded environment. Maybe this could be a functionality to pause/play
         private void nxtClockBtn_Click(object sender, EventArgs e)
         {
+            string output;
             // Signal threads to do next work
 
             // https://www.codeproject.com/Articles/5273783/Implementing-a-Thread-Safe-Message-Queue-in-Csharp
@@ -291,7 +310,40 @@ namespace PipelineSimulation.WinForm
             // Core 1
 
             // Print to screen
-            MessageBox.Show($"{CPU1.Buffers[0].FetchedInstructions.Count}");
+            //Console.Write($"{ins} ");
+            string fetchoutput = "";
+            foreach(var ins in CPU1.Buffers[0].FetchedInstructions) {
+                fetchoutput += $"{ins}";
+			}
+
+            string decodeOutput = "";
+            foreach(var ins in CPU1.Buffers[1].DecodedInstructions) {
+                decodeOutput += $"{ins}";
+			}
+
+            string memReadOutput = "";
+            foreach(var ins in CPU1.Buffers[2].DecodedInstructions) {
+                memReadOutput += $"{ins}";
+			}
+
+            string executeOutput = "";
+            foreach(var ins in CPU1.Buffers[3].DecodedInstructions) {
+                executeOutput += $"{ins}";
+			}
+
+            string memWrite = "";
+            foreach(var ins in CPU1.Buffers[4].DecodedInstructions) {
+                memWrite += $"{ins}";
+			}
+
+            string regWriteOutput = "";
+            foreach(var ins in CPU1.Buffers[5].DecodedInstructions) {
+                regWriteOutput += $"{ins}";
+			}
+
+            output = String.Format("{0,-15} {1,-15} {2,-15} {3,-15} {4,-15} {5,-15}\n", fetchoutput, decodeOutput, memReadOutput, executeOutput, memWrite, memReadOutput);
+            core1Box.Text += output + "\n";
+            //MessageBox.Show($"{CPU1.Buffers[0].FetchedInstructions.Count}");
 
             // pass the increment message
             _messagesC1.Enqueue(new Message());

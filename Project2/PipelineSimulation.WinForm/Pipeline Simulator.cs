@@ -11,6 +11,7 @@ using System.IO;
 using PipelineSimulation.Core;
 using System.Diagnostics;
 using PipelineSimulation.Core.Instructions;
+using System.Threading;
 
 namespace PipelineSimulation.WinForm
 {
@@ -18,14 +19,22 @@ namespace PipelineSimulation.WinForm
     {
         //these attributes could be used in a method/class to create all needed
         //objects & threads to start the simulation
-        CPU CPU1 = new CPU();
-        CPU CPU2 = new CPU();
-        CPU CPU3 = new CPU();
-        CPU CPU4 = new CPU();
+        CPU CPU1;
+        CPU CPU2;
+        CPU CPU3;
+        CPU CPU4;
+
+        Thread Thread2;
+        Thread Thread3;
+        Thread Thread4;
+
+        Memory MainMem;
+
         string core1FilePath = null;
         string core2FilePath = null;
         string core3FilePath = null;
         string core4FilePath = null;
+
         int coreNumber = 1;
 
         public PipelineSimulator()
@@ -33,6 +42,16 @@ namespace PipelineSimulation.WinForm
             InitializeComponent();
             nextClockBtn.Enabled = false;   //cannot go to next clock without loading program
             initialCoreSetup();
+
+        }
+
+        // This is the work that each thread will accomplish
+        public static void DoWork(Object obj) {
+            //Waiting for next clock?
+            CPU cpu = (CPU)obj;
+
+            //handle all the things
+
         }
 
         private void Begin_Click(object sender, EventArgs e)
@@ -40,12 +59,61 @@ namespace PipelineSimulation.WinForm
             if (ConfigIsValid() == true)
             {
                 //begin simulation, spawn the correct number of CPU classes/threads & pass into them the appropriate file paths
+
+                // Before creating CPUs, create an instance of Memory.
+
+                // Create each CPU instance that is needed, then pass file path to Reader and open it for each cpu
+
+                if (coreNumber >= 1) { //Set up core 1
+                    CPU1 = new CPU();
+
+					CPU1.Rd.fileStr = core1FilePath;
+					CPU1.Rd.OpenFile();
+
+                    //Do work
+                    DoWork(CPU1);
+
+				}
+                if (coreNumber >= 2) { //Set up core 2
+                    CPU2 = new CPU();
+
+                    CPU2.Rd.fileStr = core2FilePath;
+                    CPU2.Rd.OpenFile();
+
+                    //Do work in Thread2
+                    Thread2 = new Thread(DoWork);
+                    Thread2.Start(CPU2);
+
+                }
+                if (coreNumber >= 3) { //Set up core 3
+                    CPU3 = new CPU();
+
+                    CPU3.Rd.fileStr = core3FilePath;
+                    CPU3.Rd.OpenFile();
+
+                    //Do work in Thread3
+                    Thread3 = new Thread(DoWork);
+                    Thread3.Start(CPU3);
+
+                }
+                if (coreNumber == 4) { //Set up core 4
+                    CPU4 = new CPU();
+
+                    CPU4.Rd.fileStr = core4FilePath;
+                    CPU4.Rd.OpenFile();
+
+                    //Do work in Thread4
+                    Thread4 = new Thread(DoWork);
+                    Thread4.Start(CPU4);
+
+                }
+
             }
 
             MessageBox.Show("Please open files for all enabled cores", "Pipeline Simulator");
         }
 
-        private void initialCoreSetup()
+		private void initialCoreSetup()
         {
             this.coreNumber = 1;
             Core1ItemsVisible();
@@ -54,7 +122,9 @@ namespace PipelineSimulation.WinForm
             Core4ItemsHide();
         }
 
-        private void Core1ItemsVisible()
+		#region core vis
+
+		private void Core1ItemsVisible()
         {
             core1Box.Visible = true;
             core1Label.Visible = true;
@@ -118,8 +188,12 @@ namespace PipelineSimulation.WinForm
             core4ProgLabel.Visible = false;
         }
 
-        //Change cores to 1
-        private void changeCores_1(object sender, EventArgs e)
+		#endregion
+
+		#region core change
+
+		//Change cores to 1
+		private void changeCores_1(object sender, EventArgs e)
         {
             this.coreNumber = 1;
             Core1ItemsVisible();
@@ -162,8 +236,10 @@ namespace PipelineSimulation.WinForm
             this.Size = new Size(1910, 912);
         }
 
-        //Closes program
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+		#endregion
+
+		//Closes program
+		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             while(MessageBox.Show("Exit simulator?", "Pipeline Simulator", MessageBoxButtons.YesNo) == DialogResult.No)
             {
@@ -177,92 +253,41 @@ namespace PipelineSimulation.WinForm
         //maybe using a sleep function would be more useful in a multithreaded environment. Maybe this could be a functionality to pause/play
         private void nxtClockBtn_Click(object sender, EventArgs e)
         {
-            
+            // Signal threads to do next work
         }
 
-        private string openFile(CPU cpu)
-        {
+        private string openFile() {
             var filePath = string.Empty;
-            List<string> dispProgCode = new List<string>();
-
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
-            {
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    cpu.Rd.fileStr = openFileDialog.FileName;
-                    cpu.Rd.OpenFile();
-
-                    //clear the corresponding cores program textbox
-                    if (cpu == CPU1)
-                        core1ProgBox.Text = "";
-                    else if (cpu == CPU2)
-                        core2ProgBox.Text = "";
-                    else if (cpu == CPU3)
-                        core3ProgBox.Text = "";
-                    else if (cpu == CPU4)
-                        core4ProgBox.Text = "";
-
-                    //get the instruction in readable language
-                    foreach (ushort x in cpu.Rd.proMem)
-                    {
-                        string output = "";
-
-                        //get opcode
-                        ushort op = (ushort)(x >> 11);
-                        Instruction tempInst = cpu.CreateInstructionInstance(op);
-                        output += tempInst.ToString() + " ";
-
-                        //get rest
-                        ushort remainder = (ushort)(0b_0000_0111_1111_1111 & x); //bit mask for removing opcode
-                        output += tempInst.ToText(remainder);
-
-                        dispProgCode.Add(output);
-                    }
-
-                    //determine which core a program was just loaded for and display it
-                    foreach (string str in dispProgCode)
-                    {
-                        if (cpu == CPU1)
-                        {
-                            core1ProgBox.Text += str + "\n";
-                        }
-                        else if (cpu == CPU2)
-                        {
-                            core2ProgBox.Text += str + "\n";
-                        }
-                        else if (cpu == CPU3)
-                        {
-                            core3ProgBox.Text += str + "\n";
-                        }
-                        else if (cpu == CPU4)
-                        {
-                            core4ProgBox.Text += str + "\n";
-                        }
-                    }
-                }
-            }
+            
+            using(OpenFileDialog ofd = new OpenFileDialog()) {
+                if(ofd.ShowDialog() == DialogResult.OK) {
+                    return ofd.FileName;
+				}
+			}
 
             return null;
-        }
+
+		}
+
 
         private void core1ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.core1FilePath = openFile(CPU1);
+            this.core1FilePath = openFile();
         }
 
         private void core2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.core2FilePath = openFile(CPU2);
+            this.core2FilePath = openFile();
         }
 
         private void core3ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.core3FilePath = openFile(CPU3);
+            this.core3FilePath = openFile();
         }
 
         private void core4ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.core4FilePath = openFile(CPU4);
+            this.core4FilePath = openFile();
         }
 
         private bool ConfigIsValid()
@@ -311,5 +336,70 @@ namespace PipelineSimulation.WinForm
             core3Box.Text = s;
             core4Box.Text = s;
         }
+
+        //private string openFile(CPU cpu)
+        //{
+        //    var filePath = string.Empty;
+        //    List<string> dispProgCode = new List<string>();
+
+        //    using (OpenFileDialog openFileDialog = new OpenFileDialog())
+        //    {
+        //        if (openFileDialog.ShowDialog() == DialogResult.OK)
+        //        {
+        //            cpu.Rd.fileStr = openFileDialog.FileName;
+        //            cpu.Rd.OpenFile();
+
+        //            //clear the corresponding cores program textbox
+        //            if (cpu == CPU1)
+        //                core1ProgBox.Text = "";
+        //            else if (cpu == CPU2)
+        //                core2ProgBox.Text = "";
+        //            else if (cpu == CPU3)
+        //                core3ProgBox.Text = "";
+        //            else if (cpu == CPU4)
+        //                core4ProgBox.Text = "";
+
+        //            //get the instruction in readable language
+        //            foreach (ushort x in cpu.Rd.proMem)
+        //            {
+        //                string output = "";
+
+        //                //get opcode
+        //                ushort op = (ushort)(x >> 11);
+        //                Instruction tempInst = cpu.CreateInstructionInstance(op);
+        //                output += tempInst.ToString() + " ";
+
+        //                //get rest
+        //                ushort remainder = (ushort)(0b_0000_0111_1111_1111 & x); //bit mask for removing opcode
+        //                output += tempInst.ToText(remainder);
+
+        //                dispProgCode.Add(output);
+        //            }
+
+        //            //determine which core a program was just loaded for and display it
+        //            foreach (string str in dispProgCode)
+        //            {
+        //                if (cpu == CPU1)
+        //                {
+        //                    core1ProgBox.Text += str + "\n";
+        //                }
+        //                else if (cpu == CPU2)
+        //                {
+        //                    core2ProgBox.Text += str + "\n";
+        //                }
+        //                else if (cpu == CPU3)
+        //                {
+        //                    core3ProgBox.Text += str + "\n";
+        //                }
+        //                else if (cpu == CPU4)
+        //                {
+        //                    core4ProgBox.Text += str + "\n";
+        //                }
+        //            }
+        //        }
+        //    }
+
+        //    return null;
+        //}
     }
 }

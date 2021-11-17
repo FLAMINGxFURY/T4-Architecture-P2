@@ -121,6 +121,7 @@ namespace PipelineSimulation.WinForm
             Core2ItemsHide();
             Core3ItemsHide();
             Core4ItemsHide();
+            this.Size = new Size(984, 544);
         }
 
         //Change cores to 2
@@ -131,6 +132,7 @@ namespace PipelineSimulation.WinForm
             Core2ItemsVisible();
             Core3ItemsHide();
             Core4ItemsHide();
+            this.Size = new Size(1910, 544);
         }
 
         //Change cores to 3
@@ -141,6 +143,7 @@ namespace PipelineSimulation.WinForm
             Core2ItemsVisible();
             Core3ItemsVisible();
             Core4ItemsHide();
+            this.Size = new Size(1910, 912);
         }
 
         //Change cores to 4
@@ -151,6 +154,7 @@ namespace PipelineSimulation.WinForm
             Core2ItemsVisible();
             Core3ItemsVisible();
             Core4ItemsVisible();
+            this.Size = new Size(1910, 912);
         }
 
         //Closes program

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using PipelineSimulation.Core;
+using System.Diagnostics;
 
 namespace PipelineSimulation.WinForm
 {
@@ -36,7 +37,7 @@ namespace PipelineSimulation.WinForm
                 //begin simulation, spawn the correct number of CPU classes/threads & pass into them the appropriate file paths
             }
 
-            MessageBox.Show("Please open files for all cores", "Pipeline Simulator");
+            MessageBox.Show("Please open files for all enabled cores", "Pipeline Simulator");
         }
 
         private void initialCoreSetup()
@@ -52,7 +53,6 @@ namespace PipelineSimulation.WinForm
         {
             core1Box.Visible = true;
             core1Label.Visible = true;
-            core1PipelineLabel.Visible = true;
             core1ProgBox.Visible = true;
             core1ProgLabel.Visible = true;
         }
@@ -61,7 +61,6 @@ namespace PipelineSimulation.WinForm
         {
             core1Box.Visible = false;
             core1Label.Visible = false;
-            core1PipelineLabel.Visible = false;
             core1ProgBox.Visible = false;
             core1ProgLabel.Visible = false;
         }
@@ -70,7 +69,6 @@ namespace PipelineSimulation.WinForm
         {
             core2Box.Visible = true;
             core2Label.Visible = true;
-            core2PipelineLabel.Visible = true;
             core2ProgBox.Visible = true;
             core2ProgLabel.Visible = true;
         }
@@ -79,7 +77,6 @@ namespace PipelineSimulation.WinForm
         {
             core2Box.Visible = false;
             core2Label.Visible = false;
-            core2PipelineLabel.Visible = false;
             core2ProgBox.Visible = false;
             core2ProgLabel.Visible = false;
         }
@@ -88,7 +85,6 @@ namespace PipelineSimulation.WinForm
         {
             core3Box.Visible = true;
             core3Label.Visible = true;
-            core3PipelineLabel.Visible = true;
             core3ProgBox.Visible = true;
             core3ProgLabel.Visible = true;
         }
@@ -97,7 +93,6 @@ namespace PipelineSimulation.WinForm
         {
             core3Box.Visible = false;
             core3Label.Visible = false;
-            core3PipelineLabel.Visible = false;
             core3ProgBox.Visible = false;
             core3ProgLabel.Visible = false;
         }
@@ -106,7 +101,6 @@ namespace PipelineSimulation.WinForm
         {
             core4Box.Visible = true;
             core4Label.Visible = true;
-            core4PipelineLabel.Visible = true;
             core4ProgBox.Visible = true;
             core4ProgLabel.Visible = true;
         }
@@ -115,7 +109,6 @@ namespace PipelineSimulation.WinForm
         {
             core4Box.Visible = false;
             core4Label.Visible = false;
-            core4PipelineLabel.Visible = false;
             core4ProgBox.Visible = false;
             core4ProgLabel.Visible = false;
         }
@@ -244,6 +237,20 @@ namespace PipelineSimulation.WinForm
             }
 
             return false;
+        }
+
+        //TODO Remove this - it is only here to test the formatted string
+        private void button3_Click(object sender, EventArgs e)
+        {
+            String s = String.Format("{0,-15} {1,-15} {2,-15} {3,-15} {4,-15} {5,-15}\n\n", "Fetch", "Decode", "MemRead", "Execute", "MemWrite", "RegWrite");
+            s += String.Format      ("{0,-15} {1,-15} {2,-15} {3,-15} {4,-15} {5,-15}\n", "MOV R1,15", "FADD R4, R3", "ADD 15, 15", "ADD 0x01A45C", "test instruction", "test test");
+
+            Debug.WriteLine(s);
+
+            core1Box.Text = s;
+            core2Box.Text = s;
+            core3Box.Text = s;
+            core4Box.Text = s;
         }
     }
 }

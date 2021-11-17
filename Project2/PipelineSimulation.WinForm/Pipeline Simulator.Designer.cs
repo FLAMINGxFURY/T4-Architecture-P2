@@ -57,10 +57,6 @@ namespace PipelineSimulation.WinForm
             this.core4Box = new System.Windows.Forms.RichTextBox();
             this.core4Label = new System.Windows.Forms.Label();
             this.core2Box = new System.Windows.Forms.RichTextBox();
-            this.core1PipelineLabel = new System.Windows.Forms.Label();
-            this.core2PipelineLabel = new System.Windows.Forms.Label();
-            this.core3PipelineLabel = new System.Windows.Forms.Label();
-            this.core4PipelineLabel = new System.Windows.Forms.Label();
             this.nextClockBtn = new System.Windows.Forms.Button();
             this.core3ProgBox = new System.Windows.Forms.RichTextBox();
             this.core3ProgLabel = new System.Windows.Forms.Label();
@@ -70,6 +66,7 @@ namespace PipelineSimulation.WinForm
             this.core4ProgLabel = new System.Windows.Forms.Label();
             this.core2ProgBox = new System.Windows.Forms.RichTextBox();
             this.core2ProgLabel = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -81,7 +78,7 @@ namespace PipelineSimulation.WinForm
             this.aboutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1264, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1898, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -156,7 +153,7 @@ namespace PipelineSimulation.WinForm
             this.toolStripMenuItem4,
             this.toolStripMenuItem5});
             this.changeCoresToolStripMenuItem.Name = "changeCoresToolStripMenuItem";
-            this.changeCoresToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.changeCoresToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.changeCoresToolStripMenuItem.Text = "Change Cores";
             // 
             // toolStripMenuItem2
@@ -199,13 +196,13 @@ namespace PipelineSimulation.WinForm
             // documentationToolStripMenuItem
             // 
             this.documentationToolStripMenuItem.Name = "documentationToolStripMenuItem";
-            this.documentationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.documentationToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.documentationToolStripMenuItem.Text = "Documentation";
             // 
             // aboutToolStripMenuItem1
             // 
             this.aboutToolStripMenuItem1.Name = "aboutToolStripMenuItem1";
-            this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(157, 22);
             this.aboutToolStripMenuItem1.Text = "About";
             // 
             // core1ProgBox
@@ -227,11 +224,14 @@ namespace PipelineSimulation.WinForm
             // 
             // core1Box
             // 
-            this.core1Box.Location = new System.Drawing.Point(226, 178);
+            this.core1Box.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.core1Box.Location = new System.Drawing.Point(226, 160);
             this.core1Box.Name = "core1Box";
-            this.core1Box.Size = new System.Drawing.Size(371, 292);
+            this.core1Box.ReadOnly = true;
+            this.core1Box.Size = new System.Drawing.Size(714, 310);
             this.core1Box.TabIndex = 4;
             this.core1Box.Text = "";
+            this.core1Box.WordWrap = false;
             // 
             // core1Label
             // 
@@ -246,9 +246,11 @@ namespace PipelineSimulation.WinForm
             // 
             // core3Box
             // 
-            this.core3Box.Location = new System.Drawing.Point(226, 562);
+            this.core3Box.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.core3Box.Location = new System.Drawing.Point(228, 534);
             this.core3Box.Name = "core3Box";
-            this.core3Box.Size = new System.Drawing.Size(371, 298);
+            this.core3Box.ReadOnly = true;
+            this.core3Box.Size = new System.Drawing.Size(714, 316);
             this.core3Box.TabIndex = 8;
             this.core3Box.Text = "";
             // 
@@ -256,7 +258,7 @@ namespace PipelineSimulation.WinForm
             // 
             this.core2Label.AutoSize = true;
             this.core2Label.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point);
-            this.core2Label.Location = new System.Drawing.Point(657, 116);
+            this.core2Label.Location = new System.Drawing.Point(981, 116);
             this.core2Label.Name = "core2Label";
             this.core2Label.Size = new System.Drawing.Size(582, 30);
             this.core2Label.TabIndex = 7;
@@ -267,7 +269,7 @@ namespace PipelineSimulation.WinForm
             // 
             this.core3Label.AutoSize = true;
             this.core3Label.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point);
-            this.core3Label.Location = new System.Drawing.Point(23, 500);
+            this.core3Label.Location = new System.Drawing.Point(25, 490);
             this.core3Label.Name = "core3Label";
             this.core3Label.Size = new System.Drawing.Size(582, 30);
             this.core3Label.TabIndex = 9;
@@ -276,9 +278,11 @@ namespace PipelineSimulation.WinForm
             // 
             // core4Box
             // 
-            this.core4Box.Location = new System.Drawing.Point(853, 562);
+            this.core4Box.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.core4Box.Location = new System.Drawing.Point(1177, 534);
             this.core4Box.Name = "core4Box";
-            this.core4Box.Size = new System.Drawing.Size(377, 298);
+            this.core4Box.ReadOnly = true;
+            this.core4Box.Size = new System.Drawing.Size(721, 316);
             this.core4Box.TabIndex = 10;
             this.core4Box.Text = "";
             // 
@@ -286,7 +290,7 @@ namespace PipelineSimulation.WinForm
             // 
             this.core4Label.AutoSize = true;
             this.core4Label.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point);
-            this.core4Label.Location = new System.Drawing.Point(657, 500);
+            this.core4Label.Location = new System.Drawing.Point(981, 490);
             this.core4Label.Name = "core4Label";
             this.core4Label.Size = new System.Drawing.Size(582, 30);
             this.core4Label.TabIndex = 11;
@@ -295,47 +299,13 @@ namespace PipelineSimulation.WinForm
             // 
             // core2Box
             // 
-            this.core2Box.Location = new System.Drawing.Point(853, 172);
+            this.core2Box.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.core2Box.Location = new System.Drawing.Point(1177, 160);
             this.core2Box.Name = "core2Box";
-            this.core2Box.Size = new System.Drawing.Size(371, 298);
+            this.core2Box.ReadOnly = true;
+            this.core2Box.Size = new System.Drawing.Size(721, 310);
             this.core2Box.TabIndex = 12;
             this.core2Box.Text = "";
-            // 
-            // core1PipelineLabel
-            // 
-            this.core1PipelineLabel.AutoSize = true;
-            this.core1PipelineLabel.Location = new System.Drawing.Point(226, 160);
-            this.core1PipelineLabel.Name = "core1PipelineLabel";
-            this.core1PipelineLabel.Size = new System.Drawing.Size(347, 15);
-            this.core1PipelineLabel.TabIndex = 13;
-            this.core1PipelineLabel.Text = "Fetch     Decode    MemRead     Execute     MemWrite     RegWrite";
-            // 
-            // core2PipelineLabel
-            // 
-            this.core2PipelineLabel.AutoSize = true;
-            this.core2PipelineLabel.Location = new System.Drawing.Point(853, 154);
-            this.core2PipelineLabel.Name = "core2PipelineLabel";
-            this.core2PipelineLabel.Size = new System.Drawing.Size(347, 15);
-            this.core2PipelineLabel.TabIndex = 14;
-            this.core2PipelineLabel.Text = "Fetch     Decode    MemRead     Execute     MemWrite     RegWrite";
-            // 
-            // core3PipelineLabel
-            // 
-            this.core3PipelineLabel.AutoSize = true;
-            this.core3PipelineLabel.Location = new System.Drawing.Point(226, 544);
-            this.core3PipelineLabel.Name = "core3PipelineLabel";
-            this.core3PipelineLabel.Size = new System.Drawing.Size(347, 15);
-            this.core3PipelineLabel.TabIndex = 15;
-            this.core3PipelineLabel.Text = "Fetch     Decode    MemRead     Execute     MemWrite     RegWrite";
-            // 
-            // core4PipelineLabel
-            // 
-            this.core4PipelineLabel.AutoSize = true;
-            this.core4PipelineLabel.Location = new System.Drawing.Point(853, 544);
-            this.core4PipelineLabel.Name = "core4PipelineLabel";
-            this.core4PipelineLabel.Size = new System.Drawing.Size(347, 15);
-            this.core4PipelineLabel.TabIndex = 16;
-            this.core4PipelineLabel.Text = "Fetch     Decode    MemRead     Execute     MemWrite     RegWrite";
             // 
             // nextClockBtn
             // 
@@ -349,7 +319,7 @@ namespace PipelineSimulation.WinForm
             // 
             // core3ProgBox
             // 
-            this.core3ProgBox.Location = new System.Drawing.Point(23, 562);
+            this.core3ProgBox.Location = new System.Drawing.Point(25, 552);
             this.core3ProgBox.Name = "core3ProgBox";
             this.core3ProgBox.Size = new System.Drawing.Size(181, 298);
             this.core3ProgBox.TabIndex = 18;
@@ -358,7 +328,7 @@ namespace PipelineSimulation.WinForm
             // core3ProgLabel
             // 
             this.core3ProgLabel.AutoSize = true;
-            this.core3ProgLabel.Location = new System.Drawing.Point(23, 544);
+            this.core3ProgLabel.Location = new System.Drawing.Point(25, 534);
             this.core3ProgLabel.Name = "core3ProgLabel";
             this.core3ProgLabel.Size = new System.Drawing.Size(53, 15);
             this.core3ProgLabel.TabIndex = 19;
@@ -385,7 +355,7 @@ namespace PipelineSimulation.WinForm
             // 
             // core4ProgBox
             // 
-            this.core4ProgBox.Location = new System.Drawing.Point(657, 562);
+            this.core4ProgBox.Location = new System.Drawing.Point(981, 552);
             this.core4ProgBox.Name = "core4ProgBox";
             this.core4ProgBox.Size = new System.Drawing.Size(181, 298);
             this.core4ProgBox.TabIndex = 22;
@@ -394,7 +364,7 @@ namespace PipelineSimulation.WinForm
             // core4ProgLabel
             // 
             this.core4ProgLabel.AutoSize = true;
-            this.core4ProgLabel.Location = new System.Drawing.Point(657, 544);
+            this.core4ProgLabel.Location = new System.Drawing.Point(981, 534);
             this.core4ProgLabel.Name = "core4ProgLabel";
             this.core4ProgLabel.Size = new System.Drawing.Size(53, 15);
             this.core4ProgLabel.TabIndex = 23;
@@ -402,7 +372,7 @@ namespace PipelineSimulation.WinForm
             // 
             // core2ProgBox
             // 
-            this.core2ProgBox.Location = new System.Drawing.Point(657, 172);
+            this.core2ProgBox.Location = new System.Drawing.Point(981, 172);
             this.core2ProgBox.Name = "core2ProgBox";
             this.core2ProgBox.Size = new System.Drawing.Size(181, 298);
             this.core2ProgBox.TabIndex = 24;
@@ -411,17 +381,29 @@ namespace PipelineSimulation.WinForm
             // core2ProgLabel
             // 
             this.core2ProgLabel.AutoSize = true;
-            this.core2ProgLabel.Location = new System.Drawing.Point(657, 154);
+            this.core2ProgLabel.Location = new System.Drawing.Point(981, 154);
             this.core2ProgLabel.Name = "core2ProgLabel";
             this.core2ProgLabel.Size = new System.Drawing.Size(53, 15);
             this.core2ProgLabel.TabIndex = 25;
             this.core2ProgLabel.Text = "Program";
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(521, 65);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 26;
+            this.button3.Text = "button3";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // PipelineSimulator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1264, 893);
+            this.AutoScroll = true;
+            this.ClientSize = new System.Drawing.Size(980, 505);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.core2ProgLabel);
             this.Controls.Add(this.core2ProgBox);
             this.Controls.Add(this.core4ProgLabel);
@@ -431,10 +413,6 @@ namespace PipelineSimulation.WinForm
             this.Controls.Add(this.core3ProgLabel);
             this.Controls.Add(this.core3ProgBox);
             this.Controls.Add(this.nextClockBtn);
-            this.Controls.Add(this.core4PipelineLabel);
-            this.Controls.Add(this.core3PipelineLabel);
-            this.Controls.Add(this.core2PipelineLabel);
-            this.Controls.Add(this.core1PipelineLabel);
             this.Controls.Add(this.core2Box);
             this.Controls.Add(this.core4Label);
             this.Controls.Add(this.core4Box);
@@ -481,10 +459,6 @@ namespace PipelineSimulation.WinForm
         private System.Windows.Forms.Label core3Label;
         private System.Windows.Forms.RichTextBox core4Box;
         private System.Windows.Forms.Label core4Label;
-        private System.Windows.Forms.Label core1PipelineLabel;
-        private System.Windows.Forms.Label core2PipelineLabel;
-        private System.Windows.Forms.Label core3PipelineLabel;
-        private System.Windows.Forms.Label core4PipelineLabel;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem1;
         private System.Windows.Forms.Button nextClockBtn;
         private System.Windows.Forms.RichTextBox core3ProgBox;
@@ -499,6 +473,7 @@ namespace PipelineSimulation.WinForm
         private System.Windows.Forms.Label core4ProgLabel;
         private System.Windows.Forms.RichTextBox core2ProgBox;
         private System.Windows.Forms.Label core2ProgLabel;
+        private System.Windows.Forms.Button button3;
     }
 }
 

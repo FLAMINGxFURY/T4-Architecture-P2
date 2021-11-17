@@ -61,7 +61,7 @@ namespace PipelineSimulation.Core.Functional_Units
 		/// For example, ST(0) (index = 0), means that it gets the value at TOP.
 		/// ST(1) means that it gets TOP  + 1.
 		/// </summary>
-		public Half? Read(int index)
+		public Half Read(int index)
         {
 			index = TOP + index;
 			if (index > MAX_REG - 1)
@@ -75,7 +75,7 @@ namespace PipelineSimulation.Core.Functional_Units
             }
 			else
             {
-				return null;
+				return (Half)0;
             }
         }
 
@@ -91,7 +91,7 @@ namespace PipelineSimulation.Core.Functional_Units
             var num1 = Read(index1);
             var num2 = Read(index2);
 
-            var result = (Half)((float)num1.Value + (float)num2.Value);
+            var result = (Half)((float)num1 + (float)num2);
 
 			Write(index2, result);
 
@@ -105,7 +105,7 @@ namespace PipelineSimulation.Core.Functional_Units
         {
             var num1 = Read(0);
 
-            var result = (Half)((float)num1.Value + (float)value);
+            var result = (Half)((float)num1 + (float)value);
 
             Write(0, result);
         }
@@ -122,7 +122,7 @@ namespace PipelineSimulation.Core.Functional_Units
             var num1 = Read(index1);
             var num2 = Read(index2);
 
-            var result = (Half)((float)num1.Value - (float)num2.Value);
+            var result = (Half)((float)num1 - (float)num2);
 
             Write(index2, result);
 
@@ -136,7 +136,7 @@ namespace PipelineSimulation.Core.Functional_Units
         {
             var num1 = Read(0);
 
-            var result = (Half)((float)num1.Value - (float)value);
+            var result = (Half)((float)num1 - (float)value);
 
             Write(0, result);
         }
@@ -153,7 +153,7 @@ namespace PipelineSimulation.Core.Functional_Units
             var num1 = Read(index1);
             var num2 = Read(index2);
 
-            var result = (Half)((float)num1.Value * (float)num2.Value);
+            var result = (Half)((float)num1 * (float)num2);
 
             Write(index2, result);
 
@@ -167,7 +167,7 @@ namespace PipelineSimulation.Core.Functional_Units
         {
             var num1 = Read(0);
 
-            var result = (Half)((float)num1.Value * (float)value);
+            var result = (Half)((float)num1 * (float)value);
 
             Write(0, result);
         }
@@ -184,7 +184,7 @@ namespace PipelineSimulation.Core.Functional_Units
             var num1 = Read(index1);
             var num2 = Read(index2);
 
-            var result = (Half)((float)num1.Value / (float)num2.Value);
+            var result = (Half)((float)num1 / (float)num2);
 
             Write(index2, result);
 
@@ -198,7 +198,7 @@ namespace PipelineSimulation.Core.Functional_Units
         {
             var num1 = Read(0);
 
-            var result = (Half)((float)num1.Value / (float)value);
+            var result = (Half)((float)num1 / (float)value);
 
             Write(0, result);
         }

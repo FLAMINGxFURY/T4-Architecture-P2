@@ -412,7 +412,7 @@ namespace PipelineSimulation.WinForm
             this.Controls.Add(this.core1ProgLabel);
             this.Controls.Add(this.core1ProgBox);
             this.Controls.Add(this.menuStrip1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            //this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "PipelineSimulator";
             this.Text = "Pipeline Simulator";

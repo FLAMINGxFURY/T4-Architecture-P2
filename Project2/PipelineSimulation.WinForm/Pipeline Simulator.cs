@@ -35,6 +35,15 @@ namespace PipelineSimulation.WinForm
         ConcurrentQueue<Message> _messagesC1 = new ConcurrentQueue<Message>();
         SemaphoreSlim _messagesAvailableC1 = new SemaphoreSlim(0);
 
+        ConcurrentQueue<Message> _messagesC2 = new ConcurrentQueue<Message>();
+        SemaphoreSlim _messagesAvailableC2 = new SemaphoreSlim(0);
+
+        ConcurrentQueue<Message> _messagesC3 = new ConcurrentQueue<Message>();
+        SemaphoreSlim _messagesAvailableC3 = new SemaphoreSlim(0);
+
+        ConcurrentQueue<Message> _messagesC4 = new ConcurrentQueue<Message>();
+        SemaphoreSlim _messagesAvailableC4 = new SemaphoreSlim(0);
+
         Memory MainMem;
 
         L3 L31;
@@ -63,17 +72,62 @@ namespace PipelineSimulation.WinForm
             //handle all the things
             while (!cpu.endReached) {
 
-                //Wait for button click
-                // wait until a message becomes available
-                _messagesAvailableC1.Wait();
-                Message msg;
-                // process messages
-                // we use Try here because we're multithreaded
-                // so it's possible that between the Wait() call
-                // and the dequeue call the queue may be cleared
-                if (_messagesC1.TryDequeue(out msg)) {
-                    cpu.NextClockCycle();
+                if(cpu == CPU1) {
+                    //Wait for button click
+                    // wait until a message becomes available
+                    _messagesAvailableC1.Wait();
+                    Message msg;
+                    // process messages
+                    // we use Try here because we're multithreaded
+                    // so it's possible that between the Wait() call
+                    // and the dequeue call the queue may be cleared
+                    if (_messagesC1.TryDequeue(out msg)) {
+                        cpu.NextClockCycle();
+                    }
                 }
+
+                if (cpu == CPU2) {
+                    //Wait for button click
+                    // wait until a message becomes available
+                    _messagesAvailableC2.Wait();
+                    Message msg;
+                    // process messages
+                    // we use Try here because we're multithreaded
+                    // so it's possible that between the Wait() call
+                    // and the dequeue call the queue may be cleared
+                    if (_messagesC2.TryDequeue(out msg)) {
+                        cpu.NextClockCycle();
+                    }
+                }
+
+                if (cpu == CPU3) {
+                    //Wait for button click
+                    // wait until a message becomes available
+                    _messagesAvailableC3.Wait();
+                    Message msg;
+                    // process messages
+                    // we use Try here because we're multithreaded
+                    // so it's possible that between the Wait() call
+                    // and the dequeue call the queue may be cleared
+                    if (_messagesC3.TryDequeue(out msg)) {
+                        cpu.NextClockCycle();
+                    }
+                }
+
+                if (cpu == CPU4) {
+                    //Wait for button click
+                    // wait until a message becomes available
+                    _messagesAvailableC4.Wait();
+                    Message msg;
+                    // process messages
+                    // we use Try here because we're multithreaded
+                    // so it's possible that between the Wait() call
+                    // and the dequeue call the queue may be cleared
+                    if (_messagesC4.TryDequeue(out msg)) {
+                        cpu.NextClockCycle();
+                    }
+                }
+
             }
         }
 
@@ -343,12 +397,148 @@ namespace PipelineSimulation.WinForm
 
             output = String.Format("{0,-15} {1,-15} {2,-15} {3,-15} {4,-15} {5,-15}\n", fetchoutput, decodeOutput, memReadOutput, executeOutput, memWrite, memReadOutput);
             core1Box.Text += output + "\n";
+
+            // Core 2
+            if(coreNumber >= 2) {
+                // Print to screen
+                //Console.Write($"{ins} ");
+                fetchoutput = "";
+                foreach (var ins in CPU2.Buffers[0].FetchedInstructions) {
+                    fetchoutput += $"{ins}";
+                }
+
+                decodeOutput = "";
+                foreach (var ins in CPU2.Buffers[1].DecodedInstructions) {
+                    decodeOutput += $"{ins}";
+                }
+
+                memReadOutput = "";
+                foreach (var ins in CPU2.Buffers[2].DecodedInstructions) {
+                    memReadOutput += $"{ins}";
+                }
+
+                executeOutput = "";
+                foreach (var ins in CPU2.Buffers[3].DecodedInstructions) {
+                    executeOutput += $"{ins}";
+                }
+
+                memWrite = "";
+                foreach (var ins in CPU2.Buffers[4].DecodedInstructions) {
+                    memWrite += $"{ins}";
+                }
+
+                regWriteOutput = "";
+                foreach (var ins in CPU2.Buffers[5].DecodedInstructions) {
+                    regWriteOutput += $"{ins}";
+                }
+
+                output = String.Format("{0,-15} {1,-15} {2,-15} {3,-15} {4,-15} {5,-15}\n", fetchoutput, decodeOutput, memReadOutput, executeOutput, memWrite, memReadOutput);
+                core2Box.Text += output + "\n";
+            }
+
+            // Core 3
+            if (coreNumber >= 3) {
+                // Print to screen
+                //Console.Write($"{ins} ");
+                fetchoutput = "";
+                foreach (var ins in CPU3.Buffers[0].FetchedInstructions) {
+                    fetchoutput += $"{ins}";
+                }
+
+                decodeOutput = "";
+                foreach (var ins in CPU3.Buffers[1].DecodedInstructions) {
+                    decodeOutput += $"{ins}";
+                }
+
+                memReadOutput = "";
+                foreach (var ins in CPU3.Buffers[2].DecodedInstructions) {
+                    memReadOutput += $"{ins}";
+                }
+
+                executeOutput = "";
+                foreach (var ins in CPU3.Buffers[3].DecodedInstructions) {
+                    executeOutput += $"{ins}";
+                }
+
+                memWrite = "";
+                foreach (var ins in CPU3.Buffers[4].DecodedInstructions) {
+                    memWrite += $"{ins}";
+                }
+
+                regWriteOutput = "";
+                foreach (var ins in CPU3.Buffers[5].DecodedInstructions) {
+                    regWriteOutput += $"{ins}";
+                }
+
+                output = String.Format("{0,-15} {1,-15} {2,-15} {3,-15} {4,-15} {5,-15}\n", fetchoutput, decodeOutput, memReadOutput, executeOutput, memWrite, memReadOutput);
+                core3Box.Text += output + "\n";
+            }
+
+            // Core 4
+            if (coreNumber >= 4) {
+                // Print to screen
+                //Console.Write($"{ins} ");
+                fetchoutput = "";
+                foreach (var ins in CPU4.Buffers[0].FetchedInstructions) {
+                    fetchoutput += $"{ins}";
+                }
+
+                decodeOutput = "";
+                foreach (var ins in CPU4.Buffers[1].DecodedInstructions) {
+                    decodeOutput += $"{ins}";
+                }
+
+                memReadOutput = "";
+                foreach (var ins in CPU4.Buffers[2].DecodedInstructions) {
+                    memReadOutput += $"{ins}";
+                }
+
+                executeOutput = "";
+                foreach (var ins in CPU4.Buffers[3].DecodedInstructions) {
+                    executeOutput += $"{ins}";
+                }
+
+                memWrite = "";
+                foreach (var ins in CPU4.Buffers[4].DecodedInstructions) {
+                    memWrite += $"{ins}";
+                }
+
+                regWriteOutput = "";
+                foreach (var ins in CPU4.Buffers[5].DecodedInstructions) {
+                    regWriteOutput += $"{ins}";
+                }
+
+                output = String.Format("{0,-15} {1,-15} {2,-15} {3,-15} {4,-15} {5,-15}\n", fetchoutput, decodeOutput, memReadOutput, executeOutput, memWrite, memReadOutput);
+                core4Box.Text += output + "\n";
+            }
+
             //MessageBox.Show($"{CPU1.Buffers[0].FetchedInstructions.Count}");
 
             // pass the increment message
             _messagesC1.Enqueue(new Message());
             // signal messages available
             _messagesAvailableC1.Release(1);
+
+            if (coreNumber >= 2) {
+                // pass the increment message
+                _messagesC2.Enqueue(new Message());
+                // signal messages available
+                _messagesAvailableC2.Release(1);
+            }
+
+            if (coreNumber >= 3) {
+                // pass the increment message
+                _messagesC3.Enqueue(new Message());
+                // signal messages available
+                _messagesAvailableC3.Release(1);
+            }
+
+            if (coreNumber >= 4) {
+                // pass the increment message
+                _messagesC4.Enqueue(new Message());
+                // signal messages available
+                _messagesAvailableC4.Release(1);
+            }
 
         }
 

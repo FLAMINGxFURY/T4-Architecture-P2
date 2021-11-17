@@ -109,8 +109,8 @@ namespace PipelineSimulation.WinForm
                 }
 
             }
-
-            MessageBox.Show("Please open files for all enabled cores", "Pipeline Simulator");
+            else
+                MessageBox.Show("Please open files for all enabled cores", "Pipeline Simulator");
         }
 
 		private void initialCoreSetup()

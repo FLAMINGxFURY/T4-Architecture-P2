@@ -19,9 +19,7 @@
 
         public override string ToText(ushort operand)
         {
-            // TODO
-
-            return string.Empty;
+            return "FSTR";
         }
 
         public override string ToString()

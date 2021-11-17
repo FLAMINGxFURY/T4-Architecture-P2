@@ -21,9 +21,7 @@
 
         public override string ToText(ushort operand)
         {
-            // TODO
-
-            return string.Empty;
+            return "FADD";
         }
 
         public override string ToString()

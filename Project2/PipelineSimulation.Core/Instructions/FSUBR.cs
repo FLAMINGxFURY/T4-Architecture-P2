@@ -31,7 +31,7 @@
 
         public override string ToString()
         {
-            return "FSUBR";
+            return $"FSUBR ST({GetRegister1Code(operand)}) ST({GetRegister2Code(operand)})";
         }
     }
 }

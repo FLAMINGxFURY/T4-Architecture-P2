@@ -25,9 +25,7 @@ namespace PipelineSimulation.Core.Instructions
 
         public override string ToText(ushort operand)
         {
-            // TODO
-
-            return string.Empty;
+            return $"FLDR {SourceRegister}";
         }
 
         public override string ToString()

@@ -24,9 +24,7 @@
 
         public override string ToText(ushort operand)
         {
-            // TODO
-
-            return string.Empty;
+            return $"FDIVR ST({GetRegister1Code(operand)}) ST({GetRegister2Code(operand)})";
         }
 
         public override string ToString()

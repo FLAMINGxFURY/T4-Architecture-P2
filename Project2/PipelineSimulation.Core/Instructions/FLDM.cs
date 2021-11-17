@@ -23,9 +23,7 @@ namespace PipelineSimulation.Core.Instructions
 
         public override string ToText(ushort operand)
         {
-            // TODO
-
-            return string.Empty;
+            return $"FLDM {DataBuffer}";
         }
 
         public override string ToString()

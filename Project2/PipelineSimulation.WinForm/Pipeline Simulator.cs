@@ -12,6 +12,7 @@ using PipelineSimulation.Core;
 using System.Diagnostics;
 using PipelineSimulation.Core.Instructions;
 using System.Threading;
+using PipelineSimulation.Core.Caches;
 
 namespace PipelineSimulation.WinForm
 {
@@ -29,6 +30,9 @@ namespace PipelineSimulation.WinForm
         Thread Thread4;
 
         Memory MainMem;
+
+        L3 L31;
+        L3 L32;
 
         string core1FilePath = null;
         string core2FilePath = null;
@@ -61,11 +65,16 @@ namespace PipelineSimulation.WinForm
                 //begin simulation, spawn the correct number of CPU classes/threads & pass into them the appropriate file paths
 
                 // Before creating CPUs, create an instance of Memory.
+                MainMem = Memory.GetInstance();
+
+                // Also, create the appropriate number of L3 caches
+                L31 = new L3(4); //4-way set assoc
+                if (coreNumber == 4) L32 = new L3(4);
 
                 // Create each CPU instance that is needed, then pass file path to Reader and open it for each cpu
 
                 if (coreNumber >= 1) { //Set up core 1
-                    CPU1 = new CPU();
+                    CPU1 = new CPU(L31);
 
 					CPU1.Rd.fileStr = core1FilePath;
 					CPU1.Rd.OpenFile();
@@ -75,7 +84,7 @@ namespace PipelineSimulation.WinForm
 
 				}
                 if (coreNumber >= 2) { //Set up core 2
-                    CPU2 = new CPU();
+                    CPU2 = new CPU(L31);
 
                     CPU2.Rd.fileStr = core2FilePath;
                     CPU2.Rd.OpenFile();
@@ -86,7 +95,8 @@ namespace PipelineSimulation.WinForm
 
                 }
                 if (coreNumber >= 3) { //Set up core 3
-                    CPU3 = new CPU();
+                    if (coreNumber == 4) CPU3 = new CPU(L32);
+                    else CPU3 = new CPU(L31);
 
                     CPU3.Rd.fileStr = core3FilePath;
                     CPU3.Rd.OpenFile();
@@ -97,7 +107,7 @@ namespace PipelineSimulation.WinForm
 
                 }
                 if (coreNumber == 4) { //Set up core 4
-                    CPU4 = new CPU();
+                    CPU4 = new CPU(L32);
 
                     CPU4.Rd.fileStr = core4FilePath;
                     CPU4.Rd.OpenFile();

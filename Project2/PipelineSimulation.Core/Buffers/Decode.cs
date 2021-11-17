@@ -24,16 +24,29 @@ namespace PipelineSimulation.Core.Buffers
             // Move any decoded instruction to next phase
             if (DecodedInstructions.Count > 0)
             {
-                var ins = DecodedInstructions.Dequeue();
+                var ins = DecodedInstructions.Peek();
 
                 if (cpu.MTypeOpCodes.Contains(ins.OpCode))
                 {
-                    if (cpu.Buffers[2].DecodedInstructions.Count < 6)
+                    if (cpu.Buffers[2].DecodedInstructions.Count < 6)  //simulate size constraint
                     {
-                        //simulate size constraint
+                        if (cpu.Buffers[2].DecodedInstructions.Contains(LastDelivered) ||
+                        cpu.Buffers[3].DecodedInstructions.Contains(LastDelivered)) {
+                            return; //Stall
+						}
                         cpu.Buffers[2].DecodedInstructions.Enqueue(ins);
                         FetchedInstructions.Dequeue();
+                        DecodedInstructions.Dequeue();
                     }
+                }
+                else if (cpu.OTypeOpCodes.Contains(ins.OpCode)) {
+                    if (cpu.Buffers[2].DecodedInstructions.Contains(LastDelivered) ||
+                        cpu.Buffers[3].DecodedInstructions.Contains(LastDelivered)) {
+                        return; //Stall
+                    }
+                    cpu.Buffers[3].DecodedInstructions.Enqueue(ins);
+                    FetchedInstructions.Dequeue();
+                    DecodedInstructions.Dequeue();
                 }
                 else
                 {
@@ -41,6 +54,7 @@ namespace PipelineSimulation.Core.Buffers
                     {
                         cpu.Buffers[3].DecodedInstructions.Enqueue(ins);
                         FetchedInstructions.Dequeue();
+                        DecodedInstructions.Dequeue();
                     }
                 }
             }
@@ -73,7 +87,6 @@ namespace PipelineSimulation.Core.Buffers
                     ins.DestinationRegister = cpu.GetRegister(ins.GetRegister1Code(operands));
                 }
 
-                // Determine where it needs to go next
                 // Jumps: They have a completion dependency on the last instruction left here. 
                 // Nothing else can be fetched while we are waiting for a jump to execute.
                 if (cpu.JumpOpCodes.Contains(decoded))

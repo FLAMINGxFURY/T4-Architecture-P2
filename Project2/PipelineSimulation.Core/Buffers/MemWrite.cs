@@ -26,9 +26,10 @@ namespace PipelineSimulation.Core.Buffers
                     return;
 
                 try
-                {
-                    Memory.Unlock(addr);
+                {                    
                     Memory.StoreMemoryAtAddr(ins.Result, addr);
+                    
+                    Memory.Unlock(addr);
 
                     ReadyInstructions.Enqueue(DecodedInstructions.Dequeue());
                 }

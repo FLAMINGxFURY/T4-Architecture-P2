@@ -24,7 +24,6 @@ namespace PipelineSimulation.Core.Buffers
                     return;
 
                 var value = ins.Result;
-                //TODO: check for data hazard
                 ins.DestinationRegister.Data = value;
 
                 ReadyInstructions.Enqueue(DecodedInstructions.Dequeue());

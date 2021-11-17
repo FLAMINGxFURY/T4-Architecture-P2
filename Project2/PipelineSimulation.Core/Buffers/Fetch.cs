@@ -25,7 +25,7 @@ namespace PipelineSimulation.Core.Buffers
 			}
 
             //Next, grab next op
-            if (!cpu.stopFetch) {
+            if (!cpu.stopFetch && FetchedInstructions.Count < 6) {
                 var op = cpu.Rd.GetNextWord();  // This also moves the PC forward
 
                 FetchedInstructions.Enqueue(op);

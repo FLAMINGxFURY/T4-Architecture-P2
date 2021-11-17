@@ -28,8 +28,6 @@ namespace PipelineSimulation.Core
             return Instance;
         }
 
-        //TODO: we need a method for requesting access to a memory location. If that memory location is busy, deny access and stall.
-
         // returns whether or not a memory address is locked
         public static bool IsLocked(uint addr) {
             if (LockedAddresses.Contains(addr)) return true;

@@ -38,72 +38,42 @@ namespace PipelineSimulation.Core.Buffers
             {
                 var ins = DecodedInstructions.Peek();
 
-                // Check logical unit
-                // TODO: Will this happen in each instructions execute?
-                bool logicUnitAvailable;
-                if (cpu.ALU.CurrentlyRunning == null && cpu.ALUOpCodes.Contains(ins.OpCode))
-                    logicUnitAvailable = true;
-                else if (cpu.ELU.CurrentlyRunning == null && cpu.ELUOpCodes.Contains(ins.OpCode))
-                    logicUnitAvailable = true;
-                else if (cpu.FPU.CurrentlyRunning == null && cpu.FPUOpCodes.Contains(ins.OpCode))
-                    logicUnitAvailable = true;
-                else
-                    logicUnitAvailable = false;
+                if (ins.Cycles > 1) ins.Cycles--;
 
-                if (logicUnitAvailable)
-                {
-                    ins.Result = ins.Execute(ReadMemory);
-                }
-                else
-                {
-                    // Unit not available, stall until it is
-                    cpu.Buffers[3].DecodedInstructions.Enqueue(new NOP(cpu));   // EXECUTE
-                    cpu.Buffers[4].DecodedInstructions.Enqueue(new NOP(cpu));   // MEM WRITE
-                    cpu.Buffers[5].DecodedInstructions.Enqueue(new NOP(cpu));   // REG WRITE
-                }
+                else {
 
-                // Forwarding
-                var destReg = ins.DestinationRegister;
-                if (destReg != null)
-                {
-                    var dis = GetDependentInstructions(this, cpu.Buffers[2], cpu.Buffers[1]);
+                    // Execute
+                    ins.Result = ins.Execute(ins.Operand);
 
-                    foreach (var d in dis)
-                    {
-                        d.ForwardBuffer = ins.Result;
-                    }
+                    // Forwarding
+                    var destReg = ins.DestinationRegister;
+                    if (destReg != null) {
+                        var dis = GetDependentInstructions(this, cpu.Buffers[2], cpu.Buffers[1]);
 
-                    List<Instruction> GetDependentInstructions(params CPUBuffer[] buffers)
-                    {
-                        var results = new List<Instruction>();
-
-                        foreach (var buffer in buffers)
-                        {
-                            foreach (var i in buffer.DecodedInstructions)
-                            {
-                                // If the instruction uses a register this instruction writes to
-                                if (i != ins && i.SourceRegister == destReg && i.SourceRegister != null) 
-                                {
-                                    results.Add(i);
-                                }
-                            }
+                        foreach (var d in dis) {
+                            d.ForwardBuffer = ins.Result;
                         }
 
-                        return results;
-                    }
-                }
+                        List<Instruction> GetDependentInstructions(params CPUBuffer[] buffers) {
+                            var results = new List<Instruction>();
 
-                // Finished with this instruction
-                ReadyInstructions.Enqueue(DecodedInstructions.Dequeue());
+                            foreach (var buffer in buffers) {
+                                foreach (var i in buffer.DecodedInstructions) {
+                                    // If the instruction uses a register this instruction writes to
+                                    if (i != ins && i.SourceRegister == destReg && i.SourceRegister != null) {
+                                        results.Add(i);
+                                    }
+                                }
+                            }
 
-                // Stall if this instruction takes more than one cycle
-                if (ins.Cycles > 1)
-                {
-                    for (var i = 0; i < ins.Cycles; i++)
-                    {
-                        cpu.Buffers[3].DecodedInstructions.Enqueue(new NOP(cpu));
+                            return results;
+                        }
                     }
+
+                    // Finished with this instruction
+                    ReadyInstructions.Enqueue(DecodedInstructions.Dequeue());
                 }
+                
             }
         }
     }

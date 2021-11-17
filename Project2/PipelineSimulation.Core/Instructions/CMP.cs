@@ -16,7 +16,7 @@ namespace PipelineSimulation.Core.Instructions
 		public override ushort Execute(ushort operand) {
 			// TODO: This should set every flag, but ZF and CF are good for now
 
-			var result = DestinationRegister.Data - SourceRegister.Data;
+			var result = DestinationRegister.Data - (ForwardBuffer ?? SourceRegister.Data);
 
 			cpu.EFlags.SetAll
 			(

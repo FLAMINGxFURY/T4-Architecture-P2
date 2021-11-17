@@ -17,7 +17,7 @@ namespace PipelineSimulation.Core.Instructions
 
 			var val1 = DestinationRegister.Data;
 
-			var val2 = SourceRegister.Data;
+			var val2 = ForwardBuffer ?? SourceRegister.Data;
 
 			ushort ret = (ushort)(val1 - val2);
 

@@ -24,14 +24,12 @@
 
         public override string ToText(ushort operand)
         {
-            // TODO
-
-            return string.Empty;
+            return $"FSUBR ST({GetRegister1Code(operand)}) ST({GetRegister2Code(operand)})";
         }
 
         public override string ToString()
         {
-            return $"FSUBR ST({GetRegister1Code(operand)}) ST({GetRegister2Code(operand)})";
+            return $"FSUBR";
         }
     }
 }

@@ -192,6 +192,17 @@ namespace PipelineSimulation.WinForm
                     cpu.Rd.fileStr = openFileDialog.FileName;
                     cpu.Rd.OpenFile();
 
+                    //clear the corresponding cores program textbox
+                    if (cpu == CPU1)
+                        core1ProgBox.Text = "";
+                    else if (cpu == CPU2)
+                        core2ProgBox.Text = "";
+                    else if (cpu == CPU3)
+                        core3ProgBox.Text = "";
+                    else if (cpu == CPU4)
+                        core4ProgBox.Text = "";
+
+                    //get the instruction in readable language
                     foreach (ushort x in cpu.Rd.proMem)
                     {
                         string output = "";
@@ -208,6 +219,7 @@ namespace PipelineSimulation.WinForm
                         dispProgCode.Add(output);
                     }
 
+                    //determine which core a program was just loaded for and display it
                     foreach (string str in dispProgCode)
                     {
                         if (cpu == CPU1)

@@ -14,8 +14,6 @@ namespace PipelineSimulation.WinForm
 {
     public partial class PipelineSimulator : Form
     {
-        CPU cpu;        //maybe move to another class to decouple from frontend
-
         //these attributes could be used in a method/class to create all needed
         //objects & threads to start the simulation
         string core1FilePath = null;
@@ -27,11 +25,19 @@ namespace PipelineSimulation.WinForm
         public PipelineSimulator()
         {
             InitializeComponent();
-            cpu = new CPU();
             nextClockBtn.Enabled = false;   //cannot go to next clock without loading program
             initialCoreSetup();
         }
 
+        private void Begin_Click(object sender, EventArgs e)
+        {
+            if (ConfigIsValid() == true)
+            {
+                //begin simulation, spawn the correct number of CPU classes/threads & pass into them the appropriate file paths
+            }
+
+            MessageBox.Show("Please open files for all cores", "Pipeline Simulator");
+        }
 
         private void initialCoreSetup()
         {
@@ -169,7 +175,7 @@ namespace PipelineSimulation.WinForm
         //maybe using a sleep function would be more useful in a multithreaded environment. Maybe this could be a functionality to pause/play
         private void nxtClockBtn_Click(object sender, EventArgs e)
         {
-            cpu.NextClockCycle();
+            
         }
 
         private string openFile()
@@ -205,16 +211,6 @@ namespace PipelineSimulation.WinForm
         private void core4ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.core4FilePath = openFile();
-        }
-
-        private void Begin_Click(object sender, EventArgs e)
-        {
-            if(ConfigIsValid() == true)
-            {
-                //begin simulation
-            }
-
-            MessageBox.Show("Please open files for all cores", "Pipeline Simulator");
         }
 
         private bool ConfigIsValid()

@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.IO;
 using PipelineSimulation.Core;
 using System.Diagnostics;
+using PipelineSimulation.Core.Instructions;
 
 namespace PipelineSimulation.WinForm
 {
@@ -17,6 +18,10 @@ namespace PipelineSimulation.WinForm
     {
         //these attributes could be used in a method/class to create all needed
         //objects & threads to start the simulation
+        CPU CPU1 = new CPU();
+        CPU CPU2 = new CPU();
+        CPU CPU3 = new CPU();
+        CPU CPU4 = new CPU();
         string core1FilePath = null;
         string core2FilePath = null;
         string core3FilePath = null;
@@ -175,15 +180,53 @@ namespace PipelineSimulation.WinForm
             
         }
 
-        private string openFile()
+        private string openFile(CPU cpu)
         {
             var filePath = string.Empty;
+            List<string> dispProgCode = new List<string>();
 
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    return openFileDialog.FileName;
+                    cpu.Rd.fileStr = openFileDialog.FileName;
+                    cpu.Rd.OpenFile();
+
+                    foreach (ushort x in cpu.Rd.proMem)
+                    {
+                        string output = "";
+
+                        //get opcode
+                        ushort op = (ushort)(x >> 11);
+                        Instruction tempInst = cpu.CreateInstructionInstance(op);
+                        output += tempInst.ToString() + " ";
+
+                        //get rest
+                        ushort remainder = (ushort)(0b_0000_0111_1111_1111 & x); //bit mask for removing opcode
+                        output += tempInst.ToText(remainder);
+
+                        dispProgCode.Add(output);
+                    }
+
+                    foreach (string str in dispProgCode)
+                    {
+                        if (cpu == CPU1)
+                        {
+                            core1ProgBox.Text += str + "\n";
+                        }
+                        else if (cpu == CPU2)
+                        {
+                            core2ProgBox.Text += str + "\n";
+                        }
+                        else if (cpu == CPU3)
+                        {
+                            core3ProgBox.Text += str + "\n";
+                        }
+                        else if (cpu == CPU4)
+                        {
+                            core4ProgBox.Text += str + "\n";
+                        }
+                    }
                 }
             }
 
@@ -192,22 +235,22 @@ namespace PipelineSimulation.WinForm
 
         private void core1ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.core1FilePath = openFile();
+            this.core1FilePath = openFile(CPU1);
         }
 
         private void core2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.core2FilePath = openFile();
+            this.core2FilePath = openFile(CPU2);
         }
 
         private void core3ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.core3FilePath = openFile();
+            this.core3FilePath = openFile(CPU3);
         }
 
         private void core4ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.core4FilePath = openFile();
+            this.core4FilePath = openFile(CPU4);
         }
 
         private bool ConfigIsValid()

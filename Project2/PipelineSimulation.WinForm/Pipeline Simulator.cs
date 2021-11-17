@@ -55,6 +55,9 @@ namespace PipelineSimulation.WinForm
             CPU cpu = (CPU)obj;
 
             //handle all the things
+            while (!cpu.endReached) {
+                cpu.NextClockCycle();                
+            }
 
         }
 

@@ -38,6 +38,12 @@ namespace PipelineSimulation.Core.Buffers
             {
                 var ins = DecodedInstructions.Peek();
 
+                if (ins.OpCode == 0b11111) { //END
+                    cpu.stopFetch = true;
+                    DecodedInstructions.Dequeue();
+                    return;
+				}
+
                 if (ins.Cycles > 1) ins.Cycles--;
 
                 else {

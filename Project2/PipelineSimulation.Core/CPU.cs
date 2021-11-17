@@ -9,6 +9,7 @@ using PipelineSimulation.Core.Functional_Units;
 using PipelineSimulation.Core.Instructions;
 using PipelineSimulation.Core.Registers;
 using PipelineSimulation.Core.Caches;
+using System.Threading.Tasks;
 
 namespace PipelineSimulation.Core
 {
@@ -38,6 +39,7 @@ namespace PipelineSimulation.Core
 		/// </summary>
 		public List<Instruction> CompletedInstructions = new List<Instruction>();
 
+		// Used to determine if program is done
 		public bool endReached;
 
 		// This boolean is used to stop fetches while waiting for a jump, or after end
@@ -184,7 +186,14 @@ namespace PipelineSimulation.Core
 
 		public void NextClockCycle()
 		{
-			// TODO: Behavior not implemented
+
+			//TODO: check if program done by seeing if all buffers empty
+			if (Buffers[0].FetchedInstructions.Count == 0 && Buffers[1].FetchedInstructions.Count == 0 &&
+				Buffers[2].DecodedInstructions.Count == 0 && Buffers[3].DecodedInstructions.Count == 0 &&
+				Buffers[4].DecodedInstructions.Count == 0 && Buffers[5].DecodedInstructions.Count == 0) {
+				endReached = true;
+				return;
+			}
 
 			// FETCH
 			fet();
@@ -203,6 +212,8 @@ namespace PipelineSimulation.Core
 			rwr();
 
 			CurrentClockCycle++;
+
+			
 		}
 
 		// fetches a new instance of an Instruction based on the provided opCode
